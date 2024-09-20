@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.8",
     "de-journey": "file:",
+    "framer-motion": "^11.5.5",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18"
