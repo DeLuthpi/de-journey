@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.8",
+    "axios": "^1.7.7",
     "de-journey": "file:",
     "framer-motion": "^11.5.5",
     "next": "14.2.13",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-icons": "^5.3.0"
   },
   "devDependencies": {
     "postcss": "^8",
