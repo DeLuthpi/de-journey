@@ -5,7 +5,7 @@ import { listMenu } from "@/helpers/const";
 
 const NavbarComponent = () => {
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-	const [login, setLogin] = React.useState(true);
+	const [login, setLogin] = React.useState(false);
 	const [isAdmin, setIsAdmin] = React.useState(true);
 	const [menuList, setMenuList] = React.useState(listMenu);
 	const [theme, setTheme] = React.useState("light");
@@ -58,7 +58,7 @@ const NavbarComponent = () => {
 				))}
 			</NavbarContent>
 			<NavbarContent as="div" justify="end">
-				<Dropdown placement="bottom-end right" className={`${login ? "bg-[#f9fafc]/70 mt-2" : "bg-[#f9fafc]/70"}`}>
+				<Dropdown placement="bottom-end right" className={`${login ? "bg-[#f9fafc] mt-2" : "bg-[#f9fafc]"}`}>
 					<DropdownTrigger>{login ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 					<DropdownMenu variant="flat" ref={dropdownRef}>
 						{menuList.map((menu) => (

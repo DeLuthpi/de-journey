@@ -1,18 +1,7 @@
-import localFont from "next/font/local";
 import NavbarComponent from "@/components/NavbarComponent";
+import { geistSans, geistMono } from "@/helpers/const";
 
-const geistSans = localFont({
-	src: "./fonts/GeistVF.woff",
-	variable: "--font-geist-sans",
-	weight: "100 900",
-});
-const geistMono = localFont({
-	src: "./fonts/GeistMonoVF.woff",
-	variable: "--font-geist-mono",
-	weight: "100 900",
-});
-
-const Home = () => {
+const HomePage = () => {
 	return (
 		<div className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-[family-name:var(--font-geist-sans)]`}>
 			<main className="flex flex-col items-center row-start-2 sm:items-start">
@@ -22,4 +11,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomePage;
