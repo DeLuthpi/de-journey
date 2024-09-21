@@ -1,31 +1,42 @@
 import Image from "next/image";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar } from "@nextui-org/react";
 import React, { useEffect, useRef } from "react";
+import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu } from "@/helpers/const";
+import { IconHome } from "@/helpers/IconHome";
+import { IconDestination } from "@/helpers/IconDestination";
+import { IconPromo } from "@/helpers/IconPromo";
+import { IconInvoice } from "@/helpers/IconInvoice";
+import { TbSun, TbMoon, TbLayoutDashboard } from "react-icons/tb";
+import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import { FaRegAddressCard } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 
 const NavbarComponent = () => {
+	const token = getCookie("token");
+	const [isLoggedIn, setIsLoggedIn] = React.useState(token ? true : false);
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-	const [login, setLogin] = React.useState(false);
 	const [isAdmin, setIsAdmin] = React.useState(true);
 	const [menuList, setMenuList] = React.useState(listMenu);
 	const [theme, setTheme] = React.useState("light");
+	const iconClasses = "text-sm text-gray-700 pointer-events-none flex-shrink-0";
 
 	const handleTheme = () => {
 		setTheme(theme === "light" ? "dark" : "light");
 	};
 
 	const handleLogout = () => {
-		localStorage.clear();
+		deleteCookie("token");
 		window.location.reload();
 	};
 
 	useEffect(() => {
-		if (login === true) {
+		if (isLoggedIn) {
 			setMenuList(() => {
 				return [...menuList, { link: "/transaction", name: "Transaction", text: "transaction" }];
 			});
 		}
-	}, [login]);
+	}, [isLoggedIn]);
 
 	const dropdownRef = useRef(null);
 
@@ -51,64 +62,76 @@ const NavbarComponent = () => {
 			<NavbarContent className="hidden gap-12 lg:flex" justify="center">
 				{menuList.map((menu) => (
 					<NavbarItem key={menu?.text}>
-						<Link color="foreground" href={menu?.link}>
+						<Link color="foreground" href={menu?.link} className="hover:text-[#fa8443]">
 							{menu?.name}
 						</Link>
 					</NavbarItem>
 				))}
 			</NavbarContent>
 			<NavbarContent as="div" justify="end">
-				<Dropdown placement="bottom-end right" className={`${login ? "bg-[#f9fafc] mt-2" : "bg-[#f9fafc]"}`}>
-					<DropdownTrigger>{login ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
+				<Dropdown placement="bottom-end right" className={`${isLoggedIn ? "bg-[#f9fafc] mt-2" : "bg-[#f9fafc]"}`}>
+					<DropdownTrigger>{isLoggedIn ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 					<DropdownMenu variant="flat" ref={dropdownRef}>
 						{menuList.map((menu) => (
-							<DropdownItem key={menu?.text} textValue={menu?.text} className="flex lg:hidden">
-								<Link href={menu?.link}>{menu?.name}</Link>
+							<DropdownItem key={menu?.text} textValue={menu?.text} className="flex lg:hidden" startContent={menu?.text === "home" ? <IconHome className={iconClasses} /> : menu?.text === "destination" ? <IconDestination className={iconClasses} /> : menu?.text === "special_deals" ? <IconPromo className={iconClasses} /> : <IconInvoice className={iconClasses} />}>
+								<Link href={menu?.link} className="text-gray-700">
+									{menu?.name}
+								</Link>
 							</DropdownItem>
 						))}
 
-						<DropdownItem key="theme" textValue="theme" showDivider={login ? false : true}>
-							<Link onClick={handleTheme}>Mode</Link>
+						<DropdownItem key="theme" textValue="theme" startContent={theme === "light" ? <TbSun className={iconClasses} /> : <TbMoon className={iconClasses} />} showDivider={isLoggedIn ? false : true}>
+							<Link onClick={handleTheme} className="text-gray-700">
+								Mode
+							</Link>
 						</DropdownItem>
 
-						{login && (
-							<DropdownItem key="profile" textValue="profile" showDivider={isAdmin ? false : true}>
-								<Link href="/profile">Profile</Link>
+						{isLoggedIn && (
+							<DropdownItem key="profile" textValue="profile" startContent={<CgProfile className={iconClasses} />} showDivider={isAdmin ? false : true}>
+								<Link href="/profile" className="text-gray-700">
+									Profile
+								</Link>
 							</DropdownItem>
 						)}
 
-						{login && isAdmin && (
-							<DropdownItem key="dashboard" textValue="dashboard" showDivider={isAdmin ? true : false}>
-								<Link href="/dashboard">Dashboard</Link>
+						{isLoggedIn && isAdmin && (
+							<DropdownItem key="dashboard" textValue="dashboard" startContent={<TbLayoutDashboard className={iconClasses} />} showDivider={isAdmin ? true : false}>
+								<Link href="/dashboard" className="text-gray-700">
+									Dashboard
+								</Link>
 							</DropdownItem>
 						)}
 
-						{login ? (
-							<DropdownItem key="logout" color="danger" textValue="logout">
-								<Link href="/logout" className="text-danger">
+						{isLoggedIn ? (
+							<DropdownItem key="logout" color="danger" textValue="logout" startContent={<AiOutlineLogout className={iconClasses} />}>
+								<Link onClick={handleLogout} className="text-gray-700">
 									Logout
 								</Link>
 							</DropdownItem>
 						) : (
-							<DropdownItem key="login" textValue="login">
-								<Link href="/login">Login</Link>
+							<DropdownItem key="login" textValue="login" startContent={<AiOutlineLogin className={iconClasses} />}>
+								<Link href="/login" className="text-gray-700">
+									Login
+								</Link>
 							</DropdownItem>
 						)}
 
-						{login === false && (
-							<DropdownItem key="register" textValue="register">
-								<Link href="/register">Register</Link>
+						{isLoggedIn === false && (
+							<DropdownItem key="register" textValue="register" startContent={<FaRegAddressCard className={iconClasses} />}>
+								<Link href="/register" className="text-gray-700">
+									Register
+								</Link>
 							</DropdownItem>
 						)}
 					</DropdownMenu>
 				</Dropdown>
-				{login === false && (
+				{isLoggedIn === false && (
 					<NavbarItem className="hidden lg:flex">
 						<Link href="/login">Login</Link>
 					</NavbarItem>
 				)}
 
-				{login === false && (
+				{isLoggedIn === false && (
 					<NavbarItem className="hidden lg:flex">
 						<Button as={Link} color="primary" className="text-white rounded-full bg-primary" href="/register" variant="ghost">
 							Register
