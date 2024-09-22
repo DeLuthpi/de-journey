@@ -108,7 +108,7 @@ const LoginPage = () => {
 												className="max-w-full"
 												endContent={
 													<button className="my-auto focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
-														{isVisible ? <BsEyeSlashFill className="text-base pointer-events-none text-default-400" /> : <BsEyeFill className="text-base pointer-events-none text-default-400" />}
+														{isVisible ? <BsEyeFill className="text-base pointer-events-none text-default-400" /> : <BsEyeSlashFill className="text-base pointer-events-none text-default-400" />}
 													</button>
 												}
 											/>
