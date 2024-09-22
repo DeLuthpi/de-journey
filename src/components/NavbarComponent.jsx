@@ -56,7 +56,7 @@ const NavbarComponent = () => {
 	return (
 		<>
 			{isClient && (
-				<Navbar className="w-[94%] md:w-[97%] mx-auto mt-4 rounded-lg shadow-2xl justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
+				<Navbar className="w-[94%] md:w-[97%] mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
 					<NavbarBrand>
 						<img className="w-auto h-auto dark:invert max-h-11" src={logoImage} alt="logo images" width={160} height={45} />
 					</NavbarBrand>

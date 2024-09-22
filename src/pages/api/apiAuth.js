@@ -11,7 +11,10 @@ export default function apiAuth() {
 				},
 			});
 
-			setCookie("token", res.data.token);
+			if (url === "login") {
+				setCookie("token", res.data.token);
+			}
+
 			return res;
 		} catch (err) {
 			return err;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import NavbarComponent from "@/components/NavbarComponent";
 import apiAuth from "./api/apiAuth";
 import formValidate from "@/utils/validation";
-import { geistSans, geistMono, loginImg1, loginImg2, year, loginShape } from "@/helpers/const";
+import { geistSans, geistMono, loginImg, authImgShape, year } from "@/helpers/const";
 import { Input, Divider, Button } from "@nextui-org/react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -22,7 +22,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		setErrors([]);
-	}, [email, password]);
+	}, ["", email, password, "", "", ""]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -32,7 +32,7 @@ const LoginPage = () => {
 			password: e.target.password.value,
 		};
 
-		setErrors(validateInput(email, password));
+		setErrors(validateInput("login", email, password, "", "", ""));
 
 		if (errors?.email && errors?.pass) {
 			toast.error("Login failed. Please try again.");
@@ -112,20 +112,17 @@ const LoginPage = () => {
 													</button>
 												}
 											/>
-
-											<div>
-												<button type="submit" className="flex justify-center w-full px-3 py-2 text-sm font-semibold leading-6 text-white rounded-md shadow-sm bg-primary hover:bg-[#cc8100] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-													LOGIN
-												</button>
-											</div>
+											<Button type="submit" size="md" className="w-full font-semibold rounded-lg" color="primary">
+												LOGIN
+											</Button>
 										</form>
 										<div className="relative my-10">
 											<Divider />
 											<div className="absolute w-full text-center -top-3">
-												<span className="w-3/5 px-4 text-sm text-center text-gray-700 bg-gray-50">or login with</span>
+												<span className="w-3/5 px-4 text-sm text-center text-gray-700 bg-gray-50">or continue with</span>
 											</div>
 										</div>
-										<Button color="primary" className="w-full text-gray-700 rounded-lg" variant="ghost">
+										<Button className="w-full font-semibold text-gray-700 rounded-lg" variant="ghost">
 											<FcGoogle />
 											Google
 										</Button>
@@ -143,7 +140,7 @@ const LoginPage = () => {
 										<div className="bg-white border border-gray-50 bg-opacity-30 rounded-xl">
 											<div className="relative">
 												<div className="mt-8 mb-56 ml-8 text-2xl font-semibold text-white xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-72 xl:w-96">Start your journey with one click, explore the beautiful world!</div>
-												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg2} alt="login image" width={330} height={335} />
+												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg} alt="login image" width={330} height={335} />
 											</div>
 										</div>
 									</div>
@@ -154,9 +151,8 @@ const LoginPage = () => {
 							<div className="bg-[#fa8443] absolute -right-48 xl:-right-96 bottom-[26rem] xl:bottom-[30rem] p-5 rounded-full blur-md"></div>
 						</div>
 						<div className="absolute left-0 right-0 hidden mx-auto lg:block -bottom-20 w-96">
-							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={loginShape} alt="shape image" width={600} height={600} />
+							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={authImgShape} alt="shape image" width={600} height={600} />
 						</div>
-						<img className="absolute bottom-0 left-0 right-0 w-full h-48 md:hidden" src={loginImg1} alt="login image mobile" width={600} height={600} />
 					</div>
 				</div>
 			</main>
