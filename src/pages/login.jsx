@@ -13,18 +13,15 @@ const LoginPage = () => {
 	const router = useRouter();
 	const { auth } = apiAuth();
 	const { userLog } = apiAuth();
-	const { validateEmail } = formValidate();
-	const { validatePassword } = formValidate();
+	const { validateInput } = formValidate();
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
-	const [invalidEmail, setInvalidEmail] = React.useState({ err: false, msg: "" });
-	const [invalidPassword, setInvalidPassword] = React.useState({ err: false, msg: "" });
+	const [errors, setErrors] = React.useState();
 	const [isVisible, setIsVisible] = React.useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	useEffect(() => {
-		setInvalidEmail(validateEmail(email));
-		setInvalidPassword(validatePassword(password));
+		setErrors([]);
 	}, [email, password]);
 
 	const handleSubmit = async (e) => {
@@ -35,14 +32,21 @@ const LoginPage = () => {
 			password: e.target.password.value,
 		};
 
-		setInvalidEmail(validateEmail(email));
-		setInvalidPassword(validatePassword(password));
+		setErrors(validateInput(email, password));
 
-		if (!invalidEmail?.err || !invalidPassword?.err) {
-			console.log(invalidPassword?.err);
+		if (errors?.email && errors?.pass) {
+			toast.error("Login failed. Please try again.");
+		} else if (errors?.email) {
+			toast.error(`${errors?.msgEmail}`);
 
-			if (invalidPassword?.err) {
-				toast.error(invalidPassword?.msg);
+			if (errors?.pass) {
+				toast.error("Login failed. Please try again.");
+			} else {
+				toast.error(`${errors?.msgEmail}`);
+			}
+		} else {
+			if (errors?.pass) {
+				toast.error(`${errors?.msgPass}`);
 			} else {
 				const onSubmit = async (payload) => {
 					const res = await auth("login", payload);
@@ -70,10 +74,6 @@ const LoginPage = () => {
 					toast.error("Login failed. Please try again.");
 				}
 			}
-		} else {
-			setInvalidEmail({ err: true, msg: "Email must be filled" });
-			setInvalidPassword({ err: true, msg: "Password must be filled" });
-			toast.error("Login failed. Please try again.");
 		}
 	};
 
@@ -93,7 +93,7 @@ const LoginPage = () => {
 
 									<div className="my-5 sm:mx-auto sm:w-full sm:max-w-sm">
 										<form className="mb-5 space-y-6" onSubmit={handleSubmit}>
-											<Input type="email" size="sm" label="Email" name="email" value={email} className="max-w-full" onChange={(e) => setEmail(e.target.value)} autoComplete="off" variant="bordered" color={invalidEmail?.err ? "danger" : "primary"} isInvalid={invalidEmail?.err} errorMessage={invalidEmail?.msg} description="We'll never share your email with anyone else." autoFocus />
+											<Input type="email" size="sm" label="Email" name="email" value={email} className="max-w-full" onChange={(e) => setEmail(e.target.value)} autoComplete="off" variant="bordered" color={errors?.email ? "danger" : "primary"} isInvalid={errors?.email ? true : false} errorMessage={errors?.msgEmail} description="We'll never share your email with anyone else." autoFocus />
 											<Input
 												type={isVisible ? "text" : "password"}
 												size="sm"
@@ -102,9 +102,9 @@ const LoginPage = () => {
 												value={password}
 												onChange={(e) => setPassword(e.target.value)}
 												variant="bordered"
-												color={invalidPassword?.err ? "danger" : "primary"}
-												isInvalid={invalidPassword?.err}
-												errorMessage={invalidPassword?.msg}
+												color={errors?.pass ? "danger" : "primary"}
+												isInvalid={errors?.pass ? true : false}
+												errorMessage={errors?.msgPass}
 												className="max-w-full"
 												endContent={
 													<button className="my-auto focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
@@ -143,7 +143,7 @@ const LoginPage = () => {
 										<div className="bg-white border border-gray-50 bg-opacity-30 rounded-xl">
 											<div className="relative">
 												<div className="mt-8 mb-56 ml-8 text-2xl font-semibold text-white xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-72 xl:w-96">Start your journey with one click, explore the beautiful world!</div>
-												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg2} alt="login image" width={330} height={335} priority />
+												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg2} alt="login image" width={330} height={335} />
 											</div>
 										</div>
 									</div>
@@ -154,9 +154,9 @@ const LoginPage = () => {
 							<div className="bg-[#fa8443] absolute -right-48 xl:-right-96 bottom-[26rem] xl:bottom-[30rem] p-5 rounded-full blur-md"></div>
 						</div>
 						<div className="absolute left-0 right-0 hidden mx-auto lg:block -bottom-20 w-96">
-							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={loginShape} alt="logo images" width={600} height={600} priority />
+							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={loginShape} alt="shape image" width={600} height={600} />
 						</div>
-						<img className="absolute bottom-0 left-0 right-0 w-full h-48 md:hidden" src={loginImg1} alt="login image" width={600} height={600} priority />
+						<img className="absolute bottom-0 left-0 right-0 w-full h-48 md:hidden" src={loginImg1} alt="login image mobile" width={600} height={600} />
 					</div>
 				</div>
 			</main>

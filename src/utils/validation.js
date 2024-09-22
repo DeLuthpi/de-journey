@@ -1,34 +1,48 @@
 import React from "react";
 
 export default function formValidate() {
-	const [invalidEmail, setInvalidEmail] = React.useState();
-	const [invalidPassword, setInvalidPassword] = React.useState();
+	const [errors, setErrors] = React.useState([]);
 
-	const validateEmail = (payload) => {
+	const validateInput = (email, password) => {
 		const regex = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-		if (payload === "") {
-			setInvalidEmail({ err: true, msg: "Email must be filled" });
-		} else {
-			if (!regex.test(payload)) {
-				setInvalidEmail({ err: true, msg: "Invalid Email" });
+		if (email === "") {
+			errors["email"] = true;
+			errors["msgEmail"] = "Email is required";
+
+			if (password === "") {
+				errors["pass"] = true;
+				errors["msgPass"] = "Password is required";
 			} else {
-				setInvalidEmail({ err: false, msg: "" });
+				errors["pass"] = false;
+				errors["msgPass"] = "";
+			}
+		} else if (password === "") {
+			if (!regex.test(email)) {
+				errors["email"] = true;
+				errors["msgEmail"] = "Please enter the valid email";
+			} else {
+				errors["email"] = false;
+				errors["msgEmail"] = "";
+				errors["pass"] = true;
+				errors["msgPass"] = "Password is required";
+			}
+		} else {
+			errors["email"] = false;
+			errors["msgEmail"] = "";
+			errors["pass"] = false;
+			errors["msgPass"] = "";
+
+			if (!regex.test(email)) {
+				errors["email"] = true;
+				errors["msgEmail"] = "Please enter the valid email";
 			}
 		}
 
-		return invalidEmail;
+		setErrors(errors);
+
+		return errors;
 	};
 
-	const validatePassword = (payload) => {
-		if (payload === "") {
-			setInvalidPassword({ err: true, msg: "Password must be filled" });
-		} else {
-			setInvalidPassword({ err: false, msg: "" });
-		}
-
-		return invalidPassword;
-	};
-
-	return { validateEmail, validatePassword };
+	return { validateInput };
 }
