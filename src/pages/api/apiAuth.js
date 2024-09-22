@@ -1,13 +1,14 @@
 import axios from "axios";
-import { getCookie, setCookie, deleteCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
+import { apiUrl, apiKey } from "@/helpers/const";
 
 export default function apiAuth() {
 	// Login and Register
 	const auth = async (url, payload) => {
 		try {
-			const res = await axios.post(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`, payload, {
+			const res = await axios.post(`${apiUrl + url}`, payload, {
 				headers: {
-					apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+					apiKey: `${apiKey}`,
 				},
 			});
 
@@ -21,12 +22,12 @@ export default function apiAuth() {
 		}
 	};
 
-	// Login User and Logout User
+	// Get User Logged in
 	const userLog = async (url) => {
 		try {
-			const res = await axios.get(`https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/${url}`, {
+			const res = await axios.get(`${apiUrl + url}`, {
 				headers: {
-					apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+					apiKey: `${apiKey}`,
 					Authorization: `Bearer ${getCookie("token")}`,
 				},
 			});

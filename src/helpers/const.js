@@ -7,6 +7,9 @@ const loginImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacatio
 const authImgShape = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/login-shape.png?alt=media&token=d26083c8-24f1-4a16-81ca-44bc806f71c5";
 const year = new Date().getFullYear();
 
+const apiUrl = "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/";
+const apiKey = "24405e01-fbc1-45a5-9f5a-be13afcd757c";
+
 const geistSans = localFont({
 	src: "../pages/fonts/GeistVF.woff",
 	variable: "--font-geist-sans",
@@ -37,4 +40,4 @@ const listMenu = [
 	},
 ];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, authImgShape, year };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, authImgShape, year, apiUrl, apiKey };
