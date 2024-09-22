@@ -85,10 +85,10 @@ const LoginPage = () => {
 					<div className="relative w-full px-5 mx-auto md:px-4 xl:max-w-full lg:max-w-7xl md:max-w-5xl sm:max-w-2xl">
 						<div className="flex flex-wrap justify-center h-full lg:gap-20 xl:gap-52">
 							{/* layout for form */}
-							<div className="flex flex-col w-full md:mx-auto md:w-7/12 lg:w-5/12 lg:mx-0">
+							<div className="flex flex-col w-full xl:pl-28 lg:pl-10 md:mx-auto md:w-7/12 lg:w-5/12 lg:mx-0">
 								<div className="flex flex-col justify-center h-full px-6 pt-5 md:pt-20 lg:px-8">
 									<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-										<h2 className="mx-10 text-sm font-bold leading-9 tracking-tight text-center text-gray-700 max-md:text-base max-sm:text-sm md:text-2xl">Login to your account</h2>
+										<h2 className="mx-10 text-sm font-bold leading-9 tracking-tight text-center text-gray-700 max-md:text-base max-sm:text-sm md:text-2xl lg:text-xl xl:text-2xl">Login to your account</h2>
 									</div>
 
 									<div className="my-5 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -131,7 +131,7 @@ const LoginPage = () => {
 										</Button>
 									</div>
 								</div>
-								<div className="mt-10 mb-4 md:mt-0 md:mb-10">
+								<div className="mt-10 mb-4 md:mt-0 md:mb-10 xl:-ml-28">
 									<p className="text-xs text-center text-gray-600 lg:text-left">{`© ${year} De Journey Vacations. All Right Reserved `}</p>
 								</div>
 							</div>
