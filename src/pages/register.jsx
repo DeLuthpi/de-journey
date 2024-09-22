@@ -3,7 +3,7 @@ import NavbarComponent from "@/components/NavbarComponent";
 import apiAuth from "./api/apiAuth";
 import apiUpload from "./api/apiUpload";
 import formValidate from "@/utils/validation";
-import { geistSans, geistMono, registerImg, authImgShape, year } from "@/helpers/const";
+import { geistSans, geistMono, registerImg, patternLines, year } from "@/helpers/const";
 import { Input, Divider, Button, Select, SelectItem } from "@nextui-org/react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -126,12 +126,30 @@ const RegisterPage = () => {
 				<NavbarComponent />
 				<div className="absolute inset-x-0 flex flex-wrap min-h-screen p-0 overflow-hidden align-middle">
 					<div className="relative w-full px-5 mx-auto md:px-4 xl:max-w-full lg:max-w-7xl md:max-w-5xl sm:max-w-2xl">
+						<div className="absolute left-0 right-0 hidden w-8 mx-auto lg:block -bottom-20">
+							<div className="bg-[#fa8443] absolute -left-48 xl:-left-96 z-50 bottom-[26rem] xl:bottom-[30rem] p-6 rounded-full blur-md"></div>
+						</div>
 						<div className="flex flex-wrap justify-center h-full lg:gap-20 xl:gap-52">
+							{/* layout for image */}
+							<div className="flex-col flex-wrap hidden w-6/12 xl:w-5/12 lg:flex">
+								<div className="flex flex-col justify-center w-full h-full">
+									<div className="relative w-full p-10 mt-20 md:mx-auto bg-primary rounded-xl">
+										<img className="absolute top-0 bottom-0 left-0 w-full h-full opacity-20" src={patternLines} alt="pattern lines" width={1920} height={1080} />
+										<div className="bg-white border border-gray-50 bg-opacity-40 rounded-xl">
+											<div className="relative">
+												<div className="mt-8 mb-56 ml-8 text-3xl font-semibold [text-shadow:_3px_3px_#283618] text-white xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-80 xl:w-96">Start your best journey with us, explore the beautiful world!</div>
+												<img className="absolute -left-16 z-50 -bottom-[230px] xl:-bottom-[263px] xl:w-[450px] xl:h-[485px] w-[350px] h-[385px]" src={registerImg} alt="login image" width={450} height={485} />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							{/* layout for form */}
-							<div className="flex flex-col w-full xl:pl-28 lg:pl-10 md:mx-auto md:w-7/12 lg:w-5/12 lg:mx-0">
-								<div className="flex flex-col justify-center h-full px-6 pt-5 md:pt-20 lg:px-8">
+							<div className="flex flex-col w-full xl:pr-28 lg:pr-10 md:mx-auto md:w-7/12 lg:w-5/12 lg:mx-0">
+								<div className="flex flex-col justify-center h-full px-5 pt-5 mt-20 md:mt-0 md:px-6 md:pt-20 lg:px-8">
 									<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-										<h2 className="mx-10 text-sm font-bold leading-9 tracking-tight text-center text-gray-700 max-md:text-base max-sm:text-sm md:text-2xl lg:text-xl xl:text-2xl">Register account</h2>
+										<h2 className="mx-10 font-bold leading-9 tracking-tight text-center text-gray-700 max-md:text-base max-sm:text-lg md:text-2xl lg:text-xl xl:text-2xl">Register account</h2>
 									</div>
 
 									<div className="my-5 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -152,7 +170,7 @@ const RegisterPage = () => {
 													color={errors?.pass ? "danger" : "primary"}
 													isInvalid={errors?.pass ? true : false}
 													errorMessage={errors?.msgPass}
-													className="max-w-[49%] sm:max-w-full"
+													className="max-w-[49%] max-[375px]:max-w-full sm:max-w-full"
 													endContent={
 														<button className="my-auto focus:outline-none" type="button" onClick={toggleVisibilityPass} aria-label="toggle password visibility">
 															{isVisiblePass ? <BsEyeFill className="text-base pointer-events-none text-default-400" /> : <BsEyeSlashFill className="text-base pointer-events-none text-default-400" />}
@@ -172,7 +190,7 @@ const RegisterPage = () => {
 													color={errors?.rPass ? "danger" : "primary"}
 													isInvalid={errors?.rPass ? true : false}
 													errorMessage={errors?.msgRPass}
-													className="max-w-[49%] sm:max-w-full"
+													className="max-w-[49%] max-[375px]:max-w-full sm:max-w-full"
 													endContent={
 														<button className="my-auto focus:outline-none" type="button" onClick={toggleVisibilityCPass} aria-label="toggle PasswordRepeat visibility">
 															{isVisibleRPass ? <BsEyeFill className="text-base pointer-events-none text-default-400" /> : <BsEyeSlashFill className="text-base pointer-events-none text-default-400" />}
@@ -181,11 +199,11 @@ const RegisterPage = () => {
 												/>
 											</div>
 											<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-												<Select label="Role" id="role" size="sm" isInvalid={errors?.role ? true : false} color={errors?.role ? "danger" : "primary"} errorMessage={errors?.msgRole} placeholder="Select Role" value={role} onChange={(e) => setRole(e.target.value)} className="max-w-[49%] md:max-w-full rounded-md" variant="bordered">
+												<Select label="Role" id="role" size="sm" isInvalid={errors?.role ? true : false} color={errors?.role ? "danger" : "primary"} errorMessage={errors?.msgRole} placeholder="Select Role" value={role} onChange={(e) => setRole(e.target.value)} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full rounded-md" variant="bordered">
 													<SelectItem key="admin">Admin</SelectItem>
 													<SelectItem key="user">User</SelectItem>
 												</Select>
-												<Input id="phonenumber" autoComplete="off" type="text" size="sm" label="Phone Number" name="phonenumber" value={phoneNumber} className="max-w-[49%] md:max-w-full" onChange={(e) => setPhoneNumber(e.target.value)} variant="bordered" color="primary" />
+												<Input id="phonenumber" autoComplete="off" type="text" size="sm" label="Phone Number" name="phonenumber" value={phoneNumber} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" onChange={(e) => setPhoneNumber(e.target.value)} variant="bordered" color="primary" />
 											</div>
 											<label className="block mb-1 text-sm font-normal text-primary dark:text-white" htmlFor="profilepicture">
 												Upload profile picture
@@ -197,10 +215,10 @@ const RegisterPage = () => {
 												</div>
 											</div>
 											<Button type="submit" size="md" className="w-full font-semibold rounded-lg" color="primary">
-												REGISTER
+												Register
 											</Button>
 										</form>
-										<div className="relative my-10">
+										<div className="relative my-5">
 											<Divider />
 											<div className="absolute w-full text-center -top-3">
 												<span className="w-3/5 px-4 text-sm text-center text-gray-700 bg-gray-50">or continue with</span>
@@ -212,30 +230,10 @@ const RegisterPage = () => {
 										</Button>
 									</div>
 								</div>
-								<div className="mt-10 mb-4 md:mt-0 md:mb-10 xl:-ml-28">
-									<p className="text-xs text-center text-gray-600 lg:text-left">{`© ${year} De Journey Vacations. All Right Reserved `}</p>
+								<div className="mt-6 mb-4 md:mt-0 lg:mb-10 xl:-mr-28">
+									<p className="text-xs text-center text-gray-600 lg:text-right">{`© ${year} De Journey Vacations. All Right Reserved `}</p>
 								</div>
 							</div>
-
-							{/* layout for image */}
-							<div className="flex-col flex-wrap hidden w-6/12 xl:w-5/12 lg:flex">
-								<div className="flex flex-col justify-center w-full h-full">
-									<div className="w-full p-10 mt-20 md:mx-auto bg-primary rounded-xl">
-										<div className="bg-white border border-gray-50 bg-opacity-30 rounded-xl">
-											<div className="relative">
-												<div className="mt-8 mb-56 ml-8 text-2xl font-semibold text-white xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-72 xl:w-96">Start your best journey with us, explore the beautiful world!</div>
-												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={registerImg} alt="login image" width={330} height={335} />
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className="absolute left-0 right-0 hidden w-8 mx-auto lg:block -bottom-20">
-							<div className="bg-[#fa8443] absolute -right-48 xl:-right-96 bottom-[26rem] xl:bottom-[30rem] p-5 rounded-full blur-md"></div>
-						</div>
-						<div className="absolute left-0 right-0 hidden mx-auto lg:block -bottom-20 w-96">
-							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={authImgShape} alt="shape image" width={600} height={600} />
 						</div>
 					</div>
 				</div>
