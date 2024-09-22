@@ -128,7 +128,9 @@ const NavbarComponent = () => {
 						</Dropdown>
 						{isLoggedIn === false && (
 							<NavbarItem className="hidden lg:flex">
-								<Link href="/login">Login</Link>
+								<Link href="/login" className={`${currentPath === "/login" ? "text-[#fa8443]" : ""} hover:text-[#fa8443]`}>
+									Login
+								</Link>
 							</NavbarItem>
 						)}
 
