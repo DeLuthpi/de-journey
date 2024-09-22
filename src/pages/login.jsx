@@ -1,9 +1,8 @@
-import Image from "next/image";
 import React, { useEffect } from "react";
 import NavbarComponent from "@/components/NavbarComponent";
 import apiAuth from "./api/apiAuth";
 import formValidate from "@/utils/validation";
-import { geistSans, geistMono } from "@/helpers/const";
+import { geistSans, geistMono, loginImg1, loginImg2, year, loginShape } from "@/helpers/const";
 import { Input, Divider, Button } from "@nextui-org/react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
@@ -133,7 +132,7 @@ const LoginPage = () => {
 									</div>
 								</div>
 								<div className="mt-10 mb-4 md:mt-0 md:mb-10">
-									<p className="text-xs text-center text-gray-600 lg:text-left">{`© ${new Date().getFullYear()} De Journey Vacations. All Right Reserved `}</p>
+									<p className="text-xs text-center text-gray-600 lg:text-left">{`© ${year} De Journey Vacations. All Right Reserved `}</p>
 								</div>
 							</div>
 
@@ -144,7 +143,7 @@ const LoginPage = () => {
 										<div className="bg-white border border-gray-50 bg-opacity-30 rounded-xl">
 											<div className="relative">
 												<div className="mt-8 mb-56 ml-8 text-2xl font-semibold text-white xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-72 xl:w-96">Start your journey with one click, explore the beautiful world!</div>
-												<Image className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src="/images/pages/login-image.png" alt="logo images" width={330} height={335} priority />
+												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg2} alt="login image" width={330} height={335} priority />
 											</div>
 										</div>
 									</div>
@@ -155,9 +154,9 @@ const LoginPage = () => {
 							<div className="bg-[#fa8443] absolute -right-48 xl:-right-96 bottom-[26rem] xl:bottom-[30rem] p-5 rounded-full blur-md"></div>
 						</div>
 						<div className="absolute left-0 right-0 hidden mx-auto lg:block -bottom-20 w-96">
-							<Image className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src="/images/pages/login-shape.png" alt="logo images" width={600} height={600} priority />
+							<img className="absolute -right-4 xl:-right-[7.5rem] -bottom-16 xl:-bottom-24 opacity-50 xl:w-[600px] xl:h-[450px] w-[500px] h-[400px]" src={loginShape} alt="logo images" width={600} height={600} priority />
 						</div>
-						<Image className="absolute bottom-0 left-0 right-0 w-full h-48 md:hidden" src="/images/pages/auth-illustration.png" alt="auth images" width={600} height={600} priority />
+						<img className="absolute bottom-0 left-0 right-0 w-full h-48 md:hidden" src={loginImg1} alt="login image" width={600} height={600} priority />
 					</div>
 				</div>
 			</main>
