@@ -4,9 +4,11 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Dropdown,
 import React, { useEffect, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu, logoImage } from "@/helpers/const";
+import { usePathname } from "next/navigation";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
+	const currentPath = usePathname();
 	const [isLoggedIn, setIsLoggedIn] = React.useState(token ? true : false);
 	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 	const [isAdmin, setIsAdmin] = React.useState(true);
@@ -61,7 +63,7 @@ const NavbarComponent = () => {
 					<NavbarContent className="hidden gap-12 lg:flex" justify="center">
 						{menuList?.map((menu) => (
 							<NavbarItem key={menu?.text}>
-								<Link color="foreground" href={menu?.link} className="hover:text-[#fa8443]">
+								<Link color="foreground" href={menu?.link} className={`${currentPath === menu?.link ? "text-[#fa8443]" : ""} hover:text-[#fa8443]`}>
 									{menu?.name}
 								</Link>
 							</NavbarItem>
@@ -72,8 +74,8 @@ const NavbarComponent = () => {
 							<DropdownTrigger>{isLoggedIn ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
 								{menuList.map((menu) => (
-									<DropdownItem key={menu?.text} textValue={menu?.text} className="flex lg:hidden">
-										<Link href={menu?.link} className="text-gray-700">
+									<DropdownItem key={menu?.text} textValue={menu?.text} className={`${currentPath === menu?.link ? "bg-primary" : ""} flex lg:hidden`}>
+										<Link href={menu?.link} className={`${currentPath === menu?.link ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											{menu?.name}
 										</Link>
 									</DropdownItem>
@@ -86,8 +88,8 @@ const NavbarComponent = () => {
 								</DropdownItem>
 
 								{isLoggedIn && (
-									<DropdownItem key="profile" textValue="profile" showDivider={isAdmin ? false : true}>
-										<Link href="/profile" className="text-gray-700">
+									<DropdownItem key="profile" textValue="profile" showDivider={isAdmin ? false : true} className={`${currentPath === "/profile" ? "bg-primary" : ""}`}>
+										<Link href="/profile" className={`${currentPath === "/profile" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Profile
 										</Link>
 									</DropdownItem>
@@ -108,16 +110,16 @@ const NavbarComponent = () => {
 										</Link>
 									</DropdownItem>
 								) : (
-									<DropdownItem key="login" textValue="login">
-										<Link href="/login" className="text-gray-700">
+									<DropdownItem key="login" textValue="login" className={`${currentPath === "/login" ? "bg-primary" : ""}`}>
+										<Link href="/login" className={`${currentPath === "/login" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Login
 										</Link>
 									</DropdownItem>
 								)}
 
 								{isLoggedIn === false && (
-									<DropdownItem key="register" textValue="register">
-										<Link href="/register" className="text-gray-700">
+									<DropdownItem key="register" textValue="register" className={`${currentPath === "/register" ? "bg-primary" : ""}`}>
+										<Link href="/register" className={`${currentPath === "/register" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Register
 										</Link>
 									</DropdownItem>
