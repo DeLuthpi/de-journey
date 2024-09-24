@@ -1,8 +1,11 @@
 import "@/styles/globals.css";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
+import { usePathname } from "next/navigation";
 
 export default function App({ Component, pageProps }) {
+	const pathname = usePathname();
+
 	return (
 		<>
 			<Head>
@@ -22,7 +25,7 @@ export default function App({ Component, pageProps }) {
 			</Head>
 			<Toaster
 				containerClassName="mt-20"
-				position="top-right"
+				position={`mt-20 ${pathname === "/dashboard/*" ? "top-right" : "top-center"}`}
 				toastOptions={{
 					duration: 3000,
 					success: {

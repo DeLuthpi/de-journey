@@ -32,7 +32,7 @@ const RegisterPage = () => {
 
 	useEffect(() => {
 		setErrors([]);
-	}, ["", email, password, name, passwordRepeat, role]);
+	}, ["register", email, password, name, passwordRepeat, role]);
 
 	const handleUpload = async (e) => {
 		e.preventDefault();

@@ -22,7 +22,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		setErrors([]);
-	}, ["", email, password, "", "", ""]);
+	}, ["login", email, password, "", "", "", ""]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
