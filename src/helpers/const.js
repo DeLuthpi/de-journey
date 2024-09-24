@@ -1,6 +1,10 @@
 import localFont from "next/font/local";
+import { TbLayoutDashboard, TbRosetteDiscount, TbCategory2, TbMap2, TbWallet, TbInvoice, TbUser, TbUsers } from "react-icons/tb";
+import { CgImage } from "react-icons/cg";
 
 const logoName = "De Journey Vacations";
+const logoadm1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/logo%201.png?alt=media&token=9ce48b00-2241-47e5-a52c-849557b6fd17";
+const logoadm2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/logo%202.png?alt=media&token=eea76dcd-a818-4288-9ae2-20da8d8e02b6";
 const logoImage = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/logo.png?alt=media&token=a8a91d0c-29da-450d-b7cd-1d17d5da8964";
 const registerImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/register-image.png?alt=media&token=894d6c12-a1a8-4ad2-9a86-d89c2c209627";
 const loginImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/login-image.png?alt=media&token=b6e720e8-79f0-454e-ab6b-006e52e8060d";
@@ -40,4 +44,61 @@ const listMenu = [
 	},
 ];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, apiUrl, apiKey };
+const dashboardMenu = [
+	{
+		path: "/dashboard",
+		name: "Dashboard",
+		text: "dashboard",
+		icon: <TbLayoutDashboard className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/banner",
+		name: "Banner",
+		text: "banner",
+		icon: <CgImage className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/category",
+		name: "Category",
+		text: "category",
+		icon: <TbCategory2 className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/destination",
+		name: "Destination",
+		text: "destination",
+		icon: <TbMap2 className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/payment-method",
+		name: "Payment Method",
+		text: "payment-method",
+		icon: <TbWallet className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/profile",
+		name: "Profile Information",
+		text: "profile",
+		icon: <TbUser className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/special-deals",
+		name: "Special Deals",
+		text: "special-deals",
+		icon: <TbRosetteDiscount className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/transaction",
+		name: "Transaction",
+		text: "transaction",
+		icon: <TbInvoice className="w-5 h-5" />,
+	},
+	{
+		path: "/dashboard/user-ist",
+		name: "User List",
+		text: "user-ist",
+		icon: <TbUsers className="w-5 h-5" />,
+	},
+];
+
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, apiUrl, apiKey, dashboardMenu, logoadm1, logoadm2 };
