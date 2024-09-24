@@ -6,6 +6,11 @@
 	--background: #ffffff;
 	--foreground: #171717;
 	--primary: #42a7c3;
+	--blueocean: #8ecae6;
+	--bluesky: #219ebc;
+	--bluenavy: #023047;
+	--yellowturmic: #ffb703;
+	--orangejuice: #fb8500;
 }
 
 @media (prefers-color-scheme: dark) {
