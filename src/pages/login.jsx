@@ -84,14 +84,14 @@ const LoginPage = () => {
 				<div className="absolute inset-x-0 flex flex-wrap min-h-screen p-0 overflow-hidden align-middle">
 					<div className="relative w-full px-5 mx-auto md:px-4 xl:max-w-full lg:max-w-7xl md:max-w-5xl sm:max-w-2xl">
 						<div className="absolute left-0 right-0 hidden w-8 mx-auto lg:block -bottom-20">
-							<div className="bg-[#fa8443] absolute -right-48 xl:-right-96 bottom-[26rem] xl:bottom-[30rem] p-6 z-50 rounded-full blur-md"></div>
+							<div className="bg-orangejuice absolute -right-24 xl:-right-52 bottom-[27rem] xl:bottom-[31rem] p-6 z-50 rounded-full blur-md"></div>
 						</div>
-						<div className="flex flex-wrap justify-center h-full lg:gap-20 xl:gap-52">
+						<div className="flex flex-wrap justify-center h-full lg:w-5/6 xl:px-3 lg:mx-auto lg:gap-0">
 							{/* layout for form */}
-							<div className="flex flex-col w-full xl:pl-28 lg:pl-10 md:mx-auto md:w-7/12 lg:w-5/12 lg:mx-0">
-								<div className="flex flex-col justify-center h-full px-2 pt-0 mt-20 max-md:px-6 lg:px-8">
+							<div className="flex flex-col w-full md:mx-auto md:w-7/12 lg:w-6/12 lg:mx-0">
+								<div className="flex flex-col justify-center h-full px-4 pt-5 mt-20 md:mt-0 md:px-6 md:pt-24 lg:px-8">
 									<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-										<h2 className="mx-10 font-bold leading-9 tracking-tight text-center text-gray-700 max-sm:mx-5 max-md:text-lg max-sm:text-md md:text-2xl lg:text-xl xl:text-2xl">Login to your account</h2>
+										<h2 className="mx-0 font-bold leading-9 tracking-tight text-center text-gray-700 max-md:text-base max-sm:text-lg md:text-2xl lg:text-xl xl:text-2xl">Login to your account</h2>
 									</div>
 
 									<div className="my-5 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -116,7 +116,7 @@ const LoginPage = () => {
 												}
 											/>
 											<Button type="submit" size="md" className="w-full font-semibold rounded-lg" color="primary">
-												LOGIN
+												Login
 											</Button>
 										</form>
 										<div className="relative my-10">
@@ -131,19 +131,19 @@ const LoginPage = () => {
 										</Button>
 									</div>
 								</div>
-								<div className="mt-10 mb-4 md:mt-0 md:mb-10 xl:-ml-28">
+								<div className="mt-10 mb-4 md:mt-0 md:mb-10">
 									<p className="text-xs text-center text-gray-600 lg:text-left">{`© ${year} De Journey Vacations. All Right Reserved `}</p>
 								</div>
 							</div>
 
 							{/* layout for image */}
-							<div className="flex-col flex-wrap hidden w-6/12 xl:w-5/12 lg:flex">
+							<div className="flex-col flex-wrap hidden w-3/6 lg:flex">
 								<div className="flex flex-col justify-center w-full h-full">
 									<div className="relative w-full p-10 mt-20 md:mx-auto bg-primary rounded-xl">
 										<img className="absolute top-0 bottom-0 left-0 w-full h-full opacity-20" src={patternLines} alt="pattern lines" width={1920} height={1080} />
 										<div className="bg-white border border-gray-50 bg-opacity-30 rounded-xl">
 											<div className="relative">
-												<div className="mt-8 mb-56 ml-8 text-2xl font-semibold text-white [text-shadow:_3px_3px_#283618] xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-72 xl:w-96">Start your journey with one click, explore the beautiful world!</div>
+												<div className="mt-4 mb-56 ml-4 text-2xl font-semibold text-white [text-shadow:_3px_3px_#283618] xl:text-4xl xl:mb-64 pb-28 xl:pb-28 w-80 xl:w-96">Start your journey with one click, explore the beautiful world!</div>
 												<img className="absolute -right-5 z-50 -bottom-56 xl:-bottom-64 xl:w-[380px] xl:h-[385px] w-[330px] h-[335px]" src={loginImg} alt="login image" width={330} height={335} />
 											</div>
 										</div>

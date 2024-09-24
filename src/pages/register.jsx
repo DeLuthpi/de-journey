@@ -81,7 +81,7 @@ const RegisterPage = () => {
 			phoneNumber: e.target.phonenumber.value,
 		};
 
-		setErrors(validateInput("register", email, password, name, passwordRepeat, role));
+		setErrors(validateInput("register", email, password, name, passwordRepeat, role, phoneNumber));
 
 		for (const key in payload) {
 			if (!payload[key]) {
@@ -112,7 +112,7 @@ const RegisterPage = () => {
 					router.push("/login");
 				}, 3000);
 			} else {
-				toast.error("Registration failed. \n This email is already registered. \n Try another email or log in.");
+				toast.error("Registration failed. \n This email is already registered. \n Try another email or login.");
 			}
 		} else {
 			toast.error("Please check both passwords \n and make sure they match!");
@@ -199,11 +199,11 @@ const RegisterPage = () => {
 												/>
 											</div>
 											<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-												<Select label="Role" id="role" size="sm" isInvalid={errors?.role ? true : false} color={errors?.role ? "danger" : "primary"} errorMessage={errors?.msgRole} placeholder="Select Role" value={role} onChange={(e) => setRole(e.target.value)} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full rounded-md" variant="bordered">
+												<Select isRequired label="Role" id="role" size="sm" isInvalid={errors?.role ? true : false} color={errors?.role ? "danger" : "primary"} errorMessage={errors?.msgRole} placeholder="Select Role" value={role} onChange={(e) => setRole(e.target.value)} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full rounded-md" variant="bordered">
 													<SelectItem key="admin">Admin</SelectItem>
 													<SelectItem key="user">User</SelectItem>
 												</Select>
-												<Input id="phonenumber" autoComplete="off" type="text" size="sm" label="Phone Number" name="phonenumber" value={phoneNumber} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" onChange={(e) => setPhoneNumber(e.target.value)} variant="bordered" color="primary" />
+												<Input isRequired id="phonenumber" autoComplete="off" type="text" size="sm" label="Phone Number" name="phonenumber" value={phoneNumber} className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" onChange={(e) => setPhoneNumber(e.target.value)} variant="bordered" color={errors?.phoneNumber ? "danger" : "primary"} isInvalid={errors?.phoneNumber ? true : false} errorMessage={errors?.msgPhoneNumber} />
 											</div>
 											<div className="flex flex-wrap w-full gap-0">
 												<label className="block mb-1 text-sm font-normal text-primary dark:text-white" htmlFor="profilepicture">

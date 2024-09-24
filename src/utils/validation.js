@@ -3,7 +3,7 @@ import React from "react";
 export default function formValidate() {
 	const [errors, setErrors] = React.useState([]);
 
-	const validateInput = (action, email, password, name, passwordRepeat, role) => {
+	const validateInput = (action, email, password, name, passwordRepeat, role, phoneNumber) => {
 		const regex = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 		if (action === "login") {
@@ -81,6 +81,14 @@ export default function formValidate() {
 			} else {
 				errors["role"] = false;
 				errors["msgRole"] = "";
+			}
+
+			if (phoneNumber === "") {
+				errors["phoneNumber"] = true;
+				errors["msgPhoneNumber"] = "Phone number must be filled";
+			} else {
+				errors["phoneNumber"] = false;
+				errors["msgPhoneNumber"] = "";
 			}
 		}
 
