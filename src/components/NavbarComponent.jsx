@@ -56,21 +56,21 @@ const NavbarComponent = () => {
 	return (
 		<>
 			{isClient && (
-				<Navbar className="w-[94%] md:w-[97%] mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
+				<Navbar className="w-[94%] md:w-4/5 mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
 					<NavbarBrand>
 						<img className="w-auto h-auto dark:invert max-h-11" src={logoImage} alt="logo images" width={160} height={45} />
 					</NavbarBrand>
 					<NavbarContent className="hidden gap-12 lg:flex" justify="center">
 						{menuList?.map((menu) => (
 							<NavbarItem key={menu?.text}>
-								<Link color="foreground" href={menu?.link} className={`${currentPath === menu?.link ? "text-[#fa8443]" : ""} hover:text-[#fa8443]`}>
+								<Link href={menu?.link} className={`${currentPath === menu?.link ? "text-orangejuice" : ""} text-bluenavy text-sm xl:text-base font-semibold hover:text-orangejuice`}>
 									{menu?.name}
 								</Link>
 							</NavbarItem>
 						))}
 					</NavbarContent>
 					<NavbarContent as="div" justify="end">
-						<Dropdown placement="bottom-end right" className={`${isLoggedIn ? "bg-[#f9fafc] mt-2" : "bg-[#f9fafc]"}`}>
+						<Dropdown placement="bottom-end" className={`${isLoggedIn ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
 							<DropdownTrigger>{isLoggedIn ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
 								{menuList.map((menu) => (
@@ -128,7 +128,7 @@ const NavbarComponent = () => {
 						</Dropdown>
 						{isLoggedIn === false && (
 							<NavbarItem className="hidden lg:flex">
-								<Link href="/login" className={`${currentPath === "/login" ? "text-[#fa8443]" : ""} hover:text-[#fa8443]`}>
+								<Link href="/login" className={`${currentPath === "/login" ? "text-orangejuice" : ""} text-sm xl:text-base font-normal hover:text-orangejuice`}>
 									Login
 								</Link>
 							</NavbarItem>
