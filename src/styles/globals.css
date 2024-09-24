@@ -26,6 +26,46 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+.sidenav-menu {
+	@apply text-sm my-0 mx-4 flex items-center whitespace-nowrap rounded-lg p-2 transition-all duration-500 shadow-none;
+}
+
+.sidenav-menu:dark {
+	@apply text-white opacity-80;
+}
+
+.sidenav-menu.active {
+	@apply bg-bluenavy;
+}
+
+.sidenav-menu:hover {
+	@apply bg-bluenavy;
+}
+
+.sidenav-icon {
+	@apply flex items-center justify-center w-8 h-8 p-0 mr-2 text-blueocean bg-bluenavy text-center bg-center rounded-lg fill-current stroke-none duration-500;
+}
+
+.sidenav-menu.active .sidenav-icon {
+	@apply text-bluenavy bg-gradient-to-tl from-primary to-blueocean;
+}
+
+.sidenav-menu:hover .sidenav-icon {
+	@apply text-bluenavy bg-gradient-to-tl from-primary to-blueocean;
+}
+
+.sidenav-text {
+	@apply ml-1 font-normal text-bluenavy duration-500 opacity-100 pointer-events-none;
+}
+
+.sidenav-menu.active .sidenav-text {
+	@apply text-white font-semibold;
+}
+
+.sidenav-menu:hover .sidenav-text {
+	@apply text-white font-semibold;
+}
+
 header {
 	max-width: 1920px !important;
 }
