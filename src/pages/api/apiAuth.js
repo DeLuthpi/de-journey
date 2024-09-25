@@ -23,7 +23,7 @@ export default function apiAuth() {
 	};
 
 	// Get User Logged in
-	const userLog = async (url) => {
+	const userLog = async (url, callback) => {
 		try {
 			const res = await axios.get(`${apiUrl + url}`, {
 				headers: {
@@ -32,7 +32,7 @@ export default function apiAuth() {
 				},
 			});
 
-			return res;
+			callback(res?.data.data);
 		} catch (err) {
 			return err;
 		}

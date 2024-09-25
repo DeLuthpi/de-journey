@@ -2,12 +2,14 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
 import { usePathname } from "next/navigation";
+import { Provider } from "react-redux";
+import store from "@/redux/store";
 
 export default function App({ Component, pageProps }) {
 	const pathname = usePathname();
 
 	return (
-		<>
+		<Provider store={store}>
 			<Head>
 				<meta charset="UTF-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,6 +53,6 @@ export default function App({ Component, pageProps }) {
 				}}
 			/>
 			<Component {...pageProps} />
-		</>
+		</Provider>
 	);
 }

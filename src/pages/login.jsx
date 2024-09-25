@@ -8,6 +8,9 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { getCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { setData } from "@/redux/slices/userLoggedSlice";
 
 const LoginPage = () => {
 	const router = useRouter();
@@ -19,6 +22,7 @@ const LoginPage = () => {
 	const [errors, setErrors] = React.useState();
 	const [isVisible, setIsVisible] = React.useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setErrors([]);
@@ -58,11 +62,6 @@ const LoginPage = () => {
 				if (res?.status === 200) {
 					toast.success("Login success");
 					setTimeout(() => {
-						const getUserLogged = async () => {
-							const res = await userLog("user");
-							return res;
-						};
-
 						getUserLogged();
 						if (res?.data.data.role === "admin") {
 							router.push("/dashboard");
@@ -75,6 +74,11 @@ const LoginPage = () => {
 				}
 			}
 		}
+	};
+
+	const getUserLogged = () => {
+		const token = getCookie("token");
+		token && userLog("user", (res) => dispatch(setData(res)));
 	};
 
 	return (
