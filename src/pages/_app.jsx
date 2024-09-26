@@ -5,9 +5,15 @@ import { usePathname } from "next/navigation";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { logoName } from "@/helpers/const";
+import handleScroll from "@/helpers/handleNavbar";
+import { useEffect } from "react";
 
 export default function App({ Component, pageProps }) {
 	const pathname = usePathname();
+
+	useEffect(() => {
+		handleScroll();
+	}, []);
 
 	return (
 		<Provider store={store}>

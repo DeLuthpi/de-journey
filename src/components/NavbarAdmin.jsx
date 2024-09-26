@@ -44,8 +44,8 @@ const NavbarAdmin = () => {
 	};
 
 	return (
-		<section className="w-full pt-4 sticky top-[1%] z-50">
-			<nav className="z-50 flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in shadow-md duration-250 rounded-2xl lg:flex-nowrap lg:justify-start backdrop-saturate-200 backdrop-blur-2xl bg-white/80 shadow-blur dark:bg-gray-950/80 dark:shadow-dark-blur">
+		<section navbar-section="true" className="w-full pt-4" navbar-scroll="true">
+			<nav navbar-main="true" className="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in duration-250 rounded-2xl lg:flex-nowrap lg:justify-start">
 				<div className="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
 					<nav>
 						<Breadcrumbs className="flex flex-wrap w-full pt-1 mr-12 bg-transparent rounded-lg sm:mr-10">
