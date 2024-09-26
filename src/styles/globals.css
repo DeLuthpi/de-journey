@@ -26,10 +26,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.sidenav-menu {
-	@apply text-sm my-0 mx-4 flex items-center whitespace-nowrap rounded-lg p-2 transition-all duration-500 shadow-none;
-}
-
 .sidenav-menu:dark {
 	@apply text-white opacity-80;
 }
@@ -43,7 +39,7 @@ body {
 }
 
 .sidenav-icon {
-	@apply flex items-center justify-center w-8 h-8 p-0 mr-2 text-blueocean bg-bluenavy text-center bg-center rounded-lg fill-current stroke-none duration-500;
+	@apply stroke-none shadow-sm bg-bluenavy mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current p-1.5 text-center text-blueocean duration-500;
 }
 
 .sidenav-menu.active .sidenav-icon {
@@ -52,10 +48,6 @@ body {
 
 .sidenav-menu:hover .sidenav-icon {
 	@apply text-bluenavy bg-gradient-to-tl from-primary to-blueocean;
-}
-
-.sidenav-text {
-	@apply ml-1 font-normal text-bluenavy duration-500 opacity-100 pointer-events-none;
 }
 
 .sidenav-menu.active .sidenav-text {

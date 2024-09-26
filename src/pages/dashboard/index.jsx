@@ -6,7 +6,7 @@ const DashboardPage = () => {
 	return (
 		<div className={`${geistSans.variable} ${geistMono.variable} min-h-screen font-[family-name:var(--font-geist-sans)]`}>
 			<SidebarAdmin />
-			<main className="relative h-full max-h-screen transition-all duration-200 ease-soft-in-out xl:ml-[17rem] rounded-xl">
+			<main className="relative h-full max-h-screen transition-all duration-500 ease-in-out xl:ml-72 rounded-xl">
 				<NavbarAdmin />
 			</main>
 		</div>
