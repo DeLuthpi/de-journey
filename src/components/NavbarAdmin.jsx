@@ -59,7 +59,7 @@ const NavbarAdmin = () => {
 						<h6 className="pt-1 mb-0 font-bold text-gray-500 capitalize dark:text-white">{pathname}</h6>
 					</nav>
 					<div className="items-center w-[24px] h-[24px] hidden p-0 transition-all text-sm text-slate-500 xl:block">
-						<button mini-trigger="true" onClick={sidebarMini} aria-expanded="true">
+						<button mini-trigger="true" onClick={sidebarMini} className="transition-all duration-500 ease-in-out" aria-expanded="true">
 							<HiOutlineBars3 mini-open="true" className="inline text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 							<HiOutlineBars3BottomLeft mini-close="true" className="hidden text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 						</button>
@@ -68,7 +68,7 @@ const NavbarAdmin = () => {
 						<div className="flex items-center md:ml-auto">
 							<div className="flex items-center justify-center w-full gap-4 align-middle transition-all rounded-lg flex-nowrap">
 								<div className="items-center w-[24px] h-[24px] inline p-0 transition-all text-sm text-slate-500 xl:hidden">
-									<button expand-trigger="true" onClick={sidebarExpand} aria-expanded="false">
+									<button expand-trigger="true" onClick={sidebarExpand} className="transition-all duration-500 ease-in-out" aria-expanded="false">
 										<HiOutlineBars3 expand-open="true" className="inline text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 										<HiOutlineBars3BottomRight expand-close="true" className="hidden text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 									</button>

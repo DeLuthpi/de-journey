@@ -2,6 +2,8 @@ import { dashboardMenu, logoadm1, logoadm2 } from "@/helpers/const";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { LiaGlobeAmericasSolid } from "react-icons/lia";
+import { IoClose } from "react-icons/io5";
+import { sidebarExpand } from "@/helpers/handleSidebar";
 
 const SidebarAdmin = () => {
 	const pathname = usePathname();
@@ -9,6 +11,9 @@ const SidebarAdmin = () => {
 	return (
 		<aside mini="false" className="fixed inset-y-0 left-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto transition-all duration-500 ease-in-out -translate-x-full bg-white border-0 shadow-none xl:ml-4 dark:bg-gray-950 z-[1030] rounded-2xl xl:translate-x-0 max-w-64" id="sidebar-main">
 			<div className="h-18">
+				<button onClick={sidebarExpand} className="absolute top-0 right-0 p-3 opacity-50 cursor-pointer text-slate-400 dark:text-white sm:hidden" aria-hidden="true" sidebar-close="true">
+					<IoClose className="size-6" />
+				</button>
 				<Link className="block px-8 pt-4 pb-2 m-0 text-sm whitespace-nowrap text-slate-700 dark:text-white" href="/dashboard">
 					<img src={logoadm1} className="inline h-full max-w-full mr-4 transition-all duration-500 max-h-10 dark:invert" width={32} alt="logo 1" />
 					<img src={logoadm2} className="inline h-full max-w-full pt-2 transition-all duration-500 max-h-10 dark:invert" alt="logo 2" logo-collapse="true" />
