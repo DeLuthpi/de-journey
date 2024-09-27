@@ -2,7 +2,7 @@ import SidebarAdmin from "@/components/SidebarAdmin";
 import NavbarAdmin from "@/components/NavbarAdmin";
 import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
