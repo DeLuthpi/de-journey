@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, Button, Breadcrumbs, BreadcrumbItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { HiHome } from "react-icons/hi2";
@@ -15,15 +15,23 @@ import { sidebarMini, sidebarExpand } from "@/helpers/handleSidebar";
 
 const NavbarAdmin = () => {
 	const router = useRouter();
-	const pathname = usePathname().replace("/", "").replace("-", " ");
-	const [theme, setTheme] = React.useState("light");
+	const pathname = usePathname();
+	const [theme, setTheme] = useState("light");
 	const { userLog } = apiAuth();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userLogged.user);
+	const [newPathname, setNewPathname] = useState("");
 
 	// get user data when page reload
 	useEffect(() => {
 		getUserLogged();
+		if (pathname !== "/dashboard") {
+			const newPath = pathname.replace("/dashboard/", "").replace("-", " ");
+			setNewPathname(newPath);
+		} else {
+			const newPath = pathname.replace("/", "");
+			setNewPathname(newPath);
+		}
 	}, []);
 
 	const getUserLogged = () => {
@@ -52,11 +60,11 @@ const NavbarAdmin = () => {
 							<BreadcrumbItem size="sm" className="text-gray-400" textValue="Pages" startContent={<HiHome />}>
 								Pages
 							</BreadcrumbItem>
-							<BreadcrumbItem size="sm" className="hidden text-white capitalize md:inline" textValue={pathname}>
-								{pathname}
+							<BreadcrumbItem size="sm" className="hidden text-white capitalize md:inline" textValue={newPathname}>
+								{newPathname}
 							</BreadcrumbItem>
 						</Breadcrumbs>
-						<h6 className="pt-1 mb-0 font-bold text-gray-500 capitalize dark:text-white">{pathname}</h6>
+						<h6 className="pt-1 mb-0 font-bold text-gray-500 capitalize dark:text-white">{newPathname}</h6>
 					</nav>
 					<div className="items-center w-[24px] h-[24px] hidden p-0 transition-all text-sm text-slate-500 xl:block">
 						<button mini-trigger="true" onClick={sidebarMini} className="transition-all duration-500 ease-in-out" aria-expanded="true">
