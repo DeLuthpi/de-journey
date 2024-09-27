@@ -1,16 +1,18 @@
 import SidebarAdmin from "@/components/SidebarAdmin";
 import NavbarAdmin from "@/components/NavbarAdmin";
-import { geistSans, geistMono } from "@/helpers/const";
+import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus } from "react-icons/fi";
 import Footer from "@/components/Footer";
+import validateImage from "@/utils/validationImage";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
 	const [banners, setBanners] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const { validateImg } = validateImage();
 
 	useEffect(() => {
 		setLoading(true);
@@ -54,7 +56,7 @@ const BannerPage = () => {
 								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
 									<Card shadow="md" isPressable onPress={() => console.log("item pressed")}>
 										<CardBody className="p-0 overflow-visible">
-											<Image shadow="sm" radius="lg" width="100%" alt={list?.name} className="w-full object-cover h-[140px]" src={list?.imageUrl} />
+											<Image shadow="sm" radius="lg" width="100%" alt={list?.name} className="w-full object-cover h-[165px]" src={validateImg(list?.imageUrl) ? list?.imageUrl : noImage} />
 										</CardBody>
 										<CardFooter className="justify-between min-h-16 text-small">
 											<div className="font-semibold text-left text-wrap">{list?.name}</div>
