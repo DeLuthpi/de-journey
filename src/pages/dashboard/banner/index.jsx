@@ -4,15 +4,18 @@ import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
-import { FiSearch, FiPlus } from "react-icons/fi";
+import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
 import validateImage from "@/utils/validationImage";
+import { GrEdit } from "react-icons/gr";
+import CreateModal from "@/components/dashboard/ModalCreateBanner";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
 	const [banners, setBanners] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const { validateImg } = validateImage();
+	const [showCreateModal, setShowCreateModal] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -20,7 +23,11 @@ const BannerPage = () => {
 		setTimeout(() => {
 			setLoading(false);
 		}, 2000);
-	}, []);
+	}, [showCreateModal]);
+
+	const handleShowCreateModal = () => {
+		setShowCreateModal(!showCreateModal);
+	};
 
 	return (
 		<div className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}>
@@ -45,7 +52,7 @@ const BannerPage = () => {
 								placeholder="Type to search..."
 								startContent={<FiSearch className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />}
 							/>
-							<Button color="success" className="w-6/12 font-medium" startContent={<FiPlus />}>
+							<Button color="success" onClick={handleShowCreateModal} className="w-6/12 font-medium" startContent={<FiPlus />}>
 								add new
 							</Button>
 						</div>
@@ -60,9 +67,14 @@ const BannerPage = () => {
 										</CardBody>
 										<CardFooter className="justify-between min-h-16 text-small">
 											<div className="font-semibold text-left text-wrap">{list?.name}</div>
-											<Button as={Link} href={`/dashboard/banner/${list?.id}`} className="px-0 text-white text-tiny bg-bluenavy" radius="full" size="sm">
-												Detail
-											</Button>
+											<div className="flex justify-end gap-1 flex-nowrap">
+												<Button as={Link} onClick={""} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
+													<GrEdit className="size-4" />
+												</Button>
+												<Button as={Link} onClick={""} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
+													<FiTrash2 className="size-4" />
+												</Button>
+											</div>
 										</CardFooter>
 									</Card>
 								</div>
@@ -70,6 +82,7 @@ const BannerPage = () => {
 						))}
 					</div>
 					<Footer />
+					<CreateModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} />
 				</div>
 			</main>
 		</div>
