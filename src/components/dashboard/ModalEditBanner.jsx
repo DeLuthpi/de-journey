@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import apiUpload from "@/pages/api/apiUpload";
 import apiPostData from "@/pages/api/apiPostData";
+import validateImage from "@/utils/validationImage";
+import { noImage } from "@/helpers/const";
 
 const EditModal = ({ showEditModal, setShowEditModal, selectedBanner }) => {
 	const { upload } = apiUpload();
@@ -11,6 +13,7 @@ const EditModal = ({ showEditModal, setShowEditModal, selectedBanner }) => {
 	const [imageUrlUploaded, setImageUrlUploaded] = useState(null);
 	const [errImage, setErrImage] = useState(false);
 	const [errMsgImage, setMsgErrImage] = useState("");
+	const { validateImg } = validateImage();
 
 	const handleUpload = async (e) => {
 		e.preventDefault();
@@ -96,7 +99,7 @@ const EditModal = ({ showEditModal, setShowEditModal, selectedBanner }) => {
 						</ModalHeader>
 						<form className="mb-5 space-y-2 md:space-y-3" onSubmit={handleSubmit}>
 							<ModalBody>
-								<img width={200} height={200} alt="image" className="w-full rounded-lg object-cover h-[165px]" src={imageUrlUploaded === null ? selectedBanner?.imageUrl : imageUrlUploaded} />
+								<img width={200} height={200} alt="image" className="w-full rounded-lg object-cover h-[165px]" src={imageUrlUploaded === null ? (validateImg(selectedBanner?.imageUrl) ? selectedBanner?.imageUrl : noImage) : imageUrlUploaded} />
 								<Input type="text" defaultValue={selectedBanner?.name} id="name" size="sm" label="Name" name="name" isRequired className="max-w-full" onChange={(e) => setName(e.target.value)} autoComplete="off" variant="bordered" color="primary" autoFocus />
 								<input type="file" accept="image/*" onChange={handleUpload} id="profilepicture" name="profilepicture" className="block w-full px-1 py-2 mb-5 text-sm border-2 border-gray-200 rounded-lg cursor-pointer text-primary hover:border-gray-400 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
 								{errImage && <p className="text-tiny text-danger">{errMsgImage}</p>}
