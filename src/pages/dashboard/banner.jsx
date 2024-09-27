@@ -21,6 +21,7 @@ const BannerPage = () => {
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [search, setSearch] = useState("");
 
 	useEffect(() => {
 		setLoading(true);
@@ -63,6 +64,17 @@ const BannerPage = () => {
 		}
 	};
 
+	useEffect(() => {
+		getData("banners", (res) => {
+			const dataFiltered = res?.data.data.filter((banner) => banner?.name.toLowerCase().includes(search.toLowerCase()));
+			setBanners(dataFiltered);
+		});
+	}, [search]);
+
+	const handleSearch = (e) => {
+		setSearch(e.target.value);
+	};
+
 	return (
 		<div className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}>
 			<SidebarAdmin />
@@ -77,6 +89,7 @@ const BannerPage = () => {
 							<Input
 								isClearable
 								radius="lg"
+								onChange={handleSearch}
 								classNames={{
 									label: "text-black/50 dark:text-white/90",
 									input: ["bg-transparent", "text-black/90 dark:text-white/90", "placeholder:text-default-700/50 dark:placeholder:text-white/60"],
