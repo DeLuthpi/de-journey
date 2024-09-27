@@ -9,13 +9,16 @@ import Footer from "@/components/Footer";
 import validateImage from "@/utils/validationImage";
 import { GrEdit } from "react-icons/gr";
 import CreateModal from "@/components/dashboard/ModalCreateBanner";
+import EditModal from "@/components/dashboard/ModalEditBanner";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
 	const [banners, setBanners] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const { validateImg } = validateImage();
+	const [selectedBanner, setSelectedBanner] = useState([]);
 	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [showEditModal, setShowEditModal] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -23,10 +26,25 @@ const BannerPage = () => {
 		setTimeout(() => {
 			setLoading(false);
 		}, 2000);
-	}, [showCreateModal]);
+	}, [showCreateModal, showEditModal]);
 
 	const handleShowCreateModal = () => {
 		setShowCreateModal(!showCreateModal);
+	};
+
+	const handleShowEditModal = async (id) => {
+		const getBanner = async () => {
+			await getData(`banner/${id}`, (res) => {
+				setSelectedBanner(res?.data.data);
+			});
+		};
+
+		try {
+			await getBanner();
+			setShowEditModal(!showEditModal);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -68,7 +86,7 @@ const BannerPage = () => {
 										<CardFooter className="justify-between min-h-16 text-small">
 											<div className="font-semibold text-left text-wrap">{list?.name}</div>
 											<div className="flex justify-end gap-1 flex-nowrap">
-												<Button as={Link} onClick={""} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
+												<Button as={Link} onClick={() => handleShowEditModal(list?.id)} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
 													<GrEdit className="size-4" />
 												</Button>
 												<Button as={Link} onClick={""} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
@@ -83,6 +101,7 @@ const BannerPage = () => {
 					</div>
 					<Footer />
 					<CreateModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} />
+					<EditModal showEditModal={showEditModal} setShowEditModal={setShowEditModal} selectedBanner={selectedBanner} />
 				</div>
 			</main>
 		</div>
