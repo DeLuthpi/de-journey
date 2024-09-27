@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus } from "react-icons/fi";
+import Footer from "@/components/Footer";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
@@ -66,6 +67,7 @@ const BannerPage = () => {
 							</div>
 						))}
 					</div>
+					<Footer />
 				</div>
 			</main>
 		</div>
