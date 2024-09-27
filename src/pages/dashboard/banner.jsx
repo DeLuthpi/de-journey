@@ -2,7 +2,7 @@ import SidebarAdmin from "@/components/SidebarAdmin";
 import NavbarAdmin from "@/components/NavbarAdmin";
 import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
@@ -11,6 +11,8 @@ import { GrEdit } from "react-icons/gr";
 import CreateModal from "@/components/dashboard/ModalCreateBanner";
 import EditModal from "@/components/dashboard/ModalEditBanner";
 import DeleteModal from "@/components/dashboard/ModalDeleteBanner";
+import moment from "moment";
+import { LuCalendarCheck2, LuCalendarClock } from "react-icons/lu";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
@@ -106,19 +108,29 @@ const BannerPage = () => {
 					</div>
 					<div className="flex flex-wrap mt-6 -mx-3">
 						{banners.map((list, index) => (
-							<div key={index} className="w-full max-w-full px-3 mb-4 shrink-0 sm:flex-0 sm:w-4/12">
+							<div key={index} className="w-full max-w-full px-3 mb-4 transition-all duration-700 ease-in-out shrink-0 sm:flex-0 md:w-6/12 lg:w-4/12 hover:scale-105">
 								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
-									<Card shadow="md" isPressable onPress={() => console.log("item pressed")}>
-										<CardBody className="p-0 overflow-visible">
-											<Image shadow="sm" radius="lg" width="100%" alt={list?.name} className="w-full object-cover h-[165px]" src={validateImg(list?.imageUrl) ? list?.imageUrl : noImage} />
-										</CardBody>
-										<CardFooter className="justify-between min-h-16 text-small">
-											<div className="font-semibold text-left text-wrap">{list?.name}</div>
+									<Card isFooterBlurred isPressable className="w-full h-[250px] col-span-12 sm:col-span-7">
+										<CardHeader className="absolute z-10 flex-col items-start top-1">
+											<h4 className="text-xl text-left [text-shadow:_3px_2px_#283618] font-semibold text-white/90">{list?.name}</h4>
+										</CardHeader>
+										<Image removeWrapper alt={list?.name} className="z-0 object-cover w-full h-full" src={validateImg(list?.imageUrl) ? list?.imageUrl : noImage} />
+										<CardFooter className="absolute bottom-0 z-10 bg-black/40 border-t-1 border-default-600 dark:border-default-100">
+											<div className="flex items-center flex-grow gap-2 text-left">
+												<div className="flex flex-col gap-2">
+													<div className="flex items-center gap-2 flex-nowrap text-tiny text-white/60">
+														<LuCalendarCheck2 className="size-5" /> {moment(list?.createdAt).format("DD MMM YYYY • HH:mm")}
+													</div>
+													<div className="flex items-center gap-2 flex-nowrap text-tiny text-white/60">
+														<LuCalendarClock className="size-5" /> {moment(list?.updatedAt).format("DD MMM YYYY • HH:mm")}
+													</div>
+												</div>
+											</div>
 											<div className="flex justify-end gap-1 flex-nowrap">
-												<Button as={Link} onClick={() => handleShowEditModal(list?.id)} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
+												<Button as={Link} onClick={() => handleShowEditModal(list?.id)} className="h-6 px-2 py-4 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
 													<GrEdit className="size-4" />
 												</Button>
-												<Button as={Link} onClick={() => handleShowDeleteModal(list?.id)} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
+												<Button as={Link} onClick={() => handleShowDeleteModal(list?.id)} className="h-6 px-2 py-4 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
 													<FiTrash2 className="size-4" />
 												</Button>
 											</div>
