@@ -6,7 +6,7 @@ export default function apiAuth() {
 	// Login and Register
 	const auth = async (url, payload) => {
 		try {
-			const res = await axios.post(`${apiUrl + url}`, payload, {
+			const res = await axios.post(`${apiUrl}${url}`, payload, {
 				headers: {
 					apiKey: `${apiKey}`,
 				},
@@ -25,7 +25,7 @@ export default function apiAuth() {
 	// Get User Logged in
 	const userLog = async (url, callback) => {
 		try {
-			const res = await axios.get(`${apiUrl + url}`, {
+			const res = await axios.get(`${apiUrl}${url}`, {
 				headers: {
 					apiKey: `${apiKey}`,
 					Authorization: `Bearer ${getCookie("token")}`,

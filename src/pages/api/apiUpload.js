@@ -5,7 +5,7 @@ import { getCookie } from "cookies-next";
 const apiUpload = () => {
 	const upload = async (url, payload) => {
 		try {
-			const res = await axios.post(`${apiUrl + url}`, payload, {
+			const res = await axios.post(`${apiUrl}${url}`, payload, {
 				headers: {
 					apiKey: `${apiKey}`,
 					Authorization: `Bearer ${getCookie("token")} `,
