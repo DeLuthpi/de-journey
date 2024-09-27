@@ -10,6 +10,7 @@ import validateImage from "@/utils/validationImage";
 import { GrEdit } from "react-icons/gr";
 import CreateModal from "@/components/dashboard/ModalCreateBanner";
 import EditModal from "@/components/dashboard/ModalEditBanner";
+import DeleteModal from "@/components/dashboard/ModalDeleteBanner";
 
 const BannerPage = () => {
 	const { getData } = apiGetData();
@@ -19,6 +20,7 @@ const BannerPage = () => {
 	const [selectedBanner, setSelectedBanner] = useState([]);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -26,7 +28,7 @@ const BannerPage = () => {
 		setTimeout(() => {
 			setLoading(false);
 		}, 2000);
-	}, [showCreateModal, showEditModal]);
+	}, [showCreateModal, showEditModal, showDeleteModal]);
 
 	const handleShowCreateModal = () => {
 		setShowCreateModal(!showCreateModal);
@@ -44,6 +46,20 @@ const BannerPage = () => {
 			setShowEditModal(!showEditModal);
 		} catch (error) {
 			console.log(error);
+		}
+	};
+
+	const handleShowDeleteModal = async (id) => {
+		const getBanner = async () => {
+			await getData(`banner/${id}`, (res) => {
+				setSelectedBanner(res?.data.data);
+			});
+		};
+		try {
+			await getBanner();
+			setShowDeleteModal(!showDeleteModal);
+		} catch (err) {
+			console.log(err);
 		}
 	};
 
@@ -89,7 +105,7 @@ const BannerPage = () => {
 												<Button as={Link} onClick={() => handleShowEditModal(list?.id)} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-bluenavy" radius="sm" size="sm">
 													<GrEdit className="size-4" />
 												</Button>
-												<Button as={Link} onClick={""} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
+												<Button as={Link} onClick={() => handleShowDeleteModal(list?.id)} className="px-1 py-0.5 h-6 m-0 text-white min-w-3 text-tiny bg-danger" radius="sm" size="sm">
 													<FiTrash2 className="size-4" />
 												</Button>
 											</div>
@@ -102,6 +118,7 @@ const BannerPage = () => {
 					<Footer />
 					<CreateModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} />
 					<EditModal showEditModal={showEditModal} setShowEditModal={setShowEditModal} selectedBanner={selectedBanner} />
+					<DeleteModal showDeleteModal={showDeleteModal} setShowDeleteModal={setShowDeleteModal} selectedBanner={selectedBanner} />
 				</div>
 			</main>
 		</div>
