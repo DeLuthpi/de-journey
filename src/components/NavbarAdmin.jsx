@@ -21,6 +21,17 @@ const NavbarAdmin = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userLogged.user);
 	const [newPathname, setNewPathname] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
+
+	const checkSidebar = () => {
+		const expand_trigger = document.querySelector("[expand-trigger]");
+
+		if (expand_trigger.getAttribute("aria-expanded") == "false") {
+			setIsOpen(false);
+		} else {
+			setIsOpen(true);
+		}
+	};
 
 	// get user data when page reload
 	useEffect(() => {
@@ -55,7 +66,7 @@ const NavbarAdmin = () => {
 		<section navbar-section="true" className="w-full pt-4" navbar-scroll="true">
 			<nav navbar-main="true" className="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in duration-250 rounded-2xl lg:flex-nowrap lg:justify-start">
 				<div className="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
-					<nav>
+					<nav className="w-52">
 						<Breadcrumbs className="flex flex-wrap w-full pt-1 mr-12 bg-transparent rounded-lg sm:mr-10">
 							<BreadcrumbItem size="sm" className="text-gray-400" textValue="Pages" startContent={<HiHome />}>
 								Pages
@@ -76,7 +87,14 @@ const NavbarAdmin = () => {
 						<div className="flex items-center md:ml-auto">
 							<div className="flex items-center justify-center w-full gap-4 align-middle transition-all rounded-lg flex-nowrap">
 								<div className="items-center w-[24px] h-[24px] inline p-0 transition-all text-sm text-slate-500 xl:hidden">
-									<button expand-trigger="true" onClick={sidebarExpand} className="transition-all duration-500 ease-in-out" aria-expanded="false">
+									<button
+										expand-trigger="true"
+										onClick={() => {
+											sidebarExpand();
+											checkSidebar();
+										}}
+										className="transition-all duration-500 ease-in-out"
+										aria-expanded="false">
 										<HiOutlineBars3 expand-open="true" className="inline text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 										<HiOutlineBars3BottomRight expand-close="true" className="hidden text-gray-500 size-6" stroke="currentColor" strokeWidth="2.4" />
 									</button>
@@ -86,7 +104,23 @@ const NavbarAdmin = () => {
 								</Button>
 								<Dropdown placement="bottom-end" className="mt-4 ml-4 bg-gray-50">
 									<DropdownTrigger>
-										<Avatar isBordered size="sm" color="primary" radius="sm" as="button" className="transition-transform" src={user?.profilePictureUrl} />
+										<Avatar
+											isBordered
+											onClick={
+												isOpen
+													? () => {
+															sidebarExpand();
+															checkSidebar();
+													  }
+													: ""
+											}
+											size="sm"
+											color="primary"
+											radius="sm"
+											as="button"
+											className="transition-transform"
+											src={user?.profilePictureUrl}
+										/>
 									</DropdownTrigger>
 									<DropdownMenu aria-label="Profile Actions" variant="flat">
 										<DropdownItem key="profile" textValue="profile">
