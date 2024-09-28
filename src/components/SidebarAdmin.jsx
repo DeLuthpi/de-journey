@@ -9,7 +9,7 @@ const SidebarAdmin = () => {
 	const pathname = usePathname();
 
 	return (
-		<aside mini="false" className="fixed inset-y-0 left-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto transition-all duration-500 ease-in-out -translate-x-full bg-white border-0 shadow-none xl:ml-4 dark:bg-gray-950 z-[1030] rounded-2xl xl:translate-x-0 max-w-64" id="sidebar-main">
+		<aside mini="false" className="fixed inset-y-0 left-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto transition-all duration-500 ease-in-out -translate-x-full bg-white border-0 shadow-none xl:ml-4 dark:bg-gray-950 z-[50] rounded-2xl xl:translate-x-0 max-w-64" id="sidebar-main">
 			<div className="h-18">
 				<button onClick={sidebarExpand} className="absolute top-0 right-0 p-3 opacity-50 cursor-pointer text-slate-400 dark:text-white sm:hidden" aria-hidden="true" sidebar-close="true">
 					<IoClose className="size-6" />
