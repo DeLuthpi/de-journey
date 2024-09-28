@@ -15,6 +15,7 @@
     "cookies-next": "^4.2.1",
     "de-journey": "file:",
     "framer-motion": "^11.5.5",
+    "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "next": "14.2.13",
     "react": "^18",
