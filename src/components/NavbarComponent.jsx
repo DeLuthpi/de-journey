@@ -1,41 +1,49 @@
 "use client";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar } from "@nextui-org/react";
-import React, { useEffect, useRef } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar } from "@nextui-org/react";
+import { useEffect, useState, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu, logoImage } from "@/helpers/const";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import apiAuth from "@/pages/api/apiAuth";
+import { useSelector, useDispatch } from "react-redux";
+import { setData } from "@/redux/slices/userLoggedSlice";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
 	const currentPath = usePathname();
-	const [isLoggedIn, setIsLoggedIn] = React.useState(token ? true : false);
-	const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-	const [isAdmin, setIsAdmin] = React.useState(true);
-	const [menuList, setMenuList] = React.useState(listMenu);
-	const [theme, setTheme] = React.useState("light");
-	const [isClient, setIsClient] = React.useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isClient, setIsClient] = useState(false);
+	const [calledPush, setCalledPush] = useState(false);
+	const { userLog } = apiAuth();
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state?.userLogged.user);
 
 	useEffect(() => {
 		setIsClient(true);
+
+		// For Handle Error Abort fetching component for route
+		if (calledPush) {
+			return;
+		}
+		setCalledPush(true);
+
+		// get user data when page reload and token is not null
+		getUserLogged();
 	}, []);
 
-	const handleTheme = () => {
-		setTheme(theme === "light" ? "dark" : "light");
+	const getUserLogged = () => {
+		const token = getCookie("token");
+		// set user data when token is not null
+		if (token) {
+			userLog("user", (res) => dispatch(setData(res)));
+		}
 	};
 
 	const handleLogout = () => {
 		deleteCookie("token");
-		window.location.reload();
 	};
-
-	useEffect(() => {
-		if (isLoggedIn) {
-			setMenuList(() => {
-				return [...menuList, { link: "/transaction", name: "Transaction", text: "transaction" }];
-			});
-		}
-	}, [isLoggedIn]);
 
 	const dropdownRef = useRef(null);
 
@@ -61,82 +69,91 @@ const NavbarComponent = () => {
 						<img className="w-auto h-auto dark:invert max-h-11" src={logoImage} alt="logo images" width={160} height={45} />
 					</NavbarBrand>
 					<NavbarContent className="hidden gap-12 lg:flex" justify="center">
-						{menuList?.map((menu) => (
+						{listMenu?.map((menu) => (
 							<NavbarItem key={menu?.text}>
 								<Link href={menu?.link} className={`${currentPath === menu?.link ? "text-orangejuice" : ""} text-bluenavy text-sm xl:text-base font-semibold hover:text-orangejuice`}>
 									{menu?.name}
 								</Link>
 							</NavbarItem>
 						))}
+						{token && user?.role === "user" && (
+							<NavbarItem key="transaction">
+								<Link href="/transaction" className={`${currentPath === "/transaction" ? "text-orangejuice" : ""} text-bluenavy text-sm xl:text-base font-semibold hover:text-orangejuice`}>
+									My Transaction
+								</Link>
+							</NavbarItem>
+						)}
 					</NavbarContent>
 					<NavbarContent as="div" justify="end">
-						<Dropdown placement="bottom-end" className={`${isLoggedIn ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
-							<DropdownTrigger>{isLoggedIn ? <Avatar isBordered as="button" className="transition-transform" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
+						<Dropdown placement="bottom-end" className={`${token ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
+							<DropdownTrigger>{token ? <Avatar isBordered as="button" className="transition-transform" src={user?.profilePictureUrl} /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
-								{menuList.map((menu) => (
+								{listMenu.map((menu) => (
 									<DropdownItem key={menu?.text} textValue={menu?.text} className={`${currentPath === menu?.link ? "bg-primary" : ""} flex lg:hidden`}>
-										<Link href={menu?.link} className={`${currentPath === menu?.link ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+										<Link href={menu?.link} className={`flex ${currentPath === menu?.link ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											{menu?.name}
 										</Link>
 									</DropdownItem>
 								))}
 
-								<DropdownItem key="theme" textValue="theme" showDivider={isLoggedIn ? false : true}>
-									<Link onClick={handleTheme} className="text-gray-700">
-										Mode
-									</Link>
-								</DropdownItem>
+								{token && user?.role === "user" && (
+									<DropdownItem key="transaction" textValue="transaction" className={`${currentPath === "/transaction" ? "bg-primary" : ""} flex lg:hidden`}>
+										<Link href="/transaction" className={`flex ${currentPath === "/transaction" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+											My Transaction
+										</Link>
+									</DropdownItem>
+								)}
 
-								{isLoggedIn && (
-									<DropdownItem key="profile" textValue="profile" showDivider={isAdmin ? false : true} className={`${currentPath === "/profile" ? "bg-primary" : ""}`}>
-										<Link href="/profile" className={`${currentPath === "/profile" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+								{token && (
+									<DropdownItem key="profile" textValue="profile" showDivider={user?.role === "user" ? true : false} className={`${currentPath === "/profile" ? "bg-primary" : ""}`}>
+										<Link href="/profile" className={`flex ${currentPath === "/profile" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Profile
 										</Link>
 									</DropdownItem>
 								)}
 
-								{isLoggedIn && isAdmin && (
-									<DropdownItem key="dashboard" textValue="dashboard" showDivider={isAdmin ? true : false}>
-										<Link href="/dashboard" className="text-gray-700">
+								{token && user?.role === "admin" && (
+									<DropdownItem key="dashboard" textValue="dashboard" showDivider="true">
+										<Link href="/dashboard" className="flex text-gray-700">
 											Dashboard
 										</Link>
 									</DropdownItem>
 								)}
 
-								{isLoggedIn ? (
+								{token ? (
 									<DropdownItem key="logout" color="danger" textValue="logout">
-										<Link onClick={handleLogout} className="text-danger">
+										<Link onClick={handleLogout} href="/" className="flex text-danger">
 											Logout
 										</Link>
 									</DropdownItem>
 								) : (
 									<DropdownItem key="login" textValue="login" className={`${currentPath === "/login" ? "bg-primary" : ""}`}>
-										<Link href="/login" className={`${currentPath === "/login" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+										<Link href="/login" className={`flex ${currentPath === "/login" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Login
 										</Link>
 									</DropdownItem>
 								)}
 
-								{isLoggedIn === false && (
+								{!token && (
 									<DropdownItem key="register" textValue="register" className={`${currentPath === "/register" ? "bg-primary" : ""}`}>
-										<Link href="/register" className={`${currentPath === "/register" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+										<Link href="/register" className={`flex ${currentPath === "/register" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
 											Register
 										</Link>
 									</DropdownItem>
 								)}
 							</DropdownMenu>
 						</Dropdown>
-						{isLoggedIn === false && (
+						{!token && (
 							<NavbarItem className="hidden lg:flex">
-								<Link href="/login" className={`${currentPath === "/login" ? "text-orangejuice" : ""} text-sm xl:text-base font-normal hover:text-orangejuice`}>
+								<Link href="/login" className={`${currentPath === "/login" ? "text-orangejuice" : ""} text-sm xl:text-base font-medium hover:text-orangejuice`}>
 									Login
 								</Link>
 							</NavbarItem>
 						)}
 
-						{isLoggedIn === false && (
+						{!token && (
 							<NavbarItem className="hidden lg:flex">
-								<Button as={Link} color="primary" className="text-white rounded-full bg-primary" href="/register" variant="ghost">
+								<Button as={Link} href="/register" color="primary" className="text-white rounded-full bg-primary" variant="ghost">
 									Register
 								</Button>
 							</NavbarItem>

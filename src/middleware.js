@@ -3,9 +3,9 @@ import { jwtDecode } from "jwt-decode";
 
 export function middleware(req) {
 	const token = req.cookies.get("token");
-	const tokenValue = req.cookies.get("token")?.value;
 
 	if (token) {
+		const tokenValue = req.cookies.get("token")?.value;
 		const dataLogin = jwtDecode(tokenValue);
 		const role = dataLogin?.role;
 
@@ -24,9 +24,9 @@ export function middleware(req) {
 		if (req.nextUrl.pathname.startsWith("/dashboard") && token && role === "admin") {
 			return NextResponse.next();
 		}
-	}
-
-	if (req.nextUrl.pathname.startsWith("/dashboard") && !token) {
-		return NextResponse.redirect(new URL("/", req.nextUrl));
+	} else {
+		if (req.nextUrl.pathname.startsWith("/dashboard")) {
+			return NextResponse.redirect(new URL("/", req.nextUrl));
+		}
 	}
 }

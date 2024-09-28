@@ -1,20 +1,19 @@
 "use client";
 
-import { Link, Button, Breadcrumbs, BreadcrumbItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
+import { Button, Breadcrumbs, BreadcrumbItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { HiHome } from "react-icons/hi2";
 import { HiOutlineBars3, HiOutlineBars3BottomLeft, HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { FiSun, FiMoon } from "react-icons/fi";
-import { useRouter } from "next/router";
 import apiAuth from "@/pages/api/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { setData } from "@/redux/slices/userLoggedSlice";
 import { sidebarMini, sidebarExpand } from "@/helpers/handleSidebar";
+import Link from "next/link";
 
 const NavbarAdmin = () => {
-	const router = useRouter();
 	const pathname = usePathname();
 	const [theme, setTheme] = useState("light");
 	const { userLog } = apiAuth();
@@ -23,19 +22,10 @@ const NavbarAdmin = () => {
 	const [newPathname, setNewPathname] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
 
-	const checkSidebar = () => {
-		const expand_trigger = document.querySelector("[expand-trigger]");
-
-		if (expand_trigger.getAttribute("aria-expanded") == "false") {
-			setIsOpen(false);
-		} else {
-			setIsOpen(true);
-		}
-	};
-
-	// get user data when page reload
 	useEffect(() => {
+		// get user data when page reload
 		getUserLogged();
+
 		if (pathname !== "/dashboard") {
 			const newPath = pathname.replace("/dashboard/", "").replace("-", " ");
 			setNewPathname(newPath);
@@ -53,13 +43,22 @@ const NavbarAdmin = () => {
 		}
 	};
 
+	const checkSidebar = () => {
+		const expand_trigger = document.querySelector("[expand-trigger]");
+
+		if (expand_trigger.getAttribute("aria-expanded") == "false") {
+			setIsOpen(false);
+		} else {
+			setIsOpen(true);
+		}
+	};
+
 	const handleTheme = () => {
 		setTheme(theme === "light" ? "dark" : "light");
 	};
 
 	const handleLogout = () => {
 		deleteCookie("token");
-		router.push("/");
 	};
 
 	return (
@@ -124,12 +123,12 @@ const NavbarAdmin = () => {
 									</DropdownTrigger>
 									<DropdownMenu aria-label="Profile Actions" variant="flat">
 										<DropdownItem key="profile" textValue="profile">
-											<Link href="/dashboard/profile" className="text-gray-700">
+											<Link href="/dashboard/profile" className="flex text-gray-700">
 												Profile Information
 											</Link>
 										</DropdownItem>
 										<DropdownItem key="logout" color="danger" textValue="logout">
-											<Link onClick={handleLogout} className="text-danger">
+											<Link onClick={handleLogout} href="/" className="flex text-danger">
 												Logout
 											</Link>
 										</DropdownItem>
