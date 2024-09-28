@@ -2,23 +2,19 @@
 
 import { Link, Button, Breadcrumbs, BreadcrumbItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import { getCookie, deleteCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { HiHome } from "react-icons/hi2";
 import { HiOutlineBars3, HiOutlineBars3BottomLeft, HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useRouter } from "next/router";
-import apiAuth from "@/pages/api/apiAuth";
-import { useSelector, useDispatch } from "react-redux";
-import { setData } from "@/redux/slices/userLoggedSlice";
+import { useSelector } from "react-redux";
 import { sidebarMini, sidebarExpand } from "@/helpers/handleSidebar";
 
 const NavbarAdmin = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const [theme, setTheme] = useState("light");
-	const { userLog } = apiAuth();
-	const dispatch = useDispatch();
 	const user = useSelector((state) => state.userLogged.user);
 	const [newPathname, setNewPathname] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +31,6 @@ const NavbarAdmin = () => {
 
 	// get user data when page reload
 	useEffect(() => {
-		getUserLogged();
 		if (pathname !== "/dashboard") {
 			const newPath = pathname.replace("/dashboard/", "").replace("-", " ");
 			setNewPathname(newPath);
@@ -44,14 +39,6 @@ const NavbarAdmin = () => {
 			setNewPathname(newPath);
 		}
 	}, []);
-
-	const getUserLogged = () => {
-		const token = getCookie("token");
-		// set user data when token is not null
-		if (token) {
-			userLog("user", (res) => dispatch(setData(res)));
-		}
-	};
 
 	const handleTheme = () => {
 		setTheme(theme === "light" ? "dark" : "light");
