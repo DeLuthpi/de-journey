@@ -8,9 +8,9 @@ import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
 import validateImage from "@/utils/validationImage";
 import { GrEdit } from "react-icons/gr";
-import CreateModal from "@/components/dashboard/ModalCreateCategory";
-import EditModal from "@/components/dashboard/ModalEditCategory";
-import DeleteModal from "@/components/dashboard/ModalDeleteCategory";
+import CreateModal from "@/components/Dashboard/ModalCreateCategory";
+import EditModal from "@/components/Dashboard/ModalEditCategory";
+import DeleteModal from "@/components/Dashboard/ModalDeleteCategory";
 import moment from "moment";
 import { LuCalendarCheck2, LuCalendarClock } from "react-icons/lu";
 
