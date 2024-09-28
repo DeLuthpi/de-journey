@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Breadcrumbs, BreadcrumbItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { usePathname } from "next/navigation";
 import { HiHome } from "react-icons/hi2";
@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setData } from "@/redux/slices/userLoggedSlice";
 import { sidebarMini, sidebarExpand } from "@/helpers/handleSidebar";
 import Link from "next/link";
+import handleScroll from "@/helpers/handleNavbar";
 
 const NavbarAdmin = () => {
 	const pathname = usePathname();
@@ -21,10 +22,13 @@ const NavbarAdmin = () => {
 	const user = useSelector((state) => state.userLogged.user);
 	const [newPathname, setNewPathname] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
+	const sectionRef = useRef(null);
 
 	useEffect(() => {
 		// get user data when page reload
 		getUserLogged();
+
+		handleScroll();
 
 		if (pathname !== "/dashboard") {
 			const newPath = pathname.replace("/dashboard/", "").replace("-", " ");
@@ -62,7 +66,7 @@ const NavbarAdmin = () => {
 	};
 
 	return (
-		<section navbar-section="true" className="w-full pt-4" navbar-scroll="true">
+		<section ref={sectionRef} navbar-section="true" className="w-full pt-4" navbar-scroll="true">
 			<nav navbar-main="true" className="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in duration-250 rounded-2xl lg:flex-nowrap lg:justify-start">
 				<div className="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
 					<nav className="w-52">
