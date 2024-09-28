@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { TbLayoutDashboard, TbRosetteDiscount, TbCategory2, TbMap2, TbWallet, TbInvoice, TbUser, TbUsers } from "react-icons/tb";
 import { CgImage } from "react-icons/cg";
+import { HiHome } from "react-icons/hi2";
 
 const logoName = "De Journey Vacations";
 const logoadm1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/logo%201.png?alt=media&token=9ce48b00-2241-47e5-a52c-849557b6fd17";
@@ -33,16 +34,19 @@ const listMenu = [
 		link: "/",
 		name: "Home",
 		text: "home",
+		icon: <HiHome className="flex-shrink-0 text-xl pointer-events-none" />,
 	},
 	{
 		link: "/destination",
 		name: "Destination",
 		text: "destination",
+		icon: <TbMap2 className="flex-shrink-0 text-xl pointer-events-none" />,
 	},
 	{
 		link: "/special-deals",
 		name: "Special Deals",
 		text: "special_deals",
+		icon: <TbRosetteDiscount className="flex-shrink-0 text-xl pointer-events-none" />,
 	},
 ];
 

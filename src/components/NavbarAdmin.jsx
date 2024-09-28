@@ -13,6 +13,8 @@ import { setData } from "@/redux/slices/userLoggedSlice";
 import { sidebarMini, sidebarExpand } from "@/helpers/handleSidebar";
 import Link from "next/link";
 import handleScroll from "@/helpers/handleNavbar";
+import { AiOutlineLogout } from "react-icons/ai";
+import { TbUser } from "react-icons/tb";
 
 const NavbarAdmin = () => {
 	const pathname = usePathname();
@@ -126,13 +128,13 @@ const NavbarAdmin = () => {
 										/>
 									</DropdownTrigger>
 									<DropdownMenu aria-label="Profile Actions" variant="flat">
-										<DropdownItem key="profile" textValue="profile">
-											<Link href="/dashboard/profile" className="flex text-gray-700">
+										<DropdownItem key="profile" textValue="profile" startContent={<TbUser className="flex-shrink-0 text-xl pointer-events-none" />}>
+											<Link href="/dashboard/profile" className="flex font-medium text-gray-700">
 												Profile Information
 											</Link>
 										</DropdownItem>
-										<DropdownItem key="logout" color="danger" textValue="logout">
-											<Link onClick={handleLogout} href="/" className="flex text-danger">
+										<DropdownItem key="logout" color="danger" textValue="logout" startContent={<AiOutlineLogout className="flex-shrink-0 text-xl pointer-events-none text-danger" />}>
+											<Link onClick={handleLogout} href="/" className="flex font-medium text-danger">
 												Logout
 											</Link>
 										</DropdownItem>

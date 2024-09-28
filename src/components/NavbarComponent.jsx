@@ -9,6 +9,9 @@ import Link from "next/link";
 import apiAuth from "@/pages/api/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { setData } from "@/redux/slices/userLoggedSlice";
+import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
+import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
+import { MdOutlineNoteAlt } from "react-icons/md";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
@@ -19,6 +22,7 @@ const NavbarComponent = () => {
 	const { userLog } = apiAuth();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state?.userLogged.user);
+	const iconClass = "flex-shrink-0 text-xl pointer-events-none";
 
 	useEffect(() => {
 		setIsClient(true);
@@ -89,31 +93,31 @@ const NavbarComponent = () => {
 							<DropdownTrigger>{token ? <Avatar isBordered as="button" className="transition-transform" src={user?.profilePictureUrl} /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
 								{listMenu.map((menu) => (
-									<DropdownItem key={menu?.text} textValue={menu?.text} className={`${currentPath === menu?.link ? "bg-primary" : ""} flex lg:hidden`}>
-										<Link href={menu?.link} className={`flex ${currentPath === menu?.link ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+									<DropdownItem key={menu?.text} textValue={menu?.text} className={`${currentPath === menu?.link ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"} flex lg:hidden`} startContent={menu?.icon}>
+										<Link href={menu?.link} className="flex text-inherit">
 											{menu?.name}
 										</Link>
 									</DropdownItem>
 								))}
 
 								{token && user?.role === "user" && (
-									<DropdownItem key="transaction" textValue="transaction" className={`${currentPath === "/transaction" ? "bg-primary" : ""} flex lg:hidden`}>
-										<Link href="/transaction" className={`flex ${currentPath === "/transaction" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+									<DropdownItem key="transaction" textValue="transaction" className={`${currentPath === "/transaction" ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"} flex lg:hidden`} startContent={<TbInvoice className={iconClass} />}>
+										<Link href="/transaction" className="flex text-inherit">
 											My Transaction
 										</Link>
 									</DropdownItem>
 								)}
 
 								{token && (
-									<DropdownItem key="profile" textValue="profile" showDivider={user?.role === "user" ? true : false} className={`${currentPath === "/profile" ? "bg-primary" : ""}`}>
-										<Link href="/profile" className={`flex ${currentPath === "/profile" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+									<DropdownItem key="profile" textValue="profile" showDivider={user?.role === "user" ? true : false} className={`${currentPath === "/profile" ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"}`} startContent={<TbUser className={iconClass} />}>
+										<Link href="/profile" className="flex text-inherit">
 											Profile
 										</Link>
 									</DropdownItem>
 								)}
 
 								{token && user?.role === "admin" && (
-									<DropdownItem key="dashboard" textValue="dashboard" showDivider="true">
+									<DropdownItem key="dashboard" textValue="dashboard" showDivider="true" startContent={<TbLayoutDashboard className={iconClass} />}>
 										<Link href="/dashboard" className="flex text-gray-700">
 											Dashboard
 										</Link>
@@ -121,22 +125,22 @@ const NavbarComponent = () => {
 								)}
 
 								{token ? (
-									<DropdownItem key="logout" color="danger" textValue="logout">
+									<DropdownItem key="logout" color="danger" textValue="logout" startContent={<AiOutlineLogout className={`text-danger ${iconClass}`} />}>
 										<Link onClick={handleLogout} href="/" className="flex text-danger">
 											Logout
 										</Link>
 									</DropdownItem>
 								) : (
-									<DropdownItem key="login" textValue="login" className={`${currentPath === "/login" ? "bg-primary" : ""}`}>
-										<Link href="/login" className={`flex ${currentPath === "/login" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+									<DropdownItem key="login" textValue="login" className={`${currentPath === "/login" ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"}`} startContent={<AiOutlineLogin className={iconClass} />}>
+										<Link href="/login" className="flex text-inherit">
 											Login
 										</Link>
 									</DropdownItem>
 								)}
 
 								{!token && (
-									<DropdownItem key="register" textValue="register" className={`${currentPath === "/register" ? "bg-primary" : ""}`}>
-										<Link href="/register" className={`flex ${currentPath === "/register" ? "text-white hover:text-gray-700" : "text-gray-700"}`}>
+									<DropdownItem key="register" textValue="register" className={`${currentPath === "/register" ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"}`} startContent={<MdOutlineNoteAlt className={iconClass} />}>
+										<Link href="/register" className="flex text-inherit">
 											Register
 										</Link>
 									</DropdownItem>
