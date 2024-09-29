@@ -112,10 +112,10 @@ const DestinationPage = () => {
 								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
 									<Card isFooterBlurred isPressable className="w-full h-[250px] col-span-12 sm:col-span-7">
 										<CardHeader className="absolute z-10 flex-col items-start top-1">
-											<p className="font-bold capitalize text-tiny [text-shadow:_1.5px_1.5px_#000] text-white/80">{`${list?.city}, ${list?.province}`}</p>
-											<h4 className="text-xl text-left [text-shadow:_2.5px_2.5px_#000] font-semibold text-white/90">{list?.title}</h4>
+											<p className="font-bold capitalize text-tiny [text-shadow:_1px_1px_#f0f0f0] text-slate-800/80">{`${list?.city}, ${list?.province}`}</p>
+											<h4 className="text-xl text-left [text-shadow:_1px_1px_#f0f0f0] font-semibold text-slate-800/90">{list?.title}</h4>
 										</CardHeader>
-										<Image removeWrapper alt={list?.title} className="z-0 object-cover w-full h-full" src={list?.imageUrls} />
+										<Image removeWrapper alt={list?.title} className="z-0 object-cover w-full h-full" src={noImage} />
 										<CardFooter className="absolute bottom-0 z-10 bg-black/40 border-t-1 border-default-600 dark:border-default-100">
 											<div className="flex items-center flex-grow gap-2 text-left">
 												<div className="flex flex-col gap-2">

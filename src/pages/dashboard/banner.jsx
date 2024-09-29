@@ -112,7 +112,7 @@ const BannerPage = () => {
 								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
 									<Card isFooterBlurred isPressable className="w-full h-[250px] col-span-12 sm:col-span-7">
 										<CardHeader className="absolute z-10 flex-col items-start top-1">
-											<h4 className="text-xl text-left [text-shadow:_3px_2px_#283618] font-semibold text-white/90">{list?.name}</h4>
+											<h4 className="text-xl text-left [text-shadow:_1px_1px_#f0f0f0] font-semibold text-slate-800/90">{list?.name}</h4>
 										</CardHeader>
 										<Image removeWrapper alt={list?.name} className="z-0 object-cover w-full h-full" src={validateImg(list?.imageUrl) ? list?.imageUrl : noImage} />
 										<CardFooter className="absolute bottom-0 z-10 bg-black/40 border-t-1 border-default-600 dark:border-default-100">
