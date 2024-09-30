@@ -4,8 +4,8 @@ import { toast } from "react-hot-toast";
 import apiUpload from "@/pages/api/apiUpload";
 import apiPostData from "@/pages/api/apiPostData";
 import { addImage } from "@/helpers/const";
-import { ReactMinimalGallery } from "react-minimal-gallery";
 import apiGetData from "@/pages/api/apiGetData";
+import { FiTrash2 } from "react-icons/fi";
 
 const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 	const { upload } = apiUpload();
@@ -14,36 +14,31 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 	const formRef = useRef(null);
 	const [description, setDescription] = useState("");
 	const [facilities, setFacilities] = useState("");
-	const [imagePlaceholder, setImagePlaceholder] = useState([addImage]);
 	const [dataImageUrls, setDataImageUrls] = useState([]);
 	const [errImage, setErrImage] = useState(false);
 	const [errMsgImage, setMsgErrImage] = useState("");
-	const [sizeGalery, setSizeGalery] = useState(365);
-	const [width, setWidth] = useState(0);
 	const [categoryId, setCategoryId] = useState(null);
 	const [categories, setCategories] = useState([]);
 	const [price, setPrice] = useState("");
 	const [discount, setDiscount] = useState("");
 	const [reviews, setReviews] = useState("");
+	const [selectedImage, setSelectedImage] = useState("");
 
 	useEffect(() => {
 		getData("categories", (res) => setCategories(res?.data.data));
-		const handleResize = () => setWidth(window?.innerWidth);
-		window?.addEventListener("resize", handleResize);
-		return () => window?.removeEventListener("resize", handleResize);
 	}, []);
 
-	useEffect(() => {
-		if (width < 768) {
-			setSizeGalery(365);
-		} else if (width < 1024) {
-			setSizeGalery(270);
-		} else if (width < 1280) {
-			setSizeGalery(365);
-		} else {
-			setSizeGalery(385);
-		}
-	}, [width]);
+	const handleSelectedImage = (imageUrl) => {
+		setSelectedImage(imageUrl);
+	};
+
+	const handleDeleteImage = (index) => {
+		const newImageUrls = [...dataImageUrls];
+		newImageUrls?.splice(index, 1);
+		setDataImageUrls(newImageUrls);
+		setSelectedImage(newImageUrls?.length > 0 ? newImageUrls[0] : addImage);
+		dataImageUrls?.length === 1 ? setDataImageUrls([""]) : setDataImageUrls(newImageUrls);
+	};
 
 	const handleUpload = async (e) => {
 		e.preventDefault();
@@ -69,6 +64,7 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 			setErrImage(false);
 			setMsgErrImage("");
 			dataImageUrls?.length === 0 ? setDataImageUrls([res?.data.url]) : setDataImageUrls([...dataImageUrls, res?.data.url]);
+			setSelectedImage(res?.data.url);
 			setTimeout(() => {
 				toast.success("Images uploaded");
 			}, 1500);
@@ -123,6 +119,7 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 		setDiscount("");
 		setReviews("");
 		setDataImageUrls([]);
+		setSelectedImage("");
 	};
 
 	return (
@@ -149,7 +146,27 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 							<ModalBody>
 								<div className="flex flex-wrap gap-2 md:flex-nowrap">
 									<div className="flex flex-wrap w-full mx-auto md:w-2/5">
-										<ReactMinimalGallery images={dataImageUrls?.length === 0 ? imagePlaceholder : dataImageUrls} width={sizeGalery} height={200} thumbnailWidth={100} hoverColor="#2DC573" />
+										<div className="space-y-1 w-[365px] h-[300px]">
+											<div className="overflow-hidden rounded-md w-[365px] h-[200px]">
+												<img src={selectedImage === "" ? addImage : selectedImage} className="object-cover object-center w-full h-full scale-100 rounded-md" alt="img-show" draggable="none" />
+											</div>
+											<div className="flex flex-row w-full overflow-x-scroll overflow-y-hidden">
+												<div className="flex flex-row space-x-1 transition-all translate-x-px rounded-md snap-x">
+													{dataImageUrls.length !== 0 ? (
+														dataImageUrls?.map((imageUrl, index) => (
+															<div className="relative border-2 snap-start border-solid border-transparent hover:border-primary bg-no-repeat bg-cover bg-center transition-all ease-in rounded-md cursor-pointer w-[100px] h-[100px]" style={{ backgroundImage: `url(${imageUrl || addImage})` }} key={index}>
+																<Button onClick={() => handleSelectedImage(imageUrl)} className="absolute w-full h-full bg-transparent"></Button>
+																<Button onClick={() => handleDeleteImage(imageUrl, index)} className={`${dataImageUrls[0] === "" ? "hidden" : "absolute z-10 p-1 !h-6 m-0 text-white min-w-1 text-tiny bg-danger"}`} radius="xs" size="xs">
+																	<FiTrash2 className="size-4" />
+																</Button>
+															</div>
+														))
+													) : (
+														<div className="relative border-2 snap-start border-solid border-transparent hover:border-primary bg-no-repeat bg-cover bg-center transition-all ease-in rounded-md cursor-pointer w-[100px] h-[100px]" style={{ backgroundImage: `url(${addImage})` }}></div>
+													)}
+												</div>
+											</div>
+										</div>
 										<input type="file" accept="image/*" onChange={handleUpload} id="dataimage" name="dataimage" className="block w-full px-1 py-2 mt-2.5 md:mt-8 text-sm border-2 border-gray-200 rounded-lg cursor-pointer text-primary hover:border-gray-400 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
 										{errImage && <p className="text-tiny text-danger">{errMsgImage}</p>}
 									</div>
