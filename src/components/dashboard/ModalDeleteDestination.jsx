@@ -32,8 +32,8 @@ const DeleteModal = ({ showDeleteModal, setShowDeleteModal, selectedDestination 
 							<div className="mx-2 my-4 align-center">Delete Destination</div>
 						</ModalHeader>
 						<ModalBody className="mb-10">
-							<div className="flex justify-start align-middle flex-nowrap">
-								{`Are you sure want to delete destination `}
+							<div className="text-base">
+								{`Are you sure want to delete destination`}
 								<b>&nbsp;{selectedDestination?.title}&nbsp;</b> {`?`}
 							</div>
 						</ModalBody>

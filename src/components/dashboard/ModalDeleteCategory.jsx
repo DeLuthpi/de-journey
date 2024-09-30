@@ -32,8 +32,8 @@ const DeleteModal = ({ showDeleteModal, setShowDeleteModal, selectedCategory }) 
 							<div className="mx-2 my-4 align-center">Delete Category</div>
 						</ModalHeader>
 						<ModalBody className="mb-10">
-							<div className="flex justify-start align-middle flex-nowrap">
-								{`Are you sure want to delete category `}
+							<div className="text-base">
+								{`Are you sure want to delete category`}
 								<b>&nbsp;{selectedCategory?.name}&nbsp;</b> {`?`}
 							</div>
 						</ModalBody>
