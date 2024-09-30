@@ -22,6 +22,9 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 	const [width, setWidth] = useState(0);
 	const [categoryId, setCategoryId] = useState(null);
 	const [categories, setCategories] = useState([]);
+	const [price, setPrice] = useState("");
+	const [discount, setDiscount] = useState("");
+	const [reviews, setReviews] = useState("");
 
 	useEffect(() => {
 		getData("categories", (res) => setCategories(res?.data.data));
@@ -116,6 +119,9 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 
 	const handleClose = () => {
 		formRef.current.reset();
+		setPrice("");
+		setDiscount("");
+		setReviews("");
 		setDataImageUrls([]);
 	};
 
@@ -187,12 +193,12 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 											/>
 										</div>
 										<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-											<Input type="number" id="price" name="price" label="Price" size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
-											<Input type="number" id="discount" name="discount" label="Discount Price" size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
+											<Input type="number" id="price" name="price" value={price} label="Price" onChange={(e) => setPrice(e.target.value.replace(/[^0-9]/g, ""))} size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
+											<Input type="number" id="discount" name="discount" value={discount} label="Discount Price" onChange={(e) => setDiscount(e.target.value.replace(/[^0-9]/g, ""))} size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
 										</div>
 										<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
 											<Input type="number" id="rating" name="rating" label="Rating" size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
-											<Input type="number" id="reviews" name="reviews" label="Total Reviews" size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
+											<Input type="number" id="reviews" name="reviews" value={reviews} label="Total Reviews" onChange={(e) => setReviews(e.target.value.replace(/[^0-9]/g, ""))} size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" />
 										</div>
 										<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
 											<Input type="text" id="address" name="address" label="Address" size="sm" className="max-w-[49%] max-[375px]:max-w-full md:max-w-full" variant="bordered" color="primary" autoComplete="off" />
