@@ -82,7 +82,10 @@ const CreateModal = ({ showCreateModal, setShowCreateModal }) => {
 	return (
 		<Modal
 			isOpen={showCreateModal}
-			onClose={() => setShowCreateModal(false)}
+			onClose={() => {
+				setShowCreateModal(false);
+				handleClose();
+			}}
 			placement="center"
 			isDismissable={false}
 			isKeyboardDismissDisabled={true}
