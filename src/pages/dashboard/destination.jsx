@@ -2,7 +2,7 @@ import SidebarAdmin from "@/components/SidebarAdmin";
 import NavbarAdmin from "@/components/NavbarAdmin";
 import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Image, Button, Link, Input, Select, SelectItem } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
@@ -24,9 +24,12 @@ const DestinationPage = () => {
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [search, setSearch] = useState("");
+	const [categoryId, setCategoryId] = useState(null);
+	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
+		getData("categories", (res) => setCategories(res?.data.data));
 		getData("activities", (res) => setDestinations(res?.data.data));
 		setTimeout(() => {
 			setLoading(false);
@@ -67,11 +70,18 @@ const DestinationPage = () => {
 	};
 
 	useEffect(() => {
-		getData("activities", (res) => {
-			const dataFiltered = res?.data.data.filter((activity) => activity?.title.toLowerCase().includes(search.toLowerCase()));
-			setDestinations(dataFiltered);
-		});
-	}, [search]);
+		if (categoryId === null || categoryId === "") {
+			getData("activities", (res) => {
+				const dataFiltered = res?.data.data.filter((activity) => activity?.title.toLowerCase().includes(search.toLowerCase()));
+				setDestinations(dataFiltered);
+			});
+		} else {
+			getData("activities", (res) => {
+				const dataFiltered = res?.data.data.filter((activity) => activity?.categoryId === categoryId && activity?.title.toLowerCase().includes(search.toLowerCase()));
+				setDestinations(dataFiltered);
+			});
+		}
+	}, [search, categoryId]);
 
 	const handleSearch = (e) => {
 		setSearch(e.target.value);
@@ -84,10 +94,10 @@ const DestinationPage = () => {
 				<NavbarAdmin />
 				<div className="w-full p-6 mx-auto">
 					<div className="flex flex-wrap -mx-3">
-						<div className="w-full max-w-full px-3 my-auto shrink-0 md:flex-0 md:w-2/4 lg:w-2/3">
+						<div className="w-full max-w-full px-3 my-auto shrink-0 md:flex-0 md:w-2/4 lg:w-2/5">
 							<h5 className="mb-0 text-2xl font-semibold dark:text-white">Destination List</h5>
 						</div>
-						<div className="flex justify-between w-full max-w-full gap-2 px-3 shrink-0 flex-nowrap md:w-2/4 lg:w-1/3">
+						<div className="flex justify-between w-full max-w-full gap-2 px-3 shrink-0 flex-nowrap md:w-2/4 lg:w-3/5">
 							<Input
 								isClearable
 								radius="lg"
@@ -101,9 +111,27 @@ const DestinationPage = () => {
 								placeholder="Type to search..."
 								startContent={<FiSearch className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />}
 							/>
+							<Select id="categoryId" name="categoryId" aria-labelledby="categoryId" className="hidden lg:inline" onChange={(e) => setCategoryId(e.target.value)} size="md" color="primary" placeholder="Sort by Category" radius="lg" variant="bordered">
+								{categories?.map((category) => (
+									<SelectItem key={category?.id} value={category?.id}>
+										{category?.name}
+									</SelectItem>
+								))}
+							</Select>
 							<Button color="success" onClick={handleShowCreateModal} className="w-6/12 font-medium" startContent={<FiPlus />}>
 								add new
 							</Button>
+						</div>
+						<div className="flex justify-end w-full px-3 mt-2 flex-nowrap lg:hidden">
+							<div className="w-full max-w-full md:w-[48.5%]">
+								<Select aria-labelledby="categoryId" id="categoryId" name="categoryId" onChange={(e) => setCategoryId(e.target.value)} size="md" color="primary" placeholder="Sort by Category" radius="lg" variant="bordered">
+									{categories?.map((category) => (
+										<SelectItem key={category?.id} value={category?.id}>
+											{category?.name}
+										</SelectItem>
+									))}
+								</Select>
+							</div>
 						</div>
 					</div>
 					<div className="flex flex-wrap mt-6 -mx-3">
