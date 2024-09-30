@@ -115,7 +115,7 @@ const DestinationPage = () => {
 											<p className="font-bold capitalize text-tiny [text-shadow:_1px_1px_#f0f0f0] text-slate-800/80">{`${list?.city}, ${list?.province}`}</p>
 											<h4 className="text-xl text-left [text-shadow:_1px_1px_#f0f0f0] font-semibold text-slate-800/90">{list?.title}</h4>
 										</CardHeader>
-										<Image removeWrapper alt={list?.title} className="z-0 object-cover w-full h-full" src={noImage} />
+										<Image removeWrapper alt="image-slider" className="z-0 object-cover w-full h-full" src={list?.imageUrls?.length > 0 ? (validateImg(list?.imageUrls?.[0]) ? list?.imageUrls?.[0] : noImage) : noImage} fallbackSrc={noImage} />
 										<CardFooter className="absolute bottom-0 z-10 bg-black/40 border-t-1 border-default-600 dark:border-default-100">
 											<div className="flex items-center flex-grow gap-2 text-left">
 												<div className="flex flex-col gap-2">
