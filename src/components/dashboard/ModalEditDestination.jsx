@@ -3,10 +3,9 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import apiUpload from "@/pages/api/apiUpload";
 import apiPostData from "@/pages/api/apiPostData";
-import { addImage, noImage } from "@/helpers/const";
+import { noImage } from "@/helpers/const";
 import apiGetData from "@/pages/api/apiGetData";
 import { FiTrash2 } from "react-icons/fi";
-import Link from "next/link";
 
 const EditModal = ({ showEditModal, setShowEditModal, selectedDestination }) => {
 	const { upload } = apiUpload();
@@ -15,7 +14,6 @@ const EditModal = ({ showEditModal, setShowEditModal, selectedDestination }) => 
 	const formRef = useRef(null);
 	const [description, setDescription] = useState("");
 	const [facilities, setFacilities] = useState("");
-	const [imagePlaceholder, setImagePlaceholder] = useState([addImage]);
 	const [dataImageUrls, setDataImageUrls] = useState([]);
 	const [errImage, setErrImage] = useState(false);
 	const [errMsgImage, setMsgErrImage] = useState("");
@@ -43,12 +41,12 @@ const EditModal = ({ showEditModal, setShowEditModal, selectedDestination }) => 
 		setSelectedImage(imageUrl);
 	};
 
-	const handleDeleteImage = (imageUrl, index) => {
+	const handleDeleteImage = (index) => {
 		const newImageUrls = [...dataImageUrls];
-		newImageUrls.splice(index, 1);
+		newImageUrls?.splice(index, 1);
 		setDataImageUrls(newImageUrls);
 		setSelectedImage(newImageUrls[0]);
-		dataImageUrls.length === 1 ? setDataImageUrls([""]) : setDataImageUrls(newImageUrls);
+		dataImageUrls?.length === 1 ? setDataImageUrls([""]) : setDataImageUrls(newImageUrls);
 	};
 
 	const handleUpload = async (e) => {
