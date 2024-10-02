@@ -1,8 +1,10 @@
 import axios from "axios";
 import { getCookie, setCookie } from "cookies-next";
-import { apiUrl, apiKey } from "@/helpers/const";
 
 export default function apiAuth() {
+	const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+	const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
 	// Login and Register
 	const auth = async (url, payload) => {
 		try {
