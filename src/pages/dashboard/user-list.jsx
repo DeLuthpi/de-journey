@@ -85,7 +85,7 @@ const UserListPage = () => {
 						{users.map((user, index) => (
 							<div key={index} className="w-full max-w-full px-3 mb-4 transition-all duration-700 ease-in-out shrink-0 sm:flex-0 md:w-6/12 lg:w-4/12 hover:scale-105">
 								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
-									<Card isPressable className="w-full">
+									<Card className="w-full">
 										<CardBody className="flex-row items-center justify-between flex-nowrap">
 											<div tabIndex="-1" className="inline-flex items-center gap-2 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 justify-start text-sm">
 												<Avatar isBordered radius="md" showFallback src={user?.profilePictureUrl} alt={user?.name} />
