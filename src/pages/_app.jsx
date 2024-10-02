@@ -6,13 +6,18 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { logoName } from "@/helpers/const";
 import handleScroll from "@/helpers/handleNavbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }) {
 	const pathname = usePathname();
+	const [admin, setAdmin] = useState(false);
 
 	useEffect(() => {
 		handleScroll();
+
+		if (pathname.startsWith("/dashboard")) {
+			setAdmin(true);
+		}
 	}, []);
 
 	return (
@@ -34,7 +39,7 @@ export default function App({ Component, pageProps }) {
 			</Head>
 			<Toaster
 				containerClassName="mt-20"
-				position={`mt-20 ${pathname === "/dashboard/*" ? "top-right" : "top-center"}`}
+				position={`mt-20 ${admin ? "top-right" : "top-center"}`}
 				toastOptions={{
 					duration: 3000,
 					success: {
