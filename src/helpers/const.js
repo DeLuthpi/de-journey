@@ -100,9 +100,9 @@ const dashboardMenu = [
 		icon: <TbInvoice className="size-6" />,
 	},
 	{
-		path: "/dashboard/user-ist",
+		path: "/dashboard/user-list",
 		name: "User List",
-		text: "user-ist",
+		text: "user-list",
 		icon: <TbUsers className="size-6" />,
 	},
 ];
