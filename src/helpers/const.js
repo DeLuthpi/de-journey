@@ -12,6 +12,11 @@ const loginImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacatio
 const patternLines = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/contour-line.png?alt=media&token=ff596a6f-717a-4897-b032-7263cf95e6e9";
 const noImage = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/no-image.jpg?alt=media&token=fdac554f-3bbf-467b-a94a-545cfd8c5c9b";
 const addImage = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/add-photo.jpg?alt=media&token=8442876c-941e-4cf8-9f28-6f0460a858c0";
+const bannerImg1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2013.png?alt=media&token=71b3060b-a956-43ee-8bca-7559174d86aa";
+const bannerImg2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2014.png?alt=media&token=40e551e8-807c-4d43-ac1f-44cc37a16814";
+const bannerImg3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Frame%2017.png?alt=media&token=6d2aaac6-2ac7-45a5-8ee5-cb182692edaa";
+const heroBgMap = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/image%207.png?alt=media&token=4c7e78f9-009d-4c94-a068-9872489e01a8";
+
 const year = new Date().getFullYear();
 
 const geistSans = localFont({
@@ -104,4 +109,4 @@ const dashboardMenu = [
 	},
 ];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap };
