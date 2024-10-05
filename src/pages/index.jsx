@@ -2,6 +2,7 @@ import NavbarComponent from "@/components/NavbarComponent";
 import { geistSans, geistMono, heroBgMap } from "@/helpers/const";
 import HeroSection from "@/components/Section/HeroSection";
 import dynamic from "next/dynamic";
+import ServiceSection from "@/components/Section/ServiceSection";
 
 const HomePage = () => {
 	const BrandSection = dynamic(() => import("@/components/Section/BrandSection"), { ssr: false });
@@ -17,6 +18,7 @@ const HomePage = () => {
 				<NavbarComponent />
 				<HeroSection />
 				<BrandSection />
+				<ServiceSection />
 			</main>
 		</div>
 	);

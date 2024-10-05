@@ -22,6 +22,8 @@ const brand3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations
 const brand4 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand4.png?alt=media&token=885fd3f6-637e-4ea4-aa49-781dd25da7b2";
 const brand5 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand5.png?alt=media&token=7dda04a1-5a77-4cb3-86ed-e66d5a013616";
 const brand6 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand6.png?alt=media&token=379756c0-6669-489f-aa56-25f90a42904e";
+const planeBlue = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/aircraft%20blue.png?alt=media&token=86309790-a75f-45b6-9def-4a7b93276723";
+const planeOrange = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/aircraft%20orange.png?alt=media&token=cc2da054-8082-439f-9d6a-f9fe4275743d";
 
 const year = new Date().getFullYear();
 
@@ -117,4 +119,4 @@ const dashboardMenu = [
 
 const brandLogo = [brand1, brand2, brand3, brand4, brand5, brand6, brand1, brand2, brand3, brand4, brand5, brand6];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange };
