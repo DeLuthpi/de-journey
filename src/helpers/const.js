@@ -16,6 +16,12 @@ const bannerImg1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacat
 const bannerImg2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2014.png?alt=media&token=40e551e8-807c-4d43-ac1f-44cc37a16814";
 const bannerImg3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Frame%2017.png?alt=media&token=6d2aaac6-2ac7-45a5-8ee5-cb182692edaa";
 const heroBgMap = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/image%207.png?alt=media&token=4c7e78f9-009d-4c94-a068-9872489e01a8";
+const brand1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand1.png?alt=media&token=c997d9af-1a9f-4b18-9128-76b696540dbb";
+const brand2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand2.png?alt=media&token=c4ee510a-6c7c-435e-b6c8-e9c9eb04d552";
+const brand3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand3.png?alt=media&token=2a9a23e4-7115-4a9e-a689-88e323fbec74";
+const brand4 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand4.png?alt=media&token=885fd3f6-637e-4ea4-aa49-781dd25da7b2";
+const brand5 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand5.png?alt=media&token=7dda04a1-5a77-4cb3-86ed-e66d5a013616";
+const brand6 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand6.png?alt=media&token=379756c0-6669-489f-aa56-25f90a42904e";
 
 const year = new Date().getFullYear();
 
@@ -109,4 +115,6 @@ const dashboardMenu = [
 	},
 ];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap };
+const brandLogo = [brand1, brand2, brand3, brand4, brand5, brand6, brand1, brand2, brand3, brand4, brand5, brand6];
+
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo };
