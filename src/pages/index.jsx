@@ -3,6 +3,7 @@ import { geistSans, geistMono, heroBgMap } from "@/helpers/const";
 import HeroSection from "@/components/Section/HeroSection";
 import dynamic from "next/dynamic";
 import ServiceSection from "@/components/Section/ServiceSection";
+import CategorySection from "@/components/Section/CategorySection";
 
 const HomePage = () => {
 	const BrandSection = dynamic(() => import("@/components/Section/BrandSection"), { ssr: false });
@@ -19,6 +20,7 @@ const HomePage = () => {
 				<HeroSection />
 				<BrandSection />
 				<ServiceSection />
+				<CategorySection />
 			</main>
 		</div>
 	);
