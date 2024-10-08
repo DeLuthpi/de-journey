@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "cookies-next": "^4.2.1",
+    "currency.js": "^2.0.4",
     "de-journey": "file:",
     "framer-motion": "^11.5.5",
     "jwt-decode": "^4.0.0",
