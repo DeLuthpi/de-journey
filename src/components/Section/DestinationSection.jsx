@@ -54,8 +54,8 @@ const DestinationSection = () => {
 									</CardBody>
 									<CardFooter className="flex-col items-start px-4 py-2">
 										<h4 className="pb-1 font-bold text-large md:text-base text-bluenavy">{destination?.title}</h4>
-										<p className="font-bold text-red-400 line-through capitalize text-tiny">{`${formatCurrency(destination?.price)}`}</p>
-										<p className="font-bold text-green-800 capitalize text-tiny">{`${formatCurrency(destination?.price_discount)}`}</p>
+										<p className="font-bold line-through capitalize text-orangejuice text-tiny">{`${formatCurrency(destination?.price)}`}</p>
+										<p className="font-bold capitalize text-bluesky text-tiny">{`${formatCurrency(destination?.price_discount)}`}</p>
 										<small className="inline h-10 pt-2 text-left text-default-500 text-tiny xl:text-sm">
 											<FaLocationDot className="inline" />
 											{` ${destination?.city}, ${destination?.province}`}
