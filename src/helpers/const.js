@@ -24,6 +24,10 @@ const brand5 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations
 const brand6 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/brand6.png?alt=media&token=379756c0-6669-489f-aa56-25f90a42904e";
 const planeBlue = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/aircraft%20blue.png?alt=media&token=86309790-a75f-45b6-9def-4a7b93276723";
 const planeOrange = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/aircraft%20orange.png?alt=media&token=cc2da054-8082-439f-9d6a-f9fe4275743d";
+const tourisImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/tourist-with-thumb-up-PhotoRoom%201.png?alt=media&token=0f60d138-0672-4baa-b0af-1b6d5cf53b76";
+const rectangle1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2019.png?alt=media&token=1dabd579-2104-409b-8f64-f35c9417e7f4";
+const rectangle2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2018.png?alt=media&token=909ab647-6ac0-4999-a774-6936cd11eec5";
+const rectangle3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2021.png?alt=media&token=2fa61be0-446e-4ee8-a88c-834b2879a069";
 
 const year = new Date().getFullYear();
 
@@ -119,4 +123,4 @@ const dashboardMenu = [
 
 const brandLogo = [brand1, brand2, brand3, brand4, brand5, brand6, brand1, brand2, brand3, brand4, brand5, brand6];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange, rectangle1, rectangle2, rectangle3, tourisImg };
