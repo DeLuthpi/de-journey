@@ -28,6 +28,10 @@ const tourisImg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacati
 const rectangle1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2019.png?alt=media&token=1dabd579-2104-409b-8f64-f35c9417e7f4";
 const rectangle2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2018.png?alt=media&token=909ab647-6ac0-4999-a774-6936cd11eec5";
 const rectangle3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2021.png?alt=media&token=2fa61be0-446e-4ee8-a88c-834b2879a069";
+const keyImage1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2030.png?alt=media&token=1ce864df-c7d1-4046-a0d6-ea86c526b4c2";
+const keyImage2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2033.png?alt=media&token=545fbf77-8734-481a-b3e6-f491935c3266";
+const keyImage3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/service2.jpg?alt=media&token=02f033dc-cdfb-49b7-89d1-fd591a800754";
+const keyImage4 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2034.png?alt=media&token=93d8eaad-a94c-419b-989c-92f6468e638c";
 
 const year = new Date().getFullYear();
 
@@ -123,4 +127,4 @@ const dashboardMenu = [
 
 const brandLogo = [brand1, brand2, brand3, brand4, brand5, brand6, brand1, brand2, brand3, brand4, brand5, brand6];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange, rectangle1, rectangle2, rectangle3, tourisImg };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange, rectangle1, rectangle2, rectangle3, tourisImg, keyImage1, keyImage2, keyImage3, keyImage4 };

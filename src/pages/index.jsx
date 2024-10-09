@@ -6,6 +6,7 @@ import ServiceSection from "@/components/Section/ServiceSection";
 import CategorySection from "@/components/Section/CategorySection";
 import DestinationSection from "@/components/Section/DestinationSection";
 import OurExperienceSection from "@/components/Section/OurExperienceSection";
+import KeyFeatureSection from "@/components/Section/KeyFeatureSection";
 
 const HomePage = () => {
 	const BrandSection = dynamic(() => import("@/components/Section/BrandSection"), { ssr: false });
@@ -16,7 +17,7 @@ const HomePage = () => {
 			<div className="absolute hidden md:block left-40 right-20 top-28">
 				<img className="w-full" src={heroBgMap} alt="hero background" srcSet="" />
 			</div>
-			<img className="absolute right-0 h-[550px] w-[100px] lg:h-[40%] lg:w-[14%] top-[30rem] lg:top-[26rem]" src={rectangle2} alt="rectangle 2" />
+			<img className="absolute right-0 h-[550px] w-[100px] lg:h-[40%] xl:h-[33%] lg:w-[14%] top-[30rem] lg:top-[26rem]" src={rectangle2} alt="rectangle 2" />
 			<img className="absolute left-0 w-[95%] md:w-[48%] xl:w-[43%] h-[370px] top-[180rem] min-[375px]:top-[171rem] min-[425px]:top-[183rem] md:top-[125rem] lg:top-[137rem] lg:h-[420px] xl:top-[155rem] xl:h-[480px]" src={rectangle3} alt="rectangle 3" />
 			<main className="flex flex-col items-center row-start-2 sm:items-start">
 				<NavbarComponent />
@@ -26,6 +27,7 @@ const HomePage = () => {
 				<CategorySection />
 				<DestinationSection />
 				<OurExperienceSection />
+				<KeyFeatureSection />
 			</main>
 		</div>
 	);
