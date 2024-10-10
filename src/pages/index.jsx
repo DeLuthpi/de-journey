@@ -7,6 +7,7 @@ import CategorySection from "@/components/Section/CategorySection";
 import DestinationSection from "@/components/Section/DestinationSection";
 import OurExperienceSection from "@/components/Section/OurExperienceSection";
 import KeyFeatureSection from "@/components/Section/KeyFeatureSection";
+import FooterSection from "@/components/Section/FooterSection";
 
 const HomePage = () => {
 	const BrandSection = dynamic(() => import("@/components/Section/BrandSection"), { ssr: false });
@@ -28,6 +29,7 @@ const HomePage = () => {
 				<DestinationSection />
 				<OurExperienceSection />
 				<KeyFeatureSection />
+				<FooterSection />
 			</main>
 		</div>
 	);
