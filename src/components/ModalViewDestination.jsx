@@ -6,12 +6,14 @@ import { FaStar, FaLocationDot } from "react-icons/fa6";
 import currency from "currency.js";
 import apiPostData from "@/pages/api/apiPostData";
 import { FaCartPlus } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => {
 	const { postData } = apiPostData();
 	const [dataImageUrls, setDataImageUrls] = useState([]);
 	const [selectedImage, setSelectedImage] = useState("");
 	const [sourceMap, setSourceMap] = useState();
+	const user = useSelector((state) => state.userLogged.user);
 
 	useEffect(() => {
 		if (selectedDestination?.location_maps !== undefined) {
@@ -128,12 +130,14 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 								</div>
 							</div>
 						</ModalBody>
-						<ModalFooter>
-							<Button color="success" onPress={onClose} className="font-semibold" onClick={handleAddToCart}>
-								<FaCartPlus size={14} />
-								&nbsp;add to cart
-							</Button>
-						</ModalFooter>
+						{user?.role !== "admin" && (
+							<ModalFooter>
+								<Button color="success" onPress={onClose} className="font-semibold" onClick={handleAddToCart}>
+									<FaCartPlus size={14} />
+									&nbsp;add to cart
+								</Button>
+							</ModalFooter>
+						)}
 					</>
 				)}
 			</ModalContent>
