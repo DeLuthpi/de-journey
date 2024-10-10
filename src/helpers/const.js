@@ -32,6 +32,7 @@ const keyImage1 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacati
 const keyImage2 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2033.png?alt=media&token=545fbf77-8734-481a-b3e6-f491935c3266";
 const keyImage3 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/service2.jpg?alt=media&token=02f033dc-cdfb-49b7-89d1-fd591a800754";
 const keyImage4 = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/Rectangle%2034.png?alt=media&token=93d8eaad-a94c-419b-989c-92f6468e638c";
+const patternBg = "https://firebasestorage.googleapis.com/v0/b/de-journey-vacations.appspot.com/o/pattern-bg.png?alt=media&token=000e3f24-7aef-46eb-9608-34619c26fbe9";
 
 const year = new Date().getFullYear();
 
@@ -127,4 +128,4 @@ const dashboardMenu = [
 
 const brandLogo = [brand1, brand2, brand3, brand4, brand5, brand6, brand1, brand2, brand3, brand4, brand5, brand6];
 
-export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange, rectangle1, rectangle2, rectangle3, tourisImg, keyImage1, keyImage2, keyImage3, keyImage4 };
+export { geistSans, geistMono, listMenu, logoName, logoImage, registerImg, loginImg, patternLines, year, dashboardMenu, logoadm1, logoadm2, noImage, addImage, bannerImg1, bannerImg2, bannerImg3, heroBgMap, brandLogo, planeBlue, planeOrange, rectangle1, rectangle2, rectangle3, tourisImg, keyImage1, keyImage2, keyImage3, keyImage4, patternBg };
