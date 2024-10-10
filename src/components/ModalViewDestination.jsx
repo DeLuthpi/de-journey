@@ -7,6 +7,8 @@ import currency from "currency.js";
 import apiPostData from "@/pages/api/apiPostData";
 import { FaCartPlus } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => {
 	const { postData } = apiPostData();
@@ -14,6 +16,8 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 	const [selectedImage, setSelectedImage] = useState("");
 	const [sourceMap, setSourceMap] = useState();
 	const user = useSelector((state) => state.userLogged.user);
+	const router = useRouter();
+	const [showButtonAddToCart, setShowButtonAddToCart] = useState(true);
 
 	useEffect(() => {
 		if (selectedDestination?.location_maps !== undefined) {
@@ -32,7 +36,13 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 		if (dataImageUrls?.length !== undefined) {
 			setSelectedImage(dataImageUrls[0]);
 		}
-	}, [selectedDestination?.imageUrls, dataImageUrls]);
+
+		if (user !== null) {
+			if (user?.role === "admin") {
+				setShowButtonAddToCart(false);
+			}
+		}
+	}, [selectedDestination?.imageUrls, dataImageUrls, user]);
 
 	const handleSelectedImage = (imageUrl) => {
 		setSelectedImage(imageUrl);
@@ -48,12 +58,17 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 			activityId: selectedDestination?.id,
 		};
 
-		const res = await postData(`add-cart`, payload);
-		if (res.status === 200) {
-			toast.success("Destination added to cart");
-			setShowViewModal(false);
+		const token = getCookie("token");
+		if (!token) {
+			router.push("/login");
 		} else {
-			toast.error("Failed to add to cart destination");
+			const res = await postData(`add-cart`, payload);
+			if (res.status === 200) {
+				toast.success("Destination added to cart");
+				setShowViewModal(false);
+			} else {
+				toast.error("Failed to add to cart destination");
+			}
 		}
 	};
 
@@ -63,6 +78,8 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 			size="5xl"
 			onClose={() => {
 				setShowViewModal(false);
+				setDataImageUrls([]);
+				setSelectedImage("");
 			}}
 			placement="center"
 			isDismissable={false}
@@ -130,7 +147,7 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 								</div>
 							</div>
 						</ModalBody>
-						{user?.role !== "admin" && (
+						{showButtonAddToCart && (
 							<ModalFooter>
 								<Button color="success" onPress={onClose} className="font-semibold" onClick={handleAddToCart}>
 									<FaCartPlus size={14} />
