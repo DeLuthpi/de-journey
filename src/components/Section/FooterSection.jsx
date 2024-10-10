@@ -7,9 +7,11 @@ import { HiOutlinePhone } from "react-icons/hi";
 import { PiInstagramLogoFill, PiTiktokLogoFill } from "react-icons/pi";
 import { FaSquareFacebook, FaXTwitter } from "react-icons/fa6";
 import { IoLogoGithub } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const HeroSection = () => {
 	const [loggedIn, setLoggedIn] = useState(false);
+	const user = useSelector((state) => state.userLogged.user);
 
 	useEffect(() => {
 		if (getCookie("token")) {
@@ -46,17 +48,10 @@ const HeroSection = () => {
 										Special Deals
 									</Link>
 								</li>
-								{loggedIn && (
+								{loggedIn && user?.role !== "admin" && (
 									<li>
 										<Link href="/transaction" className="text-sm hover:text-orangejuice md:text-tiny lg:text-sm xl:text-base">
 											My Transaction
-										</Link>
-									</li>
-								)}
-								{loggedIn && (
-									<li>
-										<Link href="/cart" className="text-sm hover:text-orangejuice md:text-tiny lg:text-sm xl:text-base">
-											My Cart
 										</Link>
 									</li>
 								)}
