@@ -65,6 +65,7 @@ const NavbarAdmin = () => {
 
 	const handleLogout = () => {
 		deleteCookie("token");
+		dispatch(setData(null));
 	};
 
 	return (

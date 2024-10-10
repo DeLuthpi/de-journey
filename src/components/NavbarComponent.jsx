@@ -47,6 +47,7 @@ const NavbarComponent = () => {
 
 	const handleLogout = () => {
 		deleteCookie("token");
+		dispatch(setData(null));
 	};
 
 	const dropdownRef = useRef(null);
