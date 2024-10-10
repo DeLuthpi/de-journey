@@ -5,10 +5,13 @@ import { FaAngleLeft, FaAngleRight, FaStar, FaLocationDot } from "react-icons/fa
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import currency from "currency.js";
+import ViewModal from "@/components/ModalViewDestination";
 
 const DestinationSection = () => {
 	const { getData } = apiGetData();
 	const [destinations, setDestinations] = useState([]);
+	const [showViewModal, setShowViewModal] = useState(false);
+	const [selectedDestination, setSelectedDestination] = useState([]);
 
 	const formatCurrency = (value) => {
 		const convert = (amount) => currency(amount, { symbol: "Rp. ", separator: ",", decimal: "." });
@@ -32,6 +35,21 @@ const DestinationSection = () => {
 		getData("activities", (res) => setDestinations(res?.data.data));
 	}, []);
 
+	const handleShowViewModal = async (id) => {
+		const getDestination = async () => {
+			await getData(`activity/${id}`, (res) => {
+				setSelectedDestination(res?.data.data);
+			});
+		};
+
+		try {
+			await getDestination();
+			setShowViewModal(!showViewModal);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<section className="w-[94%] md:w-4/5 mx-auto py-5 pb-10 xl:py-4">
 			<div className="container items-center max-w-6xl mx-auto xl:px-5">
@@ -45,7 +63,7 @@ const DestinationSection = () => {
 							mouseTracking
 							disableDotsControls
 							items={destinations?.map((destination, index) => (
-								<Card key={index} isPressable className="w-full md:w-[95%] h-full z-50 my-0 md:my-6 col-span-12 sm:col-span-7 bg-gray-50 hover:scale-105 transition-all duration-500 ease-in-out">
+								<Card key={index} isPressable onPress={() => handleShowViewModal(destination?.id)} className="w-full md:w-[95%] h-full z-50 my-0 md:my-6 col-span-12 sm:col-span-7 bg-gray-50 hover:scale-105 transition-all duration-500 ease-in-out">
 									<CardBody className="relative py-2 overflow-visible">
 										<Image removeWrapper alt="Card background" className="object-cover w-full h-[150px] md:h-[120px] rounded-xl" src={destination?.imageUrls[0]} width={367} />
 										<Chip startContent={<FaStar size={12} />} size="sm" className="absolute z-20 top-4 right-5" variant="faded" color="warning">
@@ -78,6 +96,7 @@ const DestinationSection = () => {
 					</div>
 				</div>
 			</div>
+			<ViewModal showViewModal={showViewModal} setShowViewModal={setShowViewModal} selectedDestination={selectedDestination} />
 		</section>
 	);
 };
