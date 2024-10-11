@@ -102,7 +102,7 @@ const HeroSection = () => {
 						Developed By
 						<Link href="https://github.com/DeLuthpi" size="sm" className="text-sm font-medium hover:text-orangejuice dark:text-white" target="_blank">
 							&nbsp;
-							<IoLogoGithub />
+							<IoLogoGithub className="inline" />
 							&nbsp;DeLuthpi
 						</Link>
 					</p>
