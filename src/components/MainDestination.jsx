@@ -100,7 +100,7 @@ const MainDestination = () => {
 							</Select>
 						</div>
 					</div>
-					<div className="flex flex-wrap w-full gap-3 px-2 md:gap-2 md:px-0">
+					<div className="flex flex-wrap w-full gap-3 px-2 md:gap-0 md:px-0">
 						{destinations?.map((destination, index) => (
 							<div className="flex flex-col w-full md:w-2/6 lg:w-1/4 md:px-0">
 								<Card key={index} isPressable onPress={() => handleShowViewModal(destination?.id)} className="w-full md:w-[95%] h-full z-50 my-0 md:my-6 col-span-12 sm:col-span-7 bg-gray-50 hover:scale-105 transition-all duration-500 ease-in-out">
