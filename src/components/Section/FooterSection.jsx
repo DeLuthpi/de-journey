@@ -7,10 +7,20 @@ import { PiInstagramLogoFill, PiTiktokLogoFill } from "react-icons/pi";
 import { FaSquareFacebook, FaXTwitter } from "react-icons/fa6";
 import { IoLogoGithub } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const HeroSection = () => {
 	const token = getCookie("token");
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const user = useSelector((state) => state.userLogged.user);
+
+	useEffect(() => {
+		if (token !== undefined) {
+			setIsLoggedIn(true);
+		} else {
+			setIsLoggedIn(false);
+		}
+	}, [token, isLoggedIn]);
 
 	return (
 		<footer className="w-[94%] md:w-[85%] xl:w-4/5 mx-auto pt-12 pb-5 justify-center rounded-t-[4rem] bg-blue-100">
@@ -41,7 +51,7 @@ const HeroSection = () => {
 										Special Deals
 									</Link>
 								</li>
-								{token && user?.role !== "admin" && (
+								{isLoggedIn && user?.role !== "admin" && (
 									<li>
 										<Link href="/transaction" className="text-sm hover:text-orangejuice md:text-tiny lg:text-sm xl:text-base">
 											My Transaction
