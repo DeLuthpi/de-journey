@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "cookies-next";
 
 const apiGetData = () => {
 	const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -18,7 +19,22 @@ const apiGetData = () => {
 		}
 	};
 
-	return { getData };
+	const getDataAuth = async (url, callback) => {
+		try {
+			const res = await axios.get(`${apiUrl}${url}`, {
+				headers: {
+					apiKey: `${apiKey}`,
+					Authorization: `Bearer ${getCookie("token")} `,
+				},
+			});
+
+			callback(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	return { getData, getDataAuth };
 };
 
 export default apiGetData;

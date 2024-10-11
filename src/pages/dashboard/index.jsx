@@ -11,7 +11,7 @@ import { CgImage } from "react-icons/cg";
 
 const DashboardPage = () => {
 	const router = useRouter();
-	const { getData } = apiGetData();
+	const { getData, getDataAuth } = apiGetData();
 	const [dataStatistic, setDataStatistic] = useState([]);
 	const [countBanners, setCountBanners] = useState(0);
 	const [countCategories, setCountCategories] = useState(0);
@@ -25,8 +25,8 @@ const DashboardPage = () => {
 		getData("categories", (res) => setCountCategories(res?.data.data.length));
 		getData("activities", (res) => setCountDestinations(res?.data.data.length));
 		getData("promos", (res) => setCountPromos(res?.data.data.length));
-		getData("all-transactions", (res) => setCountTransactions(res?.data.data.length));
-		getData("all-user", (res) => setCountUsers(res?.data.data.length));
+		getDataAuth("all-transactions", (res) => setCountTransactions(res?.data.data.length));
+		getDataAuth("all-user", (res) => setCountUsers(res?.data.data.length));
 
 		setData();
 	}, [countBanners, countCategories, countDestinations, countPromos, countTransactions, countUsers]);

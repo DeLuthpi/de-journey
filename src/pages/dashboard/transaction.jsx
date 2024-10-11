@@ -3,7 +3,7 @@ import NavbarAdmin from "@/components/NavbarAdmin";
 import { geistSans, geistMono, noImage } from "@/helpers/const";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
-import apiGetTransaction from "@/pages/api/apiGetTransaction";
+import apiGetData from "@/pages/api/apiGetData";
 import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
 import Footer from "@/components/Footer";
 import { GrEdit } from "react-icons/gr";
@@ -13,7 +13,7 @@ import { LuCalendarCheck2, LuCalendarClock } from "react-icons/lu";
 import currency from "currency.js";
 
 const TransactionListPage = () => {
-	const { getData } = apiGetTransaction();
+	const { getDataAuth } = apiGetData();
 	const [allTransactions, setAllTransactions] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [selectedTransaction, setSelectedTransaction] = useState([]);
@@ -27,7 +27,7 @@ const TransactionListPage = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		getData("all-transactions", (res) => setAllTransactions(res?.data.data));
+		getDataAuth("all-transactions", (res) => setAllTransactions(res?.data.data));
 		setTimeout(() => {
 			setLoading(false);
 		}, 2000);
@@ -35,7 +35,7 @@ const TransactionListPage = () => {
 
 	const handleShowEditModal = async (id) => {
 		const getTransaction = async () => {
-			await getData(`transaction/${id}`, (res) => {
+			await getDataAuth(`transaction/${id}`, (res) => {
 				setSelectedTransaction(res?.data.data);
 			});
 		};
@@ -49,7 +49,7 @@ const TransactionListPage = () => {
 	};
 
 	useEffect(() => {
-		getData("all-transactions", (res) => {
+		getDataAuth("all-transactions", (res) => {
 			const dataFiltered = res?.data.data.filter((transaction) => transaction?.invoiceId.toLowerCase().includes(search.toLowerCase()));
 			setAllTransactions(dataFiltered);
 		});

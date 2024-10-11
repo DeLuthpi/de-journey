@@ -14,12 +14,12 @@ import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
 import { MdOutlineNoteAlt } from "react-icons/md";
 import ViewModal from "@/components/ModalViewProfile";
 import { FaCartShopping } from "react-icons/fa6";
-import apiGetTransaction from "@/pages/api/apiGetTransaction";
+import apiGetData from "@/pages/api/apiGetData";
 import currency from "currency.js";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
-	const { getData } = apiGetTransaction();
+	const { getDataAuth } = apiGetData();
 	const [countCart, setCountCart] = useState(0);
 	const [listCart, setListCart] = useState([]);
 	const currentPath = usePathname();
@@ -48,8 +48,8 @@ const NavbarComponent = () => {
 
 		// get user data when page reload and token is not null
 		getUserLogged();
-		getData("carts", (res) => setListCart(res?.data.data));
-		getData("carts", (res) => setCountCart(res?.data.data.length));
+		getDataAuth("carts", (res) => setListCart(res?.data.data));
+		getDataAuth("carts", (res) => setCountCart(res?.data.data.length));
 	}, [showViewModal]);
 
 	const handleShowViewModal = () => {
