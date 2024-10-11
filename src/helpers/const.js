@@ -95,12 +95,6 @@ const dashboardMenu = [
 		icon: <TbMap2 className="size-6" />,
 	},
 	{
-		path: "/dashboard/payment-method",
-		name: "Payment Method",
-		text: "payment-method",
-		icon: <TbWallet className="size-6" />,
-	},
-	{
 		path: "/dashboard/profile",
 		name: "Profile Information",
 		text: "profile",
