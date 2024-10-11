@@ -1,4 +1,4 @@
-import { Link, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/react";
 import { getCookie } from "cookies-next";
 import { logoImage, logoName, year } from "@/helpers/const";
 import { HiOutlineEnvelope } from "react-icons/hi2";
@@ -8,6 +8,7 @@ import { FaSquareFacebook, FaXTwitter } from "react-icons/fa6";
 import { IoLogoGithub } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const HeroSection = () => {
 	const token = getCookie("token");
