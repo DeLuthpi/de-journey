@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar, Badge } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar, Badge, CheckboxGroup } from "@nextui-org/react";
 import { useEffect, useState, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu, logoImage } from "@/helpers/const";
@@ -16,6 +16,7 @@ import ViewModal from "@/components/ModalViewProfile";
 import { FaCartShopping } from "react-icons/fa6";
 import apiGetData from "@/pages/api/apiGetData";
 import currency from "currency.js";
+import { CartListCheckbox } from "./CartList";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
@@ -30,6 +31,8 @@ const NavbarComponent = () => {
 	const { userLog } = apiAuth();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state?.userLogged.user);
+	const [showListCart, setShowListCart] = useState(false);
+	const [listSelected, setListSelected] = useState([]);
 	const iconClass = "flex-shrink-0 text-xl pointer-events-none";
 
 	const formatCurrency = (value) => {
@@ -56,6 +59,10 @@ const NavbarComponent = () => {
 		setShowViewModal(!showViewModal);
 	};
 
+	const handleShowListCart = () => {
+		setShowListCart(!showListCart);
+	};
+
 	const getUserLogged = () => {
 		const token = getCookie("token");
 		// set user data when token is not null
@@ -75,6 +82,7 @@ const NavbarComponent = () => {
 		const handleOutSideClick = (event) => {
 			if (!dropdownRef?.current?.contains(event?.target)) {
 				setIsMenuOpen(false);
+				setShowListCart(false);
 			}
 		};
 
@@ -88,7 +96,37 @@ const NavbarComponent = () => {
 	return (
 		<>
 			{isClient && (
-				<Navbar className="w-[94%] md:w-4/5 mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
+				<Navbar className="relative w-[94%] md:w-4/5 mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
+					<div className={`absolute ${showListCart ? "block" : "hidden"} top-16 bottom-0 right-0 w-full md:w-[45%] pt-2 transition-all duration-500 ease-in-out`}>
+						<div className="w-full p-4 bg-gray-50 rounded-xl">
+							{listCart?.map((list, index) => (
+								<div key={index} className="flex flex-col justify-end w-full gap-1">
+									<CheckboxGroup
+										value={listSelected}
+										onChange={setListSelected}
+										classNames={{
+											base: "w-full",
+										}}>
+										<CartListCheckbox
+											value={list?.id}
+											data={{
+												id: list?.id,
+												title: list?.activity?.title,
+												imageUrl: list?.activity?.imageUrls[0],
+												price: formatCurrency(list?.activity?.price),
+												qty: list?.quantity,
+											}}
+										/>
+									</CheckboxGroup>
+								</div>
+							))}
+							<div className="flex justify-end w-full pt-2">
+								<Button size="md" className="text-white bg-primary">
+									Check Out
+								</Button>
+							</div>
+						</div>
+					</div>
 					<NavbarBrand>
 						<img className="w-auto h-auto dark:invert max-h-11" src={logoImage} alt="logo images" width={160} height={45} />
 					</NavbarBrand>
@@ -111,30 +149,14 @@ const NavbarComponent = () => {
 					<NavbarContent as="div" justify="end">
 						{token !== undefined && user?.role === "user" && (
 							<NavbarItem className="inline">
-								<Dropdown className="mt-2">
-									<DropdownTrigger>
-										<Button isIconOnly aria-label="cart" className="bg-transparent">
-											<Badge color="danger" className="mb-4" size="sm" content={countCart} shape="circle">
-												<FaCartShopping className="w-5 h-5 text-bluenavy" />
-											</Badge>
-										</Button>
-									</DropdownTrigger>
-									<DropdownMenu aria-label="list cart">
-										{listCart?.map((list, index) => (
-											<DropdownItem key={index} className="flex">
-												<div className="flex flex-row flex-no-wrap items-center justify-between">
-													<div className="flex flex-col items-start">
-														<h1 className="text-sm font-medium capitalize text-inherit">{list?.activity?.title}</h1>
-														<p className="inline text-tiny text-foreground-400">{formatCurrency(list?.activity?.price)}</p>
-													</div>
-													<p className="inline text-tiny text-foreground-400">Qty {list?.quantity}</p>
-												</div>
-											</DropdownItem>
-										))}
-									</DropdownMenu>
-								</Dropdown>
+								<Button isIconOnly aria-label="cart" onClick={handleShowListCart} className="bg-transparent">
+									<Badge color="danger" className="mb-4" size="sm" content={countCart} shape="circle">
+										<FaCartShopping className="w-5 h-5 text-bluenavy" />
+									</Badge>
+								</Button>
 							</NavbarItem>
 						)}
+
 						<Dropdown placement="bottom-end" className={`${token ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
 							<DropdownTrigger>{token ? <Avatar isBordered as="button" className="transition-transform" src={user?.profilePictureUrl} /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
