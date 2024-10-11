@@ -1,5 +1,4 @@
 import { Link, Image } from "@nextui-org/react";
-import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { logoImage, logoName, year } from "@/helpers/const";
 import { HiOutlineEnvelope } from "react-icons/hi2";
@@ -10,14 +9,8 @@ import { IoLogoGithub } from "react-icons/io";
 import { useSelector } from "react-redux";
 
 const HeroSection = () => {
-	const [loggedIn, setLoggedIn] = useState(false);
+	const token = getCookie("token");
 	const user = useSelector((state) => state.userLogged.user);
-
-	useEffect(() => {
-		if (getCookie("token")) {
-			setLoggedIn(true);
-		}
-	}, []);
 
 	return (
 		<footer className="w-[94%] md:w-[85%] xl:w-4/5 mx-auto pt-12 pb-5 justify-center rounded-t-[4rem] bg-blue-100">
@@ -48,7 +41,7 @@ const HeroSection = () => {
 										Special Deals
 									</Link>
 								</li>
-								{loggedIn && user?.role !== "admin" && (
+								{token && user?.role !== "admin" && (
 									<li>
 										<Link href="/transaction" className="text-sm hover:text-orangejuice md:text-tiny lg:text-sm xl:text-base">
 											My Transaction
