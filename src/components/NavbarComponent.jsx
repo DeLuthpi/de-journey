@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar, button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar, Badge } from "@nextui-org/react";
 import { useEffect, useState, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu, logoImage } from "@/helpers/const";
@@ -13,9 +13,15 @@ import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
 import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
 import { MdOutlineNoteAlt } from "react-icons/md";
 import ViewModal from "@/components/ModalViewProfile";
+import { FaCartShopping } from "react-icons/fa6";
+import apiGetTransaction from "@/pages/api/apiGetTransaction";
+import currency from "currency.js";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
+	const { getData } = apiGetTransaction();
+	const [countCart, setCountCart] = useState(0);
+	const [listCart, setListCart] = useState([]);
 	const currentPath = usePathname();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClient, setIsClient] = useState(false);
@@ -25,6 +31,11 @@ const NavbarComponent = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state?.userLogged.user);
 	const iconClass = "flex-shrink-0 text-xl pointer-events-none";
+
+	const formatCurrency = (value) => {
+		const convert = (amount) => currency(amount, { symbol: "Rp. ", separator: ",", decimal: "." });
+		return convert(value).format();
+	};
 
 	useEffect(() => {
 		setIsClient(true);
@@ -37,6 +48,8 @@ const NavbarComponent = () => {
 
 		// get user data when page reload and token is not null
 		getUserLogged();
+		getData("carts", (res) => setListCart(res?.data.data));
+		getData("carts", (res) => setCountCart(res?.data.data.length));
 	}, [showViewModal]);
 
 	const handleShowViewModal = () => {
@@ -96,6 +109,32 @@ const NavbarComponent = () => {
 						)}
 					</NavbarContent>
 					<NavbarContent as="div" justify="end">
+						{token !== undefined && user?.role === "user" && (
+							<NavbarItem className="inline">
+								<Dropdown className="mt-2">
+									<DropdownTrigger>
+										<Button isIconOnly aria-label="cart" className="bg-transparent">
+											<Badge color="danger" className="mb-4" size="sm" content={countCart} shape="circle">
+												<FaCartShopping className="w-5 h-5 text-bluenavy" />
+											</Badge>
+										</Button>
+									</DropdownTrigger>
+									<DropdownMenu aria-label="list cart">
+										{listCart?.map((list, index) => (
+											<DropdownItem key={index} className="flex">
+												<div className="flex flex-row flex-no-wrap items-center justify-between">
+													<div className="flex flex-col items-start">
+														<h1 className="text-sm font-medium capitalize text-inherit">{list?.activity?.title}</h1>
+														<p className="inline text-tiny text-foreground-400">{formatCurrency(list?.activity?.price)}</p>
+													</div>
+													<p className="inline text-tiny text-foreground-400">Qty {list?.quantity}</p>
+												</div>
+											</DropdownItem>
+										))}
+									</DropdownMenu>
+								</Dropdown>
+							</NavbarItem>
+						)}
 						<Dropdown placement="bottom-end" className={`${token ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
 							<DropdownTrigger>{token ? <Avatar isBordered as="button" className="transition-transform" src={user?.profilePictureUrl} /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
