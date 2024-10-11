@@ -1,9 +1,10 @@
-import { Button, Divider, Modal, ModalContent, ModalBody, ModalFooter } from "@nextui-org/react";
+import { Button, Divider, Image, Modal, ModalContent, ModalBody } from "@nextui-org/react";
 import { useSelector } from "react-redux";
 import EditModal from "@/components/ModalEditProfile";
 import { useState } from "react";
 import { GrEdit } from "react-icons/gr";
 import { FaSquarePhone, FaEnvelope } from "react-icons/fa6";
+import { noImage } from "@/helpers/const";
 
 const ViewModal = ({ showViewModal, setShowViewModal }) => {
 	const user = useSelector((state) => state.userLogged.user);
@@ -30,11 +31,11 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 				{(onClose) => (
 					<>
 						<ModalBody>
-							<div className="flex flex-wrap gap-2 py-4 md:flex-nowrap">
+							<div className="relative flex flex-wrap gap-2 py-4 md:flex-nowrap">
 								<div className="flex flex-wrap w-full mx-auto md:w-2/5">
 									<div className="space-y-1 w-[250px] h-[250px]">
 										<div className="overflow-hidden rounded-md w-[250px] h-[250px]">
-											<img src={user?.profilePictureUrl || noImage} className="object-cover object-center w-full h-full scale-100 rounded-md" alt="img-show" draggable="none" />
+											<Image removeWrapper src={user?.profilePictureUrl} className="object-cover object-center w-full h-full scale-100 rounded-md" alt="img profile" fallbackSrc={noImage} />
 										</div>
 									</div>
 								</div>
@@ -56,14 +57,12 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 										</p>
 									</div>
 								</div>
+								<Button className="absolute right-0 font-semibold text-white bottom-4 bg-bluenavy" onClick={() => handleShowEditModal(user)}>
+									<GrEdit size={14} />
+									&nbsp;edit profile
+								</Button>
 							</div>
 						</ModalBody>
-						<ModalFooter>
-							<Button className="font-semibold text-white bg-bluenavy" onClick={() => handleShowEditModal(user)}>
-								<GrEdit size={14} />
-								&nbsp;edit profile
-							</Button>
-						</ModalFooter>
 					</>
 				)}
 			</ModalContent>
