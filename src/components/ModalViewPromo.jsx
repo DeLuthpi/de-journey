@@ -28,7 +28,7 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedPromo }) => {
 							<div className="flex flex-wrap gap-2 py-2 md:flex-nowrap">
 								<div className="flex flex-wrap w-full mx-auto md:w-2/5">
 									<div className="space-y-1 w-[365px] h-[200px] mb-8">
-										<div className="overflow-hidden rounded-md">
+										<div className="overflow-hidden rounded-md w-[365px] h-[200px]">
 											<img src={selectedPromo?.imageUrl || noImage} className="object-cover object-center w-full h-full scale-100 rounded-md" alt="img-show" draggable="none" />
 										</div>
 									</div>
