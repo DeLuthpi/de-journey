@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenuToggle, Avatar, button } from "@nextui-org/react";
 import { useEffect, useState, useRef } from "react";
 import { getCookie, deleteCookie } from "cookies-next";
 import { listMenu, logoImage } from "@/helpers/const";
@@ -12,6 +12,7 @@ import { setData } from "@/redux/slices/userLoggedSlice";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
 import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
 import { MdOutlineNoteAlt } from "react-icons/md";
+import ViewModal from "@/components/ModalViewProfile";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
@@ -19,6 +20,7 @@ const NavbarComponent = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClient, setIsClient] = useState(false);
 	const [calledPush, setCalledPush] = useState(false);
+	const [showViewModal, setShowViewModal] = useState(false);
 	const { userLog } = apiAuth();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state?.userLogged.user);
@@ -35,7 +37,11 @@ const NavbarComponent = () => {
 
 		// get user data when page reload and token is not null
 		getUserLogged();
-	}, []);
+	}, [showViewModal]);
+
+	const handleShowViewModal = () => {
+		setShowViewModal(!showViewModal);
+	};
 
 	const getUserLogged = () => {
 		const token = getCookie("token");
@@ -111,7 +117,7 @@ const NavbarComponent = () => {
 
 								{token && (
 									<DropdownItem key="profile" textValue="profile" showDivider={user?.role === "user" ? true : false} className={`${currentPath === "/profile" ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"}`} startContent={<TbUser className={iconClass} />}>
-										<Link href="/profile" className="flex text-inherit">
+										<Link as={Button} href={"#"} onClick={() => handleShowViewModal()} className="flex text-inherit">
 											Profile
 										</Link>
 									</DropdownItem>
@@ -164,6 +170,7 @@ const NavbarComponent = () => {
 							</NavbarItem>
 						)}
 					</NavbarContent>
+					<ViewModal showViewModal={showViewModal} setShowViewModal={setShowViewModal} />
 				</Navbar>
 			)}
 		</>
