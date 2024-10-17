@@ -61,6 +61,9 @@ const NavbarComponent = () => {
 
 	const handleShowListCart = () => {
 		setShowListCart(!showListCart);
+		if (!showListCart) {
+			setListSelected([]);
+		}
 	};
 
 	const getUserLogged = () => {
@@ -83,6 +86,7 @@ const NavbarComponent = () => {
 			if (!dropdownRef?.current?.contains(event?.target)) {
 				setIsMenuOpen(false);
 				setShowListCart(false);
+				setListSelected([]);
 			}
 		};
 
@@ -97,8 +101,8 @@ const NavbarComponent = () => {
 		<>
 			{isClient && (
 				<Navbar className="relative w-[94%] md:w-4/5 mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
-					<div className={`absolute ${showListCart ? "block" : "hidden"} top-16 bottom-0 right-0 w-full md:w-[45%] pt-2 transition-all duration-500 ease-in-out`}>
-						<div className="w-full p-4 bg-gray-50 rounded-xl">
+					<div className={`absolute ${showListCart ? "block" : "hidden"} top-16 bottom-0 right-0 w-full md:w-[60%] lg:w-[50%] xl:w-[40%] pt-2`}>
+						<div className="w-full p-4 transition-all duration-500 ease-in-out shadow-2xl bg-gray-50 rounded-xl">
 							{listCart?.map((list, index) => (
 								<div key={index} className="flex flex-col justify-end w-full gap-1">
 									<CheckboxGroup
@@ -121,7 +125,7 @@ const NavbarComponent = () => {
 								</div>
 							))}
 							<div className="flex justify-end w-full pt-2">
-								<Button size="md" className="text-white bg-primary">
+								<Button size="md" className="text-white bg-bluenavy">
 									Check Out
 								</Button>
 							</div>
@@ -158,7 +162,25 @@ const NavbarComponent = () => {
 						)}
 
 						<Dropdown placement="bottom-end" className={`${token ? "bg-gray-50 mt-2" : "bg-gray-50"}`}>
-							<DropdownTrigger>{token ? <Avatar isBordered as="button" className="transition-transform" src={user?.profilePictureUrl} /> : <NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />}</DropdownTrigger>
+							<DropdownTrigger>
+								{token ? (
+									<Avatar
+										isBordered
+										onClick={
+											showListCart
+												? () => {
+														setShowListCart(!showListCart);
+												  }
+												: ""
+										}
+										as="button"
+										className="transition-transform"
+										src={user?.profilePictureUrl}
+									/>
+								) : (
+									<NavbarMenuToggle data-open={isMenuOpen} aria-label={isMenuOpen ? "Open menu" : "Close menu"} className="transition-transform lg:hidden" />
+								)}
+							</DropdownTrigger>
 							<DropdownMenu aria-label="Profile Actions" variant="flat" ref={dropdownRef}>
 								{listMenu.map((menu) => (
 									<DropdownItem key={menu?.text} textValue={menu?.text} className={`${currentPath === menu?.link ? "bg-primary hover:text-gray-700 text-white" : "text-gray-700"} flex lg:hidden`} startContent={menu?.icon}>
