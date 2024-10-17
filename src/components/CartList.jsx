@@ -3,13 +3,53 @@ import { CiSquarePlus, CiSquareMinus } from "react-icons/ci";
 import { CgTrash } from "react-icons/cg";
 import apiDeleteData from "@/pages/api/apiDeleteData";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
+import apiGetData from "@/pages/api/apiGetData";
+import apiPostData from "@/pages/api/apiPostData";
+import { useDispatch } from "react-redux";
+import { setList, setCount } from "@/redux/slices/cartListSlice";
 
 export const CartListCheckbox = ({ data, value }) => {
 	const { deleteData } = apiDeleteData();
+	const { postData } = apiPostData();
+	const { getDataAuth } = apiGetData();
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (data?.qty !== undefined) {
+			if (data?.qty <= 0) {
+				handleDeleteCart(data?.id);
+			}
+		}
+	}, [data?.qty]);
+
+	const handleReduceQty = async (id, title, qty) => {
+		const res = await postData(`update-cart/${id}`, { quantity: qty - 1 });
+		if (res.status === 200) {
+			getDataAuth("carts", (res) => dispatch(setList(res?.data.data)));
+			if (qty > 1) {
+				toast.success(`Qty ${title} updated`);
+			}
+		} else {
+			toast.error("Failed to update qty");
+		}
+	};
+
+	const handleAddQty = async (id, title, qty) => {
+		const res = await postData(`update-cart/${id}`, { quantity: qty + 1 });
+		if (res.status === 200) {
+			getDataAuth("carts", (res) => dispatch(setList(res?.data.data)));
+			toast.success(`Qty ${title} updated`);
+		} else {
+			toast.error("Failed to update qty");
+		}
+	};
 
 	const handleDeleteCart = async (id) => {
 		const res = await deleteData(`delete-cart/${id}`);
 		if (res.status === 200) {
+			getDataAuth("carts", (res) => dispatch(setList(res?.data.data)));
+			getDataAuth("carts", (res) => dispatch(setCount(res?.data.data.length)));
 			toast.success("Destination deleted from cart");
 		} else {
 			toast.error("Failed to delete cart");
@@ -33,11 +73,11 @@ export const CartListCheckbox = ({ data, value }) => {
 					</div>
 					<div className="z-50 flex flex-row items-center justify-end gap-1">
 						<div className="flex flex-row items-center gap-2 flex-nowrap">
-							<Button isIconOnly aria-label="reduce qty" className="bg-transparent !min-w-6 h-6 !w-6">
+							<Button isIconOnly aria-label="reduce qty" onClick={() => handleReduceQty(data?.id, data?.title, data?.qty)} className="bg-transparent !min-w-6 h-6 !w-6">
 								<CiSquareMinus size={20} className="text-foreground-400" />
 							</Button>
 							<p className="text-base text-foreground-400">{data?.qty}</p>
-							<Button isIconOnly aria-label="add qty" className="bg-transparent !min-w-6 h-6 !w-6">
+							<Button isIconOnly aria-label="add qty" onClick={() => handleAddQty(data?.id, data?.title, data?.qty)} className="bg-transparent !min-w-6 h-6 !w-6">
 								<CiSquarePlus size={20} className="text-foreground-400" />
 							</Button>
 						</div>

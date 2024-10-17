@@ -9,6 +9,7 @@ import Link from "next/link";
 import apiAuth from "@/pages/api/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { setData } from "@/redux/slices/userLoggedSlice";
+import { setList, setCount } from "@/redux/slices/cartListSlice";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
 import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
 import { MdOutlineNoteAlt } from "react-icons/md";
@@ -21,8 +22,6 @@ import { CartListCheckbox } from "./CartList";
 const NavbarComponent = () => {
 	const token = getCookie("token");
 	const { getDataAuth } = apiGetData();
-	const [countCart, setCountCart] = useState(0);
-	const [listCart, setListCart] = useState([]);
 	const currentPath = usePathname();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isClient, setIsClient] = useState(false);
@@ -31,6 +30,8 @@ const NavbarComponent = () => {
 	const { userLog } = apiAuth();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state?.userLogged.user);
+	const cartList = useSelector((state) => state?.cartList.data);
+	const cartCount = useSelector((state) => state?.cartList.count);
 	const [showListCart, setShowListCart] = useState(false);
 	const [listSelected, setListSelected] = useState([]);
 	const iconClass = "flex-shrink-0 text-xl pointer-events-none";
@@ -51,8 +52,6 @@ const NavbarComponent = () => {
 
 		// get user data when page reload and token is not null
 		getUserLogged();
-		getDataAuth("carts", (res) => setListCart(res?.data.data));
-		getDataAuth("carts", (res) => setCountCart(res?.data.data.length));
 	}, [showViewModal]);
 
 	const handleShowViewModal = () => {
@@ -71,6 +70,8 @@ const NavbarComponent = () => {
 		// set user data when token is not null
 		if (token) {
 			userLog("user", (res) => dispatch(setData(res)));
+			getDataAuth("carts", (res) => dispatch(setList(res?.data.data)));
+			getDataAuth("carts", (res) => dispatch(setCount(res?.data.data.length)));
 		}
 	};
 
@@ -103,7 +104,8 @@ const NavbarComponent = () => {
 				<Navbar className="relative w-[94%] md:w-4/5 mx-auto mt-4 rounded-lg shadow-lg justify-center" onMenuOpenChange={() => setIsMenuOpen(!isMenuOpen)}>
 					<div className={`absolute ${showListCart ? "block" : "hidden"} top-16 bottom-0 right-0 w-full md:w-[60%] lg:w-[50%] xl:w-[40%] pt-2`}>
 						<div className="w-full p-4 transition-all duration-500 ease-in-out shadow-2xl bg-gray-50 rounded-xl">
-							{listCart?.map((list, index) => (
+							{cartCount === 0 && <h1 className="py-10 text-base font-medium text-center capitalize text-wrap">your cart is empty</h1>}
+							{cartList?.map((list, index) => (
 								<div key={index} className="flex flex-col justify-end w-full gap-1">
 									<CheckboxGroup
 										value={listSelected}
@@ -124,7 +126,7 @@ const NavbarComponent = () => {
 									</CheckboxGroup>
 								</div>
 							))}
-							<div className="flex justify-end w-full pt-2">
+							<div className={`${cartCount === 0 ? "hidden" : ""} flex justify-end w-full pt-2`}>
 								<Button size="md" className="text-white bg-bluenavy">
 									Check Out
 								</Button>
@@ -154,7 +156,7 @@ const NavbarComponent = () => {
 						{token !== undefined && user?.role === "user" && (
 							<NavbarItem className="inline">
 								<Button isIconOnly aria-label="cart" onClick={handleShowListCart} className="bg-transparent">
-									<Badge color="danger" className="mb-4" size="sm" content={countCart} shape="circle">
+									<Badge color="danger" className="mb-4" size="sm" content={cartCount} shape="circle">
 										<FaCartShopping className="w-5 h-5 text-bluenavy" />
 									</Badge>
 								</Button>

@@ -6,9 +6,11 @@ import { FaStar, FaLocationDot } from "react-icons/fa6";
 import currency from "currency.js";
 import apiPostData from "@/pages/api/apiPostData";
 import { FaCartPlus } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import apiGetData from "@/pages/api/apiGetData";
+import { setList, setCount } from "@/redux/slices/cartListSlice";
 
 const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => {
 	const { postData } = apiPostData();
@@ -18,6 +20,8 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 	const user = useSelector((state) => state.userLogged.user);
 	const router = useRouter();
 	const [showButtonAddToCart, setShowButtonAddToCart] = useState(true);
+	const dispatch = useDispatch();
+	const { getDataAuth } = apiGetData();
 
 	useEffect(() => {
 		if (selectedDestination?.location_maps !== undefined) {
@@ -64,6 +68,8 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 		} else {
 			const res = await postData(`add-cart`, payload);
 			if (res.status === 200) {
+				getDataAuth("carts", (res) => dispatch(setList(res?.data.data)));
+				getDataAuth("carts", (res) => dispatch(setCount(res?.data.data.length)));
 				toast.success("Destination added to cart");
 				setShowViewModal(false);
 			} else {
@@ -91,10 +97,10 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 				{(onClose) => (
 					<>
 						<ModalBody>
-							<div className="flex flex-wrap gap-2 py-2 md:flex-nowrap">
+							<div className="flex flex-wrap gap-6 py-2 md:flex-nowrap">
 								<div className="flex flex-wrap w-full mx-auto md:w-2/5">
 									<div className={`space-y-1 w-[365px] ${selectedDestination?.imageUrls?.length > 1 ? "h-[300px]" : "h-[200px]"} mb-8`}>
-										<div className="overflow-hidden rounded-md w-[365px] h-[200px]">
+										<div className="overflow-hidden rounded-md w-full h-[200px]">
 											<img src={selectedImage || noImage} className="object-cover object-center w-full h-full scale-100 rounded-md" alt="img-show" draggable="none" />
 										</div>
 										{selectedDestination?.imageUrls?.length > 1 && (
@@ -110,7 +116,11 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 											</div>
 										)}
 									</div>
-									<div className="w-[365px] h-[200px]">{sourceMap && <iframe className="rounded-lg hide-custom-cursor" src={sourceMap} width="100%" height="100%"></iframe>}</div>
+									{sourceMap && (
+										<div className="w-[365px] h-[200px]">
+											<iframe className="rounded-lg hide-custom-cursor" src={sourceMap} width="100%" height="100%"></iframe>
+										</div>
+									)}
 								</div>
 								<div className="flex flex-wrap w-full space-y-2 md:w-3/5 md:space-y-3 md:h-fit">
 									<h2 className="text-3xl font-bold text-bluenavy">{selectedDestination?.title}</h2>
@@ -126,23 +136,23 @@ const ViewModal = ({ showViewModal, setShowViewModal, selectedDestination }) => 
 									<Divider className="my-4" />
 									<Card className="w-full">
 										<CardBody>
-											<div className="flex flex-row gap-2 flex-nowrap">
-												<p className="text-lg font-bold line-through capitalize text-orangejuice">{`${formatCurrency(selectedDestination?.price)}`}</p>
-												<p className="text-lg font-bold capitalize text-bluesky">{`${formatCurrency(selectedDestination?.price_discount)}`}</p>
+											<div className="flex flex-row flex-wrap items-center gap-2 md:flex-nowrap">
+												<p className="text-base font-bold line-through capitalize lg:text-lg text-orangejuice">{`${formatCurrency(selectedDestination?.price)}`}</p>
+												<p className="text-base font-bold capitalize lg:text-lg text-bluesky">{`${formatCurrency(selectedDestination?.price_discount)}`}</p>
 											</div>
 										</CardBody>
 									</Card>
 									<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-										<h3 className="w-1/5 font-semibold capitalize">Description</h3>
-										<p className="w-4/5 text-base text-justify">{selectedDestination?.description}</p>
+										<h3 className="w-1/5 md:w-[25%] lg:w-1/5 font-semibold capitalize">Description</h3>
+										<p className="w-4/5 md:w-[75%] lg:w-4/5 text-base text-justify">{selectedDestination?.description}</p>
 									</div>
 									<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-										<h3 className="w-1/5 font-semibold capitalize">Facilities</h3>
-										<p className="w-4/5 text-base text-justify">{selectedDestination?.facilities}</p>
+										<h3 className="w-1/5 md:w-[25%] lg:w-1/5 font-semibold capitalize">Facilities</h3>
+										<p className="w-4/5 md:w-[75%] lg:w-4/5 text-base text-justify">{selectedDestination?.facilities}</p>
 									</div>
 									<div className="flex flex-wrap w-full gap-1.5 lg:gap-2 md:flex-nowrap">
-										<h3 className="w-1/5 font-semibold capitalize">Address</h3>
-										<p className="w-4/5 text-base text-justify">{selectedDestination?.address}</p>
+										<h3 className="w-1/5 md:w-[25%] lg:w-1/5 font-semibold capitalize">Address</h3>
+										<p className="w-4/5 md:w-[75%] lg:w-4/5 text-base text-justify">{selectedDestination?.address}</p>
 									</div>
 								</div>
 							</div>
