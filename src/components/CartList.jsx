@@ -76,7 +76,7 @@ export const CartListCheckbox = ({ data, value }) => {
 							<Button isIconOnly aria-label="reduce qty" onClick={() => handleReduceQty(data?.id, data?.title, data?.qty)} className="bg-transparent !min-w-6 h-6 !w-6">
 								<CiSquareMinus size={20} className="text-foreground-400" />
 							</Button>
-							<p className="text-base text-foreground-400">{data?.qty}</p>
+							<p className="text-base text-center min-w-3 max-w-3 text-foreground-400">{data?.qty}</p>
 							<Button isIconOnly aria-label="add qty" onClick={() => handleAddQty(data?.id, data?.title, data?.qty)} className="bg-transparent !min-w-6 h-6 !w-6">
 								<CiSquarePlus size={20} className="text-foreground-400" />
 							</Button>
