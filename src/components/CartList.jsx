@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import apiGetData from "@/pages/api/apiGetData";
 import apiPostData from "@/pages/api/apiPostData";
 import { useDispatch } from "react-redux";
-import { setList, setCount } from "@/redux/slices/cartListSlice";
+import { setList, setCount, setListChecked, setAmount } from "@/redux/slices/cartListSlice";
 
 export const CartListCheckbox = ({ data, value }) => {
 	const { deleteData } = apiDeleteData();
@@ -21,7 +21,14 @@ export const CartListCheckbox = ({ data, value }) => {
 				handleDeleteCart(data?.id);
 			}
 		}
-	}, [data?.qty]);
+
+		if (data?.list?.length === 0) {
+			dispatch(setAmount(0));
+			dispatch(setListChecked([]));
+		} else {
+			getDataAuth("carts", (res) => dispatch(setListChecked(res?.data.data.filter(({ id }) => data?.list.includes(id)))));
+		}
+	}, [data?.qty, data?.list]);
 
 	const handleReduceQty = async (id, title, qty) => {
 		const res = await postData(`update-cart/${id}`, { quantity: qty - 1 });

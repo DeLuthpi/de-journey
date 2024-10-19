@@ -9,7 +9,7 @@ import Link from "next/link";
 import apiAuth from "@/pages/api/apiAuth";
 import { useSelector, useDispatch } from "react-redux";
 import { setData } from "@/redux/slices/userLoggedSlice";
-import { setList, setCount } from "@/redux/slices/cartListSlice";
+import { setList, setCount, setListChecked, setAmount } from "@/redux/slices/cartListSlice";
 import { AiOutlineLogout, AiOutlineLogin } from "react-icons/ai";
 import { TbUser, TbInvoice, TbLayoutDashboard } from "react-icons/tb";
 import { MdOutlineNoteAlt } from "react-icons/md";
@@ -18,6 +18,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import apiGetData from "@/pages/api/apiGetData";
 import currency from "currency.js";
 import { CartListCheckbox } from "./CartList";
+import toast from "react-hot-toast";
+import CreateModal from "./ModalCreateTransaction";
 
 const NavbarComponent = () => {
 	const token = getCookie("token");
@@ -35,6 +37,7 @@ const NavbarComponent = () => {
 	const [showListCart, setShowListCart] = useState(false);
 	const [listSelected, setListSelected] = useState([]);
 	const iconClass = "flex-shrink-0 text-xl pointer-events-none";
+	const [showCreateModal, setShowCreateModal] = useState(false);
 
 	const formatCurrency = (value) => {
 		const convert = (amount) => currency(amount, { symbol: "Rp. ", separator: ",", decimal: "." });
@@ -52,16 +55,26 @@ const NavbarComponent = () => {
 
 		// get user data when page reload and token is not null
 		getUserLogged();
-	}, [showViewModal]);
+	}, [showViewModal, showCreateModal]);
 
 	const handleShowViewModal = () => {
 		setShowViewModal(!showViewModal);
 	};
 
 	const handleShowListCart = () => {
+		dispatch(setAmount(0));
+		dispatch(setListChecked([]));
 		setShowListCart(!showListCart);
 		if (!showListCart) {
 			setListSelected([]);
+		}
+	};
+
+	const handleCheckOut = () => {
+		if (listSelected.length === 0) {
+			toast.error("Please select a destination in the cart before checking out.");
+		} else {
+			setShowCreateModal(!showCreateModal);
 		}
 	};
 
@@ -114,12 +127,14 @@ const NavbarComponent = () => {
 											base: "w-full",
 										}}>
 										<CartListCheckbox
+											key={list?.id}
 											value={list?.id}
 											data={{
 												id: list?.id,
+												list: listSelected,
 												title: list?.activity?.title,
 												imageUrl: list?.activity?.imageUrls[0],
-												price: formatCurrency(list?.activity?.price),
+												price: formatCurrency(list?.activity?.price * list?.quantity),
 												qty: list?.quantity,
 											}}
 										/>
@@ -127,7 +142,7 @@ const NavbarComponent = () => {
 								</div>
 							))}
 							<div className={`${cartCount === 0 ? "hidden" : ""} flex justify-end w-full pt-2`}>
-								<Button size="md" className="text-white bg-bluenavy">
+								<Button size="md" className="text-white bg-bluenavy" onClick={handleCheckOut}>
 									Check Out
 								</Button>
 							</div>
@@ -256,6 +271,7 @@ const NavbarComponent = () => {
 						)}
 					</NavbarContent>
 					<ViewModal showViewModal={showViewModal} setShowViewModal={setShowViewModal} />
+					<CreateModal showCreateModal={showCreateModal} setShowCreateModal={setShowCreateModal} listSelected={listSelected} />
 				</Navbar>
 			)}
 		</>

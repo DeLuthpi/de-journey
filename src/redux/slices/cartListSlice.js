@@ -5,6 +5,8 @@ const cartListSlice = createSlice({
 	initialState: {
 		data: null,
 		count: null,
+		listChecked: [],
+		totalAmount: 0,
 	},
 	reducers: {
 		setList(state, action) {
@@ -13,8 +15,17 @@ const cartListSlice = createSlice({
 		setCount(state, action) {
 			state.count = action.payload;
 		},
+		setListChecked(state, action) {
+			state.listChecked = action.payload;
+		},
+		setAmount(state, action) {
+			state.totalAmount = action.payload;
+		},
+		setTotalAmount(state, action) {
+			state.totalAmount += action.payload;
+		},
 	},
 });
 
-export const { setList, setCount } = cartListSlice.actions;
+export const { setList, setCount, setListChecked, setAmount, setTotalAmount } = cartListSlice.actions;
 export default cartListSlice.reducer;
