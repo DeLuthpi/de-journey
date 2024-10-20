@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setAmount, setTotalAmount } from "@/redux/slices/cartListSlice";
 import { setTransaction } from "@/redux/slices/transactionSlice";
 import CancelModal from "./ModalCancelTransaction";
+import ProofModal from "./ModalShowProof";
 
 const ViewModal = ({ showViewModal, setShowViewModal }) => {
 	const dispatch = useDispatch();
@@ -23,8 +24,10 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 	const hiddenFileInput = useRef(null);
 	const totalAmount = useSelector((state) => state?.cartList.totalAmount);
 	const selectedTransaction = useSelector((state) => state?.transaction.data);
+	const [showProofModal, setShowProofModal] = useState(false);
 	const [showCancelModal, setShowCancelModal] = useState(false);
 	const [selectedCancelTrx, setSelectedCancelTrx] = useState([]);
+	const [proofImageUrl, setProofImageUrl] = useState(null);
 
 	useEffect(() => {
 		dispatch(setAmount(0));
@@ -33,7 +36,7 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 				dispatch(setTotalAmount(parseInt(list?.price * list?.quantity)));
 			});
 		}
-	}, [selectedTransaction, showCancelModal]);
+	}, [selectedTransaction, showCancelModal, showProofModal]);
 
 	const formatCurrency = (value) => {
 		const convert = (amount) => currency(amount, { symbol: "Rp. ", separator: ",", decimal: "." });
@@ -105,6 +108,11 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	const handleShowProofModal = (url) => {
+		setProofImageUrl(url);
+		setShowProofModal(!showProofModal);
 	};
 
 	const handleClose = () => {
@@ -187,7 +195,7 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 									</div>
 									<div className="w-full max-w-full px-3 flex-0 md:w-6/12 lg:w-5/12">
 										<h6 className="mb-2 dark:text-white">Proof Payment</h6>
-										<Card className="!bg-gray-100/90 w-full" radius="sm" isPressable={selectedTransaction?.proofPaymentUrl === null ? false : true}>
+										<Card className="!bg-gray-100/90 w-full" radius="sm" onPress={() => handleShowProofModal(selectedTransaction?.proofPaymentUrl)} isPressable={selectedTransaction?.proofPaymentUrl === null ? false : true}>
 											<CardBody>
 												{selectedTransaction?.proofPaymentUrl === null ? (
 													<p className="text-sm text-danger">Proof of payment has not been uploaded.</p>
@@ -229,6 +237,7 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 					</>
 				)}
 			</ModalContent>
+			<ProofModal showProofModal={showProofModal} setShowProofModal={setShowProofModal} proofImageUrl={proofImageUrl} />
 			<CancelModal showCancelModal={showCancelModal} setShowCancelModal={setShowCancelModal} selectedCancelTrx={selectedCancelTrx} />
 		</Modal>
 	);
