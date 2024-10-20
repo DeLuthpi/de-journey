@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import apiGetData from "@/pages/api/apiGetData";
-import { Card, CardBody, CardFooter, Chip, Image, Input } from "@nextui-org/react";
+import { Card, CardBody, Divider, Image, Input } from "@nextui-org/react";
 import { FiSearch } from "react-icons/fi";
 import currency from "currency.js";
 import { patternBg } from "@/helpers/const";
-import ViewModal from "@/components/ModalViewPromo";
+import ViewModal from "@/components/ModalViewTransaction";
+import moment from "moment";
+import { useDispatch } from "react-redux";
+import { setTransaction } from "@/redux/slices/transactionSlice";
 
 const MainTransaction = () => {
+	const dispatch = useDispatch();
 	const { getDataAuth } = apiGetData();
 	const [myTransaction, setMyTransaction] = useState([]);
 	const [search, setSearch] = useState("");
@@ -34,8 +38,8 @@ const MainTransaction = () => {
 
 	const handleShowViewModal = async (id) => {
 		const getMyTransaction = async () => {
-			await getData(`promo/${id}`, (res) => {
-				setSelectedPromo(res?.data.data);
+			await getDataAuth(`transaction/${id}`, (res) => {
+				dispatch(setTransaction(res?.data.data));
 			});
 		};
 
@@ -80,12 +84,50 @@ const MainTransaction = () => {
 						</div>
 					</div>
 					<div className="flex flex-wrap w-full gap-3 px-2 md:gap-0 md:px-0">
-						{myTransaction?.map((promo, index) => (
-							<div className="flex flex-col w-full md:w-2/6 lg:w-1/4 md:px-0"></div>
-						))}
+						{myTransaction.length === 0 ? (
+							<div className="flex justify-center w-full py-20 text-3xl font-semibold text-center capitalize">no transaction data</div>
+						) : (
+							myTransaction
+								?.map((list, index) => (
+									<div key={index} className="w-full max-w-full mb-2 md:px-3">
+										<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
+											<Card isPressable onPress={() => handleShowViewModal(list?.id)} className="w-full hover:bg-content2">
+												<CardBody className="w-full">
+													<div className="flex flex-col items-start justify-between gap-1 text-sm">
+														<h1 className="font-semibold capitalize text-small text-inherit">{list?.invoiceId}</h1>
+														<Divider className="my-1" />
+														<div className="flex flex-col items-start w-full md:flex-row md:justify-between">
+															<div className="flex flex-col items-start w-full md:w-1/5 lg:w-[25%]">
+																<p className={`inline text-tiny ${list?.status === "success" ? "text-success" : list?.status === "cancelled" ? "text-danger" : "text-orangejuice"}`}>{list?.status}</p>
+																<p className="inline text-tiny text-foreground-400">{list?.transaction_items.length} item</p>
+															</div>
+															<div className="flex flex-col items-start w-full md:w-2/5 lg:w-1/3">
+																<div className="flex flex-row items-center w-full gap-2 flex-nowrap">
+																	<p className="inline w-24 text-tiny text-foreground-400">Total Transaction</p>
+																	<p className="inline text-tiny text-foreground-400">:&nbsp;{formatCurrency(list?.totalAmount)}</p>
+																</div>
+																<div className="flex flex-row items-center w-full gap-2 flex-nowrap">
+																	<p className="inline w-24 text-tiny text-foreground-400">Payment Method</p>
+																	<p className="inline text-tiny text-foreground-400">:&nbsp;{list?.payment_method?.name}</p>
+																</div>
+															</div>
+															<div className="flex flex-col items-start w-full md:w-2/5 lg:w-1/3">
+																<p className="inline capitalize text-tiny text-foreground-400">{`order date : ${moment(list?.orderDate).format("DD MMM YYYY • HH:mm")}`}</p>
+																{list?.proofPaymentUrl === null ? <p className="inline capitalize text-tiny text-danger">{`* please pay before ${moment(list?.expiredDate).format("DD MMM YYYY • HH:mm")}`}</p> : <p className="inline capitalize text-tiny text-success">already paid</p>}
+															</div>
+														</div>
+													</div>
+												</CardBody>
+											</Card>
+										</div>
+									</div>
+								))
+								.reverse()
+						)}
 					</div>
 				</div>
 			</div>
+			<ViewModal showViewModal={showViewModal} setShowViewModal={setShowViewModal} />
 		</section>
 	);
 };
