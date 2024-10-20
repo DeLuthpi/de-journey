@@ -232,7 +232,7 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 						</ModalBody>
 						<ModalFooter>
 							<Input type="file" onChange={handleUpload} ref={hiddenFileInput} size="sm" radius="sm" accept="image/*" id="proofPayment" name="proofPayment" color="primary" className="hidden" />
-							{user?.role === "user" && (
+							{user?.role === "user" && selectedTransaction?.status !== "cancelled" && selectedTransaction?.status !== "failed" && selectedTransaction?.status !== "success" && (
 								<Button
 									color="success"
 									isLoading={isLoading}
@@ -248,7 +248,7 @@ const ViewModal = ({ showViewModal, setShowViewModal }) => {
 									<span className="hidden sm:inline">Upload</span>Proof
 								</Button>
 							)}
-							{user?.role === "user" && (
+							{user?.role === "user" && selectedTransaction?.status !== "cancelled" && selectedTransaction?.status !== "failed" && selectedTransaction?.status !== "success" && (
 								<Button color="danger" onClick={() => handleShowCancelModal(selectedTransaction?.id)} className={selectedTransaction?.status === "cancelled" ? "hidden" : ""}>
 									Cancel
 								</Button>
