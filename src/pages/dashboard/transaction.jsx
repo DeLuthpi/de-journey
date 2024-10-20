@@ -1,24 +1,24 @@
 import SidebarAdmin from "@/components/SidebarAdmin";
 import NavbarAdmin from "@/components/NavbarAdmin";
-import { geistSans, geistMono, noImage } from "@/helpers/const";
+import { geistSans, geistMono } from "@/helpers/const";
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardBody, CardFooter, Image, Button, Link, Input } from "@nextui-org/react";
+import { Card, CardBody, Divider, Input } from "@nextui-org/react";
 import apiGetData from "@/pages/api/apiGetData";
-import { FiSearch, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import Footer from "@/components/Footer";
-import { GrEdit } from "react-icons/gr";
-import EditModal from "@/components/Dashboard/ModalEditPromo";
 import moment from "moment";
-import { LuCalendarCheck2, LuCalendarClock } from "react-icons/lu";
 import currency from "currency.js";
+import ViewModal from "@/components/ModalViewTransaction";
+import { useDispatch, useSelector } from "react-redux";
+import { setTransaction } from "@/redux/slices/transactionSlice";
 
 const TransactionListPage = () => {
+	const dispatch = useDispatch();
 	const { getDataAuth } = apiGetData();
 	const [allTransactions, setAllTransactions] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const [selectedTransaction, setSelectedTransaction] = useState([]);
-	const [showEditModal, setShowEditModal] = useState(false);
+	const [showViewModal, setShowViewModal] = useState(false);
 	const [search, setSearch] = useState("");
+	const user = useSelector((state) => state.userLogged.user);
 
 	const formatCurrency = (value) => {
 		const convert = (amount) => currency(amount, { symbol: "Rp. ", separator: ",", decimal: "." });
@@ -26,23 +26,19 @@ const TransactionListPage = () => {
 	};
 
 	useEffect(() => {
-		setLoading(true);
 		getDataAuth("all-transactions", (res) => setAllTransactions(res?.data.data));
-		setTimeout(() => {
-			setLoading(false);
-		}, 2000);
-	}, [showEditModal]);
+	}, [showViewModal]);
 
-	const handleShowEditModal = async (id) => {
-		const getTransaction = async () => {
+	const handleShowViewModal = async (id) => {
+		const getTransactionById = async () => {
 			await getDataAuth(`transaction/${id}`, (res) => {
-				setSelectedTransaction(res?.data.data);
+				dispatch(setTransaction(res?.data.data));
 			});
 		};
 
 		try {
-			await getTransaction();
-			setShowEditModal(!showEditModal);
+			await getTransactionById();
+			setShowViewModal(!showViewModal);
 		} catch (error) {
 			console.log(error);
 		}
@@ -86,36 +82,51 @@ const TransactionListPage = () => {
 						</div>
 					</div>
 					<div className="flex flex-wrap mt-6 -mx-3">
-						{allTransactions?.map((list, index) => (
-							<div key={index} className="w-full max-w-full px-3 mb-4 transition-all duration-700 ease-in-out shrink-0 sm:flex-0 hover:scale-105">
-								<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
-									<Card className="w-full">
-										<CardBody className="flex-row items-center justify-between flex-nowrap">
-											<div tabIndex="-1" className="inline-flex items-center gap-2 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 justify-start text-sm">
-												<div className="flex flex-col items-start">
-													<h1 className="capitalize text-small text-inherit">{list?.invoiceId}</h1>
-												</div>
-												<div className="flex flex-col items-start px-2">
-													<p className={`inline text-tiny ${list?.status === "success" ? "text-success" : "text-orangejuice"}`}>{list?.status}</p>
-												</div>
-												<div className="flex flex-col items-start px-2">
-													<p className="inline text-tiny text-foreground-400">{list?.payment_method?.name}</p>
-												</div>
-												<div className="flex flex-col items-start px-2">
-													<p className="inline text-tiny text-foreground-400">{formatCurrency(list?.totalAmount)}</p>
-												</div>
+						<div className="flex flex-wrap w-full gap-3 px-2 md:gap-0 md:px-0">
+							{allTransactions?.length === 0 ? (
+								<div className="flex justify-center w-full py-20 text-3xl font-semibold text-center capitalize">no transaction data</div>
+							) : (
+								allTransactions
+									?.map((list, index) => (
+										<div key={index} className="w-full max-w-full mb-2 md:px-3">
+											<div className="relative flex flex-col min-w-0 border-0 break-word rounded-2xl bg-clip-border">
+												<Card isPressable onPress={() => handleShowViewModal(list?.id)} className="w-full hover:bg-content2">
+													<CardBody className="w-full">
+														<div className="flex flex-col items-start justify-between gap-1 text-sm">
+															<h1 className="font-semibold capitalize text-small text-inherit">{list?.invoiceId}</h1>
+															<Divider className="my-1" />
+															<div className="flex flex-col items-start w-full md:flex-row md:justify-between">
+																<div className="flex flex-col items-start w-full md:w-1/5 lg:w-[25%]">
+																	<p className={`inline text-tiny capitalize ${list?.status === "success" ? "text-success" : list?.status === "cancelled" || list?.status === "failed" ? "text-danger" : "text-orangejuice"}`}>{list?.status}</p>
+																	<p className="inline text-tiny text-foreground-400">{list?.transaction_items.length} item</p>
+																</div>
+																<div className="flex flex-col items-start w-full md:w-2/5 lg:w-1/3">
+																	<div className="flex flex-row items-center w-full gap-2 flex-nowrap">
+																		<p className="inline w-24 text-tiny text-foreground-400">Total Transaction</p>
+																		<p className="inline text-tiny text-foreground-400">:&nbsp;{formatCurrency(list?.totalAmount)}</p>
+																	</div>
+																	<div className="flex flex-row items-center w-full gap-2 flex-nowrap">
+																		<p className="inline w-24 text-tiny text-foreground-400">Payment Method</p>
+																		<p className="inline text-tiny text-foreground-400">:&nbsp;{list?.payment_method?.name}</p>
+																	</div>
+																</div>
+																<div className="flex flex-col items-start w-full md:w-2/5 lg:w-1/3">
+																	<p className="inline capitalize text-tiny text-foreground-400">{`order date : ${moment(list?.orderDate).format("DD MMM YYYY • HH:mm")}`}</p>
+																	{list?.proofPaymentUrl === null ? <p className="inline capitalize text-tiny text-danger">{`${user?.role === "admin" ? "not yet paid" : `* please pay before ${moment(list?.expiredDate).format("DD MMM YYYY • HH:mm")}`}`}</p> : <p className="inline capitalize text-tiny text-success">already paid</p>}
+																</div>
+															</div>
+														</div>
+													</CardBody>
+												</Card>
 											</div>
-											<Button variant="faded" className="px-1 min-w-fit max-h-7 gap-0.5" color="primary" size="sm" startContent={<GrEdit size={16} />}>
-												Update status
-											</Button>
-										</CardBody>
-									</Card>
-								</div>
-							</div>
-						))}
+										</div>
+									))
+									.reverse()
+							)}
+						</div>
 					</div>
 					<Footer />
-					<EditModal showEditModal={showEditModal} setShowEditModal={setShowEditModal} selectedTransaction={selectedTransaction} />
+					<ViewModal showViewModal={showViewModal} setShowViewModal={setShowViewModal} />
 				</div>
 			</main>
 		</div>

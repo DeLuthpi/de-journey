@@ -2,8 +2,6 @@ import { Button, Image, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter
 import { noImage } from "@/helpers/const";
 
 const ProofModal = ({ showProofModal, setShowProofModal, proofImageUrl }) => {
-	console.log(proofImageUrl);
-
 	return (
 		<Modal
 			isOpen={showProofModal}
